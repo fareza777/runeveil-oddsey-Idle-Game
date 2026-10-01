@@ -1,0 +1,14 @@
+import puppeteer from 'puppeteer-core';
+import { readdirSync, readFileSync } from 'node:fs';
+const chrome = ['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'].find((p)=>{try{readFileSync(p);return true}catch{return false}});
+const b = await puppeteer.launch({ executablePath: chrome, headless: true });
+const p = await b.newPage(); await p.setViewport({ width: 1100, height: 900 });
+const img = (f, w) => `<img src="data:image/png;base64,${readFileSync(f).toString('base64')}" style="width:${w}px;image-rendering:pixelated;background:#333">`;
+const bs = readdirSync('public/assets/gen/bosses').filter(f=>/^w?boss_/.test(f)).map(f=>img('public/assets/gen/bosses/'+f,100)).join('');
+const zs = readdirSync('public/assets/gen/zones').map(f=>img('public/assets/gen/zones/'+f,100)).join('');
+await p.setContent(`<body style="margin:0;background:#111">${bs}<br>${zs}</body>`);
+await p.screenshot({ path: 'qa/contact.png' });
+const p2 = await b.newPage(); await p2.setViewport({ width: 1100, height: 600 });
+const ar = ['rv_title','rv_intro_1','rv_intro_2','rv_intro_3','rv_intro_4','rv_intro_5'].map(n=>img(`public/assets/gen/art/${n}.png`,170)).join('')+img('public/assets/gen/brand/rv_icon_fg.png',170);
+await p2.setContent(`<body style="margin:0;background:#111">${ar}</body>`); await p2.screenshot({ path: 'qa/contact2.png' });
+await b.close();

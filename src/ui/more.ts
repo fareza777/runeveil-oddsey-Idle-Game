@@ -29,7 +29,7 @@ export class MoreScreen implements Screen {
 
     mount(this.el,
       h('div', { class: 'card' },
-        h('div', { class: 'item' }, h('img', { class: 'portrait', src: `${import.meta.env.BASE_URL}assets/gen/brand/app_icon.png` }),
+        h('div', { class: 'item' }, h('img', { class: 'portrait', src: `${import.meta.env.BASE_URL}assets/gen/brand/rv_icon.png` }),
           h('div', { class: 'meta' }, h('b', { style: 'font-size:18px;font-family:var(--head);color:var(--gold)', text: s.name }),
             h('span', { text: `Zone ${s.zoneUnlocked} reached · ${done} quests · power ${fmt(partyPower(s))}` }),
             h('span', { text: `Played ${fmtTime(s.playTime)}` })))),
@@ -164,7 +164,7 @@ export class MoreScreen implements Screen {
   private about() {
     openSheet('About', (body) => add(body, 
       h('div', { class: 'center' },
-        h('img', { src: `${import.meta.env.BASE_URL}assets/gen/brand/app_icon.png`, style: 'width:96px;height:96px;border-radius:20px;border:2px solid var(--gold)' }),
+        h('img', { src: `${import.meta.env.BASE_URL}assets/gen/brand/rv_icon.png`, style: 'width:96px;height:96px;border-radius:20px;border:2px solid var(--gold)' }),
         h('div', { class: 'logo', style: 'margin:10px 0' }, h('div', { class: 'l1', style: 'font-size:38px', text: 'Runeveil' }), h('div', { class: 'l2', style: 'font-size:20px;letter-spacing:5px', text: 'ODYSSEY' })),
         h('div', { class: 'muted small', text: `Version ${VERSION}` })),
       h('p', { class: 'small', style: 'line-height:1.5', text: 'Five heroes, one fading Veil. Gather, craft and fight your way across 22 zones while your party keeps adventuring even when you are away.' }),

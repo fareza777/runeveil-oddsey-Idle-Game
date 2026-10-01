@@ -7,11 +7,11 @@ import { confirmBox } from './modal';
 export type StartChoice = { kind: 'continue' } | { kind: 'new'; name: string };
 
 const SLIDES = [
-  { art: 'intro_1', title: 'A Quiet World', text: 'For a thousand years the Runeveil has hung over the land, a ward woven from lantern light. Villages slept. Roads stayed safe.' },
-  { art: 'intro_2', title: 'The Veil Frays', text: 'Something ancient is pulling at its threads. Where the weave tears, monsters crawl through and the old rune-kings stir.' },
-  { art: 'intro_3', title: 'Twenty-Two Rifts', text: 'From Greenhollow Vale to the Throne of the First Rune, each zone hides a boss that holds a stolen thread.' },
-  { art: 'intro_5', title: 'Five Lanterns', text: 'Kaelen, Sylra, Orren, Brynna and Mirel carry the last lanterns. Lead them, gear them, and teach them twenty-one trades.' },
-  { art: 'intro_4', title: 'Adventure Never Sleeps', text: 'Fight, gather and craft. Your party keeps working while you are away for up to twelve hours. Come back to a pile of loot.' },
+  { art: 'rv_intro_1', title: 'A Quiet World', text: 'For a thousand years the Runeveil has hung over the land, a ward woven from lantern light. Villages slept. Roads stayed safe.' },
+  { art: 'rv_intro_2', title: 'The Veil Frays', text: 'Something ancient is pulling at its threads. Where the weave tears, monsters crawl through and the old rune-kings stir.' },
+  { art: 'rv_intro_3', title: 'Twenty-Two Rifts', text: 'From Greenhollow Vale to the Throne of the First Rune, each zone hides a boss that holds a stolen thread.' },
+  { art: 'rv_intro_4', title: 'Five Lanterns', text: 'Kaelen, Sylra, Orren, Brynna and Mirel carry the last lanterns. Lead them, gear them, and teach them twenty-one trades.' },
+  { art: 'rv_intro_5', title: 'Adventure Never Sleeps', text: 'Fight, gather and craft. Your party keeps working while you are away for up to twelve hours. Come back to a pile of loot.' },
 ];
 
 const logo = () => h('div', { class: 'logo' }, h('div', { class: 'l1', text: 'RUNEVEIL' }), h('div', { class: 'l2', text: 'ODYSSEY' }), h('div', { class: 'l3', text: 'AN IDLE ADVENTURE' }));
@@ -21,10 +21,10 @@ const preload = (urls: string[]) => Promise.all(urls.map((u) => new Promise<void
 export async function runIntro(root: HTMLElement, hasSave: boolean): Promise<StartChoice> {
   const loadBar = bar('act', 0);
   loadBar.classList.add('loadbar');
-  const screen = h('div', { class: 'full splash', style: `background-image:url(${asset('gen/art/title.png')});image-rendering:pixelated` }, logo(),
+  const screen = h('div', { class: 'full splash', style: `background-image:url(${asset('gen/art/rv_title.png')});image-rendering:pixelated` }, logo(),
     h('div', { class: 'tap', text: 'Loading...' }), h('div', { class: 'sp' }), loadBar);
   mount(root, screen);
-  const urls = [...SLIDES.map((s) => asset(`gen/art/${s.art}.png`)), asset('gen/brand/app_icon.png')];
+  const urls = [...SLIDES.map((s) => asset(`gen/art/${s.art}.png`)), asset('gen/brand/rv_icon.png')];
   let done = 0;
   const tick = setInterval(() => setBar(loadBar, Math.min(0.95, done / urls.length)), 60);
   const t0 = performance.now();
@@ -74,7 +74,7 @@ function onboarding(root: HTMLElement): Promise<string> {
       const input = h('input', { class: 'field', maxLength: 14, placeholder: 'Wayfarer', value: '' });
       const go = () => resolve((input.value.trim() || 'Wayfarer').slice(0, 14));
       mount(root, h('div', { class: 'full' },
-        h('div', { class: 'slide', style: `background-image:url(${asset('gen/art/title.png')});image-rendering:pixelated` },
+        h('div', { class: 'slide', style: `background-image:url(${asset('gen/art/rv_title.png')});image-rendering:pixelated` },
           h('h1', { text: 'Who Leads the Party?' }), h('p', { text: 'Choose a name for the Lantern Bearer. You can start fighting right away.' }), input),
         h('div', { class: 'foot' }, h('button', { class: 'btn gold block', style: 'font-size:18px;padding:13px', text: 'Start Adventure', onclick: go }))));
       input.addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });

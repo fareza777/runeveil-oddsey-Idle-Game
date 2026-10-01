@@ -1,0 +1,560 @@
+[
+ {
+  "out": "public/assets/gen/bosses/boss_1.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1000,
+  "prompt": "fantasy RPG boss monster, a giant gelatinous slime wearing a crown of thorns, the Gluttonous Slime King, green and leafy color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_2.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1001,
+  "prompt": "fantasy RPG boss monster, a huge queen wasp with iridescent wings and a bloated hive abdomen, the Hive Matriarch, green and leafy color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_3.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1002,
+  "prompt": "fantasy RPG boss monster, a colossal armored worm with a gaping toothed maw, the Bog Tyrant, green and leafy color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_4.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1003,
+  "prompt": "fantasy RPG boss monster, a hulking minotaur warlord with horns and heavy armor holding a massive weapon, Warden of the Pass, steel gray and brown color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_5.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1004,
+  "prompt": "fantasy RPG boss monster, a giant scorpion queen with glowing claws and a barbed tail, the Sandsong Queen, burning orange and red embers color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_6.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1005,
+  "prompt": "fantasy RPG boss monster, a towering fungal horror with a glowing spore-cap and many eyes, the Sporelord, dark purple and black mist color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_7.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1006,
+  "prompt": "fantasy RPG boss monster, an undead skeleton warlord in tattered royal armor holding a greatsword, Dread Admiral of the Drowned Fleet, icy blue and white color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_8.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1007,
+  "prompt": "fantasy RPG boss monster, a tall spectral banshee with flowing tattered robes and hollow eyes, the Rimewraith Queen, icy blue and white color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_9.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1008,
+  "prompt": "fantasy RPG boss monster, a fierce genie emerging from smoke with floating jeweled bracers, the Cinder Djinn, burning orange and red embers color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_10.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1009,
+  "prompt": "fantasy RPG boss monster, a robed archmage floating with a runed staff and orbiting glyphs, the Lich-Archivist, dark purple and black mist color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_11.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1010,
+  "prompt": "fantasy RPG boss monster, a serpentine lamia with a long coiled snake body and a hooded humanoid torso, the Serpent Empress, green and leafy color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_12.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1011,
+  "prompt": "fantasy RPG boss monster, a hulking minotaur warlord with horns and heavy armor holding a massive weapon, Heart of the Geode, violet and cyan magic glyphs color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_13.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1012,
+  "prompt": "fantasy RPG boss monster, a winged noble vampire-demoness in an elegant cloak with glowing eyes, the Tempest Matron, bright yellow lightning crackling color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_14.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1013,
+  "prompt": "fantasy RPG boss monster, an undead skeleton warlord in tattered royal armor holding a greatsword, Last General of the Burnt Host, burning orange and red embers color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_15.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1014,
+  "prompt": "fantasy RPG boss monster, a winged noble vampire-demoness in an elegant cloak with glowing eyes, Lord of the Midnight Court, dark purple and black mist color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_16.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1015,
+  "prompt": "fantasy RPG boss monster, a serpentine lamia with a long coiled snake body and a hooded humanoid torso, Queen of the Waking Dream, violet and cyan magic glyphs color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_17.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1016,
+  "prompt": "fantasy RPG boss monster, a hulking minotaur warlord with horns and heavy armor holding a massive weapon, the Obsidian Warlord, dark purple and black mist color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_18.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1017,
+  "prompt": "fantasy RPG boss monster, an undead skeleton warlord in tattered royal armor holding a greatsword, the Gilded King, radiant gold and white light color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_19.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1018,
+  "prompt": "fantasy RPG boss monster, a colossal armored worm with a gaping toothed maw, the Maw Between Stars, violet and cyan magic glyphs color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_20.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1019,
+  "prompt": "fantasy RPG boss monster, a fierce genie emerging from smoke with floating jeweled bracers, Last Warden of the Spire, radiant gold and white light color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_21.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1020,
+  "prompt": "fantasy RPG boss monster, a colossal armored worm with a gaping toothed maw, the Drowned Leviathan, icy blue and white color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_22.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1021,
+  "prompt": "fantasy RPG boss monster, a robed archmage floating with a runed staff and orbiting glyphs, Aeon Sovereign of the Veil, violet and cyan magic glyphs color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/wboss_1.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1022,
+  "prompt": "fantasy RPG boss monster, a hulking minotaur warlord with horns and heavy armor holding a massive weapon, the Infernal Colossus, burning orange and red embers color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/wboss_2.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1023,
+  "prompt": "fantasy RPG boss monster, a hulking minotaur warlord with horns and heavy armor holding a massive weapon, the Winter Titan, icy blue and white color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/wboss_3.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1024,
+  "prompt": "fantasy RPG boss monster, a colossal armored worm with a gaping toothed maw, the Thorn Colossus, green and leafy color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/wboss_4.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1025,
+  "prompt": "fantasy RPG boss monster, a tall spectral banshee with flowing tattered robes and hollow eyes, the Eclipse Devourer, dark purple and black mist color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/wboss_5.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1026,
+  "prompt": "fantasy RPG boss monster, a fierce genie emerging from smoke with floating jeweled bracers, the Storm Sovereign, bright yellow lightning crackling color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/wboss_6.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 1027,
+  "prompt": "fantasy RPG boss monster, a robed archmage floating with a runed staff and orbiting glyphs, the Dawn Reliquary, radiant gold and white light color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_1.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2001,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Greenhollow Vale: A sleepy farming valley where the Veil first thinned. The gentlest creatures here have started to bite. Dominant color #6fd16a, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_2.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2002,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Whisperwood: An ancient forest where the trees murmur. Travelers who answer them are rarely seen again. Dominant color #4fb88a, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_3.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2003,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Mossback Marsh: A fetid bog of sinking paths. Things that should have rotted away still crawl here. Dominant color #8a9a4a, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_4.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2004,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Ironcrest Foothills: Rocky slopes dotted with abandoned watchposts. Hill brutes now claim every ledge. Dominant color #a8a8b8, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_5.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2005,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Sunscar Dunes: A burning ocean of sand. Wind exposes ruins that remember a kinder sun. Dominant color #f0c060, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_6.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2006,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Gloamroot Caverns: Lightless caves threaded with glowing roots. The roots pulse in time with something breathing. Dominant color #8a6af0, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_7.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2007,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Brinewatch Coast: Wreck-strewn cliffs and salt-bitten lighthouses. The tide leaves strange things behind. Dominant color #4fa8d8, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_8.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2008,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Frostmere Tundra: A white wasteland of howling wind. Even the dead are slow to move here. Dominant color #a9e8ff, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_9.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2009,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Cinderpeak Caldera: A living volcano wreathed in smoke. Fire-spirits tend the vents like an army tends a wall. Dominant color #ff7a3a, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_10.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2010,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Sunken Crypts of Vael: A drowned necropolis beneath the old kingdom. Every sarcophagus lid has been slid aside from within. Dominant color #7a8aa8, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_11.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2011,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Thornveil Jungle: A steaming jungle of razor vines. Serpents coil in every branch. Dominant color #38c070, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_12.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2012,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Crystalline Depths: A cavern city of living crystal. Every facet reflects something that is not you. Dominant color #6fd0ff, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_13.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2013,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Stormspire Heights: Mountain peaks crowned by perpetual lightning. The wind carries voices and sometimes teeth. Dominant color #ffe27a, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_14.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2014,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Ashen Wastes: The burnt remains of a great war. The ash never settles, and the dead never stay down. Dominant color #9a8a82, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_15.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2015,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Moonlit Bastion: A haunted fortress under a permanent half-moon. Its portraits watch you as you pass. Dominant color #b7c4ff, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_16.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2016,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Dreamreach Glade: A forest that exists half in dreams. The shapes between the trees change if you look away. Dominant color #e29aff, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_17.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2017,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Obsidian Reaches: Black glass plains shaped by an ancient cataclysm. The reflections do not match the sky. Dominant color #5a4a7a, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_18.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2018,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Gilded Ruins of Aurum: The collapsed capital of a golden empire. Its guardians still polish their armor. Dominant color #f5c542, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_19.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2019,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Voidtouched Rift: A wound in reality. Shapes unlearn their names the closer you walk. Dominant color #b04aff, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_20.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2020,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Celestial Spire: A tower rising out of the clouds. Its guardians keep one last promise they cannot recall. Dominant color #fff3a8, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_21.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2021,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, The Abyssal Maw: An ocean trench so deep the pressure rewrites bone. Things down here predate light. Dominant color #2f6fe0, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_22.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2022,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Throne of the First Rune: Where the first rune was written. Everything here is a sentence, and you are the punctuation. Dominant color #ff5ae0, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/brand/rv_icon.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": false,
+  "seed": 3050,
+  "prompt": "app icon, a glowing rune-engraved lantern with a sword hilt, mystical teal and gold veil of light behind it, centered emblem, dark navy background, bold simple shapes, game icon"
+ },
+ {
+  "out": "public/assets/gen/brand/rv_icon_fg.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3051,
+  "prompt": "a glowing rune-engraved lantern with a sword hilt, mystical teal and gold light, centered emblem, bold simple shapes, game icon"
+ },
+ {
+  "out": "public/assets/gen/art/rv_title.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 216,
+  "h": 384,
+  "remove_bg": false,
+  "seed": 3052,
+  "prompt": "portrait fantasy title screen, a party of five tiny adventurers with lanterns standing on a cliff looking at a huge shimmering rune-veil of aurora light stretching across the night sky over a valley, teal purple and gold, epic, atmospheric"
+ },
+ {
+  "out": "public/assets/gen/art/rv_intro_1.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 216,
+  "h": 384,
+  "remove_bg": false,
+  "seed": 3053,
+  "prompt": "peaceful fantasy village at dusk under a huge glowing curtain of rune light in the sky, lanterns on every house, calm, warm and teal colors"
+ },
+ {
+  "out": "public/assets/gen/art/rv_intro_2.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 216,
+  "h": 384,
+  "remove_bg": false,
+  "seed": 3054,
+  "prompt": "the glowing rune veil in the sky tearing open with dark cracks, monsters silhouettes crawling out over a dark field, ominous purple and red"
+ },
+ {
+  "out": "public/assets/gen/art/rv_intro_3.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 216,
+  "h": 384,
+  "remove_bg": false,
+  "seed": 3055,
+  "prompt": "a vast fantasy world map seen from above on old parchment with twenty-two glowing marked locations connected by a winding road, forests mountains deserts ocean"
+ },
+ {
+  "out": "public/assets/gen/art/rv_intro_4.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 216,
+  "h": 384,
+  "remove_bg": false,
+  "seed": 3056,
+  "prompt": "five heroes (swordsman, archer, rogue, ranger, mage) standing together each holding a glowing lantern at night, heroic, dramatic lighting"
+ },
+ {
+  "out": "public/assets/gen/art/rv_intro_5.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 216,
+  "h": 384,
+  "remove_bg": false,
+  "seed": 3057,
+  "prompt": "a cozy campfire camp at night with a blacksmith anvil, a workbench and potions, a tent and sleeping heroes, warm firelight under stars"
+ }
+]
