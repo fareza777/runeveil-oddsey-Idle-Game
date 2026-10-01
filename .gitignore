@@ -1,0 +1,20 @@
+﻿node_modules/
+dist/
+coverage/
+android/app/build/
+android/.gradle/
+android/build/
+android/local.properties
+android/.idea/
+android/app/src/main/assets/public/
+android/capacitor-cordova-android-plugins/
+*.keystore
+*.jks
+*.apk
+*.aab
+.env
+__pycache__/
+*.pyc
+tools/.cache/
+# Third-party paid sprite packs: used in local builds, never committed
+public/assets/pack/

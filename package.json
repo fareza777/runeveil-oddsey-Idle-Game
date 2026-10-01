@@ -1,0 +1,34 @@
+﻿{
+  "name": "runeveil-odyssey",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "assets": "python tools/extract_assets.py",
+    "android:sync": "npm run build && npx cap sync android",
+    "android:debug": "npm run android:sync && cd android && gradlew.bat assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor-community/in-app-review": "^8.0.0",
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/screen-orientation": "^8.0.1",
+    "@capacitor/share": "^8.0.2",
+    "@capacitor/splash-screen": "^8.0.2",
+    "@capacitor/status-bar": "^8.0.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
+    "typescript": "5.9",
+    "vite": "^7.3.6",
+    "vitest": "^3.2.7"
+  }
+}
