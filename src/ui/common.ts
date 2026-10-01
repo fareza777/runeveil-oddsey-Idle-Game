@@ -7,6 +7,7 @@ import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { host } from './host';
 import { expected } from '@/core/expected';
 import { BAL } from '@/core/balance';
+import { zoneEase } from '@/core/monsterStats';
 import { computeHero, skillBonuses } from '@/core/stats';
 
 export const STAT_LABEL: Record<StatKey, string> = {
@@ -65,7 +66,7 @@ export function readiness(s: GameState, zone: number): number {
     dps += (c.atk * (1 + (c.crit / 100) * (c.critDmg / 100 - 1))) / c.interval;
     hp += c.maxHp;
   }
-  return Math.sqrt(((dps * BAL.abilityDpsBonus) / e.dps) * (hp / e.partyHp));
+  return Math.sqrt(((dps * BAL.abilityDpsBonus) / e.dps) * (hp / e.partyHp)) / zoneEase(zone);
 }
 
 export function danger(r: number): { label: string; cls: string } {

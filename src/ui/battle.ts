@@ -249,11 +249,11 @@ export class BattleScreen implements Screen {
 
   private clearEnemy() {
     this.shownEnemy = '-';
-    this.enemyName.replaceChildren(h('span', { class: 'muted', text: 'Your party is resting' }));
+    this.enemyName.replaceChildren(h('span', { class: 'idletxt', text: 'Your party is resting' }));
     setBar(this.enemyBar, 0, '');
     this.enemyBar.style.visibility = 'hidden';
     this.enemyStat.replaceChildren();
-    this.enemyBody.replaceChildren(h('div', { class: 'muted small center', style: 'align-self:center;padding:0 40px', text: 'Press Battle! to hunt monsters in this zone. Heroes keep fighting while you are away.' }));
+    this.enemyBody.replaceChildren(h('div', { class: 'idletxt small center', style: 'align-self:center;margin:0 36px', text: 'Press Battle! to hunt monsters in this zone. Heroes keep fighting while you are away.' }));
   }
 
   private setEnemy(def: MonsterDef, _spawn: boolean) {

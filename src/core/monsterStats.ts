@@ -5,6 +5,10 @@ import { expected } from './expected';
 
 const cache = new Map<string, { hp: number; atk: number; def: number; interval: number; ref: number }>();
 
+/** Early zones scale monsters down so a fresh party can win; reaches 1 at BAL.easeUntil. */
+export const zoneEase = (zone: number): number =>
+  Math.min(1, BAL.easeStart + ((1 - BAL.easeStart) * (zone - 1)) / (BAL.easeUntil - 1));
+
 /** Monster stats are derived from the party a well-prepared player would bring to that zone. */
 export function monsterStats(m: MonsterDef) {
   const hit = cache.get(m.id);
@@ -15,7 +19,7 @@ export function monsterStats(m: MonsterDef) {
   const lf = 0.85 + 0.3 * Math.max(0, Math.min(1, (m.level - zone.levelRange[0]) / span));
   const hpK = m.boss ? BAL.bossHp : m.elite ? BAL.eliteHp : 1;
   const atkK = m.boss ? BAL.bossAtk : m.elite ? BAL.eliteAtk : 1;
-  const ease = Math.min(1, BAL.easeStart + ((1 - BAL.easeStart) * (m.zone - 1)) / (BAL.easeUntil - 1));
+  const ease = zoneEase(m.zone);
   const ref = ex.def;
   const mit = ref / (ref + BAL.defK * ref);
   const hits = BAL.killSeconds / 2.6;

@@ -195,7 +195,9 @@ export class AppShell {
       const rt = this.game.rt;
       if (a.type === 'combat') {
         const e = rt?.enemy;
-        this.actName.textContent = `Fighting · ${this.game.activityName()}${e ? ` · ${MONSTERS[rt!.monsterId]?.name ?? ''}` : ''}`;
+        const act = this.game.activityName();
+        const foe = e ? (MONSTERS[rt!.monsterId]?.name ?? '') : '';
+        this.actName.textContent = `Fighting · ${act}${foe && foe !== act ? ` · ${foe}` : ''}`;
         setBar(this.actBar, e ? e.hp / e.maxHp : 0);
       } else {
         this.actName.textContent = `${a.type === 'gather' ? 'Gathering' : 'Crafting'} · ${this.game.activityName()}`;
