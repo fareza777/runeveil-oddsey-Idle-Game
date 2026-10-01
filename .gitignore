@@ -18,3 +18,5 @@ __pycache__/
 tools/.cache/
 # Third-party paid sprite packs: used in local builds, never committed
 public/assets/pack/
+
+qa/

@@ -1,5 +1,6 @@
-﻿import type { Element, GameState, ItemInstance, SkillId, StatusId } from './types';
+import type { Element, GameState, ItemInstance, SkillId, StatusId } from './types';
 import { HEROES, ITEMS, MAX_LEVEL, SKILL_IDS, rarity } from '@/data';
+import { gearId } from '@/data/gear';
 import { skillBonuses } from './stats';
 import { HERO_MAX_LEVEL, heroXpToNext, levelFromXp, xpAtLevel } from './xp';
 import type { Rand } from './rng';
@@ -37,7 +38,7 @@ export const GAME_VERSION = 1;
 export function defaultSettings() {
   return {
     sfx: 0.7, music: 0.5, haptics: true, offlineNotice: true, numberFormat: 'short' as const, autoEat: 0.5, autoPotion: true,
-    reduceMotion: false, combatLog: false, autoSell: 0,
+    reduceMotion: false, combatLog: false, autoSell: 2,
   };
 }
 
@@ -59,6 +60,21 @@ export function newState(name = 'Wayfarer', seed = (Date.now() ^ 0x9e3779b9) >>>
 }
 
 // ---------- inventory ----------
+const STARTER_WEAPON: Record<string, string> = { melee: 'sword', ranged: 'bow', magic: 'staff' };
+
+/** New save with a modest tier-1 kit so the first fights are winnable. */
+export function starterState(name: string): GameState {
+  const s = newState(name);
+  HEROES.forEach((h, i) => {
+    const eq = s.heroes[i].equip;
+    eq.weapon = newGear(s, gearId(STARTER_WEAPON[h.style], 1), 1);
+    eq.head = newGear(s, gearId('helm', 1), 1);
+    eq.body = newGear(s, gearId('cuirass', 1), 1);
+    eq.feet = newGear(s, gearId('boots', 1), 1);
+  });
+  return s;
+}
+
 export const countItem = (s: GameState, id: string): number => s.stacks[id] ?? 0;
 
 export function addItem(s: GameState, id: string, n: number, ctx?: Ctx) {

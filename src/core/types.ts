@@ -1,4 +1,4 @@
-﻿export type SkillId =
+export type SkillId =
   | 'combat' | 'fortitude' | 'marksmanship' | 'arcana'
   | 'mining' | 'woodcutting' | 'fishing' | 'herbalism' | 'farming' | 'hunting' | 'excavation'
   | 'smithing' | 'carpentry' | 'leatherworking' | 'jewelcrafting' | 'cooking' | 'alchemy' | 'enchanting' | 'runecrafting'

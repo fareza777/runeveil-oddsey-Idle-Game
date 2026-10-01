@@ -1,4 +1,4 @@
-﻿import type { BossDef, Element, GameState, MonsterDef, StatusId } from './types';
+import type { BossDef, Element, GameState, MonsterDef, StatusId } from './types';
 import { BOSSES, ELEMENT_MAP, HEROES, ITEMS, MONSTERS, STATUS_MAP } from '@/data';
 import { BAL } from './balance';
 import { monsterStats } from './monsterStats';

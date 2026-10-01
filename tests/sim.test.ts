@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { Game } from '@/core/engine';
 import { newState } from '@/core/state';
 import { GEAR_TYPES, gearId } from '@/data/gear';

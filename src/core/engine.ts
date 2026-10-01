@@ -1,4 +1,4 @@
-﻿import type { GameState, ItemInstance, MonsterDef, OfflineReport, RecipeDef, Slot, SkillId } from './types';
+import type { GameState, ItemInstance, MonsterDef, OfflineReport, RecipeDef, Slot, SkillId } from './types';
 import { GATHER_MAP, HEROES, ITEMS, MONSTERS, RECIPE_MAP, ZONE_MAP, ZONES, rarity } from '@/data';
 import { combatStep, createCombat, refreshHeroes, type CombatRt } from './combat';
 import { MAX_UP, itemStats, partyLuck, skillBonuses } from './stats';

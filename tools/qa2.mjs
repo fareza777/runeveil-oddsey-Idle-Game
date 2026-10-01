@@ -1,0 +1,78 @@
+// Loads qa/save.json into localStorage and walks through the deeper screens.
+import puppeteer from 'puppeteer-core';
+import fs from 'node:fs';
+
+const URL = process.argv[2] ?? 'http://localhost:5174/';
+const OUT = 'qa';
+const CHROME = process.env.CHROME ?? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const save = fs.readFileSync(`${OUT}/save.json`, 'utf8');
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const browser = await puppeteer.launch({ executablePath: CHROME, headless: 'new', args: ['--no-sandbox', '--autoplay-policy=no-user-gesture-required'] });
+const page = await browser.newPage();
+await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+const errors = [];
+page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
+page.on('response', (r) => { if (r.status() >= 400) errors.push('HTTP ' + r.status() + ' ' + r.url()); });
+page.on('console', (m) => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
+const shot = async (n) => { await page.screenshot({ path: `${OUT}/${n}.png` }); console.log('shot', n); };
+const click = async (text, sel = 'button, .card, .cell, .slotbox', nth = 0) => {
+  const ok = await page.evaluate((t, s, n) => {
+    const els = [...document.querySelectorAll(s)].filter((e) => e.textContent.trim().toLowerCase().includes(t.toLowerCase()) && e.offsetParent !== null);
+    const el = els[n];
+    if (el) { el.click(); return true; }
+    return false;
+  }, text, sel, nth);
+  if (!ok) console.log('!! not found:', text);
+  await sleep(400);
+};
+const nav = async (t) => { await page.evaluate((x) => [...document.querySelectorAll('.nav button')].find((b) => b.textContent.includes(x)).click(), t); await sleep(500); };
+const closeSheet = async () => { await page.evaluate(() => document.querySelectorAll('.overlay').forEach((o) => o.remove())); await sleep(200); };
+
+await page.goto(URL, { waitUntil: 'networkidle0' });
+await page.evaluate((s) => localStorage.setItem('runeveil.save.v1', s), save);
+await page.goto(URL, { waitUntil: 'networkidle0' });
+await sleep(1500);
+await click('Continue');
+await sleep(2500);
+await shot('10_battle');
+await click('Zones', 'button');
+await sleep(500);
+await shot('11_zones');
+await closeSheet();
+await nav('Skills');
+await click('Mining', '.skillcard');
+await sleep(500);
+await shot('12_skill_mining');
+await nav('Skills');
+await click('Smithing', '.skillcard');
+await sleep(500);
+await shot('13_skill_smithing');
+await nav('Heroes');
+await shot('14_heroes');
+await click('Weapon', '.cell');
+await sleep(400);
+await shot('15_slot_sheet');
+await closeSheet();
+await nav('Bag');
+await shot('16_bag');
+await page.evaluate(() => document.querySelector('.grid.bag .slotbox')?.click());
+await sleep(500);
+await shot('17_gear_sheet');
+await closeSheet();
+await click('Materials', '.seg button');
+await shot('18_mats');
+await page.evaluate(() => document.querySelector('.grid.bag .slotbox')?.click());
+await sleep(500);
+await shot('19_stack_sheet');
+await closeSheet();
+await nav('More');
+await click('Settings', '.card');
+await sleep(400);
+await shot('20_settings');
+await closeSheet();
+await click('Codex', '.card');
+await sleep(400);
+await shot('21_codex');
+await closeSheet();
+console.log(errors.length ? 'ERRORS:\n' + [...new Set(errors)].join('\n') : 'no console errors');
+await browser.close();

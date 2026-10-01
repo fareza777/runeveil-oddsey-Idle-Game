@@ -1,4 +1,4 @@
-﻿import type { DropEntry, GameState, MonsterDef } from './types';
+import type { DropEntry, GameState, MonsterDef } from './types';
 import { ITEMS, MAX_RARITY } from '@/data';
 import { GEAR_TYPES, gearId } from '@/data/gear';
 import type { Rand } from './rng';

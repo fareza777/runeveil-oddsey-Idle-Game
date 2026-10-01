@@ -1,4 +1,4 @@
-﻿/** All difficulty tuning lives here so the data files stay free of magic numbers. */
+/** All difficulty tuning lives here so the data files stay free of magic numbers. */
 export const BAL = {
   /** rarity a well-prepared player is expected to wield in zone z: round(expRarityBase + expRarityPerZone * z) */
   expRarityBase: 2,
@@ -14,6 +14,9 @@ export const BAL = {
   eliteHp: 2.6,
   eliteAtk: 1.25,
   abilityDpsBonus: 1.2,
+  /** monster hp/atk multiplier in zone 1; rises linearly to 1 by easeUntil so a fresh party can win */
+  easeStart: 0.4,
+  easeUntil: 5,
 };
 
 export const gearTierForLevel = (level: number): number => Math.max(1, Math.min(20, Math.round(1 + ((level - 1) * 19) / 99)));

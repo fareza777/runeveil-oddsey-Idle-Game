@@ -50,6 +50,7 @@ describe('crafting', () => {
     addItem(g.state, 'bar_0', 20);
     addItem(g.state, 'plank_0', 5);
     g.state.gold = 1000;
+    g.state.settings.autoSell = 0;
     expect(g.start('craft', 'craft_sword_1')).toBeNull();
     for (let i = 0; i < 40; i++) g.advance(0.5);
     expect(g.state.gear.some((x) => x.id === 'eq_sword_1')).toBe(true);

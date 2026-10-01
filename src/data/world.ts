@@ -1,4 +1,4 @@
-﻿import type { BossAbility, BossDef, DropEntry, Element, MonsterDef, StatusId, ZoneDef } from '@/core/types';
+import type { BossAbility, BossDef, DropEntry, Element, MonsterDef, StatusId, ZoneDef } from '@/core/types';
 import { gearTierForLevel } from '@/core/balance';
 import { seeded } from '@/core/rng';
 import { xpForReq } from '@/core/xp';
@@ -21,7 +21,7 @@ const PROFILE: Record<string, Profile> = {
   lamia: { hp: 1.0, atk: 1.15, def: 1.0, speed: 2.2, status: ['poison', 'stun'], scale: 1.05 },
   succubus: { hp: 0.9, atk: 1.25, def: 0.8, speed: 2.0, status: ['curse', 'weaken'], scale: 1.05 },
   genie: { hp: 1.15, atk: 1.2, def: 1.0, speed: 2.5, status: ['burn', 'stun'], scale: 1.05 },
-  minotaur: { hp: 1.5, atk: 1.35, def: 1.4, speed: 3.0, status: ['stun', 'bleed'], scale: 1.1 },
+  minotaur: { hp: 1.35, atk: 1.1, def: 1.3, speed: 3.0, status: ['stun', 'bleed'], scale: 1.1 },
   magus: { hp: 0.85, atk: 1.4, def: 0.7, speed: 2.6, status: ['burn', 'shock', 'chill'], scale: 1.05 },
 };
 

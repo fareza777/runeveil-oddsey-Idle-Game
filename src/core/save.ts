@@ -1,4 +1,4 @@
-﻿import { Capacitor } from '@capacitor/core';
+import { Capacitor } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
 import type { GameState } from './types';
 import { defaultSettings, newState, GAME_VERSION } from './state';
