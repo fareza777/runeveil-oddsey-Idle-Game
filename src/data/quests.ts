@@ -3,6 +3,7 @@ import { SKILL_MAP } from './skills';
 import { ZONE_SEEDS } from './zoneSeeds';
 import { money } from '@/core/money';
 import { buildExtraQuests } from './questsExtra';
+import { buildMoreQuests } from './questsMore';
 import { GATHER_MAP } from './gather';
 import { RECIPE_MAP } from './recipes';
 
@@ -58,7 +59,7 @@ ZONE_SEEDS.forEach((seed, i) => {
   const steps: QuestStep[] = [killAny(z, 18 + z * 3, `Defeat ${18 + z * 3} monsters in ${seed.name}`)];
   const mode = z % 4;
   // Skill steps use the best node a player who has trained about as far as the zone's Exploration gate can reach.
-  const cap = z <= 2 ? 5 : Math.round(1 + (z - 1) * 3.6 * 0.9) + 1;
+  const cap = z <= 2 ? 5 : Math.round(1 + (z - 1) * 2.4) + 1;
   const best = (prefix: string, levelOf: (id: string) => number | undefined) => {
     let k = 0;
     while ((levelOf(`${prefix}${k + 1}`) ?? 999) <= cap) k++;
@@ -88,7 +89,7 @@ const SIDE: S[] = [
   { id: 's_pie', name: "Maeva's Pumpkin Pie", giver: 'Elder Maeva', story: 'The elder wants a pie for the harvest festival. Carrots will not do.', steps: [gather('farm_5', 6, 'Grow 6 Pumpkins'), craft('cook_3', 1, 'Bake a Pumpkin Pie')], gold: 300, xp: ['cooking', 120], skill: ['farming', 8] },
   { id: 's_blade', name: 'A Blade for Tobin', giver: 'Quartermaster Tobin', story: 'The quartermaster needs a sturdy sword for the watch.', steps: [craft('smelt_0', 8, 'Smelt 8 Copper Bars'), craft('craft_sword_1', 1, 'Forge a Copper Sword')], gold: 250, xp: ['smithing', 100] },
   { id: 's_shoal', name: 'The Quiet Shoal', giver: 'Harbormaster Quill', story: 'Fish stopped biting at the river. Prove it is not the bait.', steps: [gather('fish_2', 12, 'Catch 12 Carp'), craft('grill_2', 6, 'Grill 6 Carp')], gold: 320, xp: ['fishing', 140], skill: ['fishing', 4] },
-  { id: 's_herbs', name: 'Dew for Ilya', giver: 'Scholar Ilya', story: 'Ilya is cataloguing the herbs of the Vale. She is behind schedule.', steps: [gather('herb_1', 10, 'Pick 10 Sageroot'), gather('herb_2', 10, 'Pick 10 Dewcap')], gold: 380, xp: ['herbalism', 160], skill: ['herbalism', 5] },
+  { id: 's_herbs', name: 'Dew for Ilya', giver: 'Scholar Ilya', story: 'Ilya is cataloging the herbs of the Vale. She is behind schedule.', steps: [gather('herb_1', 10, 'Pick 10 Sageroot'), gather('herb_2', 10, 'Pick 10 Dewcap')], gold: 380, xp: ['herbalism', 160], skill: ['herbalism', 5] },
   { id: 's_potion', name: 'A Steadier Hand', giver: 'Ashwright Corin', story: 'Corin\'s hands shake. A Vigor Draught might help.', steps: [craft('brew_vigor_0', 3, 'Brew 3 Minor Vigor Draughts')], gold: 420, xp: ['alchemy', 200], skill: ['alchemy', 3] },
   { id: 's_wood', name: 'Timber for the Palisade', giver: 'Scout Pell', story: 'Camp needs a taller wall. Many planks.', steps: [gather('wood_0', 30, 'Chop 30 Pine Logs'), craft('saw_0', 10, 'Saw 10 Pine Planks')], gold: 360, xp: ['carpentry', 150] },
   { id: 's_bow', name: "Pell's Shortbow", giver: 'Scout Pell', story: 'A scout is only as good as her bow.', steps: [craft('saw_0', 6, 'Saw 6 Pine Planks'), craft('cure_0', 4, 'Cure 4 Rabbit Leather'), craft('craft_bow_1', 1, 'Craft a Copper Bow')], gold: 500, xp: ['carpentry', 220], skill: ['carpentry', 6] },
@@ -98,7 +99,7 @@ const SIDE: S[] = [
   { id: 's_elite1', name: 'The Elder Slime', giver: 'Elder Maeva', story: 'A great slime blocks the old well. Please deal with it.', steps: [kill('m_1_14', 3, 'Defeat 3 Elder Greenhollow Slimes')], gold: 450, xp: ['combat', 200], zone: 1 },
   { id: 's_hero10', name: 'Proving Ground', giver: 'Quartermaster Tobin', story: 'Tobin wants to see the party earn their stripes.', steps: [heroLevel(10)], gold: 600, items: [{ item: 'scroll_1', n: 2 }] },
   { requires: 'main_4', id: 's_fort', name: 'Take the Hit', giver: 'Brynna Stoneward', story: 'A bulwark learns by being struck. Do not wince.', steps: [skill('fortitude', 10)], gold: 700, xp: ['fortitude', 300] },
-  { requires: 'main_7', id: 's_arc', name: 'The Study of Embers', giver: 'Orren Ashgrove', story: 'Orren asks you to practise spellcraft until your hands glow.', steps: [skill('arcana', 10)], gold: 700, xp: ['arcana', 300] },
+  { requires: 'main_7', id: 's_arc', name: 'The Study of Embers', giver: 'Orren Ashgrove', story: 'Orren asks you to practice spellcraft until your hands glow.', steps: [skill('arcana', 10)], gold: 700, xp: ['arcana', 300] },
   { requires: 'main_2', id: 's_mark', name: 'Straight Shot', giver: 'Sylra Windmere', story: 'Sylra has a challenge: hit the mark a hundred times without looking away.', steps: [skill('marksmanship', 10)], gold: 700, xp: ['marksmanship', 300] },
   { id: 's_foreign', name: 'The Desert Bargain', giver: 'Merchant Zeyla', story: 'Zeyla wants sand pearls, and a fair price.', steps: [killAny(5, 25, 'Defeat 25 monsters in Sunscar Dunes'), own('gem_3', 3, 'Hold 3 Cut Topaz')], gold: 1100, zone: 5, xp: ['trading', 400] },
   { id: 's_trade', name: 'Merchant Prince', giver: 'Merchant Zeyla', story: 'Run a caravan. Make a profit. Zeyla will do the paperwork.', steps: [craft('trade_0', 10, 'Run 10 Village Peddling trips'), craft('trade_1', 10, 'Run 10 Roadside Stall trips')], gold: 900, xp: ['trading', 300] },
@@ -108,10 +109,10 @@ const SIDE: S[] = [
   { id: 's_rune', name: 'Carve and Cast', giver: 'Orren Ashgrove', story: 'A rune is a sentence. Write a good one.', steps: [craft('carve_fire_lesser', 1, 'Carve a Lesser Rune of Fire')], gold: 1600, skill: ['runecrafting', 18], xp: ['runecrafting', 500] },
   { id: 's_pass', name: 'Safe Passage', giver: 'Quartermaster Tobin', story: 'Escort the supply wagons through the foothills.', steps: [killAny(4, 40, 'Defeat 40 monsters in Ironcrest Foothills')], gold: 1400, zone: 4 },
   { id: 's_ships', name: 'Salvage Rights', giver: 'Harbormaster Quill', story: 'The wrecks keep floating back. Loot them, then burn them.', steps: [killAny(7, 40, 'Defeat 40 monsters in Brinewatch Coast'), gather('dig_3', 10, 'Dig 10 times at the Sunken Midden')], gold: 2100, zone: 7 },
-  { id: 's_frost', name: 'Hearth for the Hallis', giver: 'Warden Hallis', story: 'Winter is hungry. Feed the fires.', steps: [killAny(8, 45, 'Defeat 45 monsters in Frostmere Tundra'), gather('wood_4', 20, 'Chop 20 Yew Logs')], gold: 2600, zone: 8 },
+  { id: 's_frost', name: 'A Hearth for Hallis', giver: 'Warden Hallis', story: 'Winter is hungry. Feed the fires.', steps: [killAny(8, 45, 'Defeat 45 monsters in Frostmere Tundra'), gather('wood_4', 20, 'Chop 20 Yew Logs')], gold: 2600, zone: 8 },
   { id: 's_ember', name: 'Forge Fuel', giver: 'Forgemaster Brann', story: 'Cinderpeak coals burn hotter. Bring me a crate.', steps: [killAny(9, 45, 'Defeat 45 monsters in Cinderpeak Caldera'), craft('smelt_5', 15, 'Smelt 15 Mithril Bars')], gold: 3400, zone: 9 },
   { id: 's_crypt', name: 'Ledger Pages', giver: 'Scholar Ilya', story: 'Torn pages of the Archivist\'s ledger are scattered across the crypt.', steps: [killAny(10, 50, 'Defeat 50 monsters in the Sunken Crypts'), own('relic_4', 3, 'Hold 3 Rusted Compasses')], gold: 4200, zone: 10 },
-  { id: 's_jungle', name: 'Venom Samples', giver: 'Huntress Rahne', story: 'Samples from the Thornveil will teach us what the empress weaponises.', steps: [killAny(11, 50, 'Defeat 50 monsters in Thornveil Jungle'), craft('brew_cleanse_1', 3, 'Brew 3 Cleansing Salves')], gold: 5200, zone: 11 },
+  { id: 's_jungle', name: 'Venom Samples', giver: 'Huntress Rahne', story: 'Samples from the Thornveil will teach us what the empress weaponizes.', steps: [killAny(11, 50, 'Defeat 50 monsters in Thornveil Jungle'), craft('brew_cleanse_1', 3, 'Brew 3 Cleansing Salves')], gold: 5200, zone: 11 },
   { id: 's_storm', name: 'Lightning Rod', giver: 'Skywatcher Odd', story: 'Odd wants to measure the storm. From the inside.', steps: [killAny(13, 55, 'Defeat 55 monsters in Stormspire Heights')], gold: 7200, zone: 13 },
   { id: 's_veyra', name: 'Letters from the Dead', giver: 'Lady Veyra', story: 'Veyra needs closure. Count Mordrake needs defeat.', steps: [kill('m_15_14', 2, 'Defeat 2 Baron Moonlit Nightwings'), boss('boss_15', 'Defeat Count Mordrake')], gold: 9000, zone: 15 },
   { id: 's_wb1', name: 'Calamity: Ignaroth', giver: 'Forgemaster Brann', story: 'A colossus walks the caldera. Brann cannot say no to a challenge.', steps: [boss('wboss_1', 'Defeat Ignaroth, the Infernal Colossus')], gold: 6000, items: [{ item: 'scroll_4', n: 2 }], zone: 9 },
@@ -135,5 +136,6 @@ for (const s of SIDE) {
 }
 
 QUESTS.push(...buildExtraQuests());
+QUESTS.push(...buildMoreQuests());
 
 export const QUEST_MAP: Record<string, QuestDef> = Object.fromEntries(QUESTS.map((q) => [q.id, q]));

@@ -18,9 +18,9 @@ function chain(id: string): HTMLElement | null {
   const line = (label: string, names: string[]) =>
     names.length ? h('div', { class: 'small', style: 'margin-top:4px' }, h('span', { class: 'muted', text: `${label}: ` }), names.slice(0, 4).join(', '), names.length > 4 ? ` +${names.length - 4}` : '') : null;
   return h('div', { class: 'ability' },
-    line('Gathered', [...new Set(gathered.map((g) => `${SKILL_MAP[g.skill].name} Ã‚Â· ${g.name}`))]),
-    line('Crafted', [...new Set(made.map((r) => `${SKILL_MAP[r.skill].name} Ã‚Â· ${r.name}`))]),
-    line('Used in', [...new Set(used.map((r) => `${SKILL_MAP[r.skill].name} Ã‚Â· ${r.name}`))]));
+    line('Gathered', [...new Set(gathered.map((g) => `${SKILL_MAP[g.skill].name} · ${g.name}`))]),
+    line('Crafted', [...new Set(made.map((r) => `${SKILL_MAP[r.skill].name} · ${r.name}`))]),
+    line('Used in', [...new Set(used.map((r) => `${SKILL_MAP[r.skill].name} · ${r.name}`))]));
 }
 
 export function stackSheet(id: string, onChange?: () => void) {
@@ -32,7 +32,7 @@ export function stackSheet(id: string, onChange?: () => void) {
       const have = countItem(g.state, id);
       add(body, 
         h('div', { class: 'item' }, itemIcon(id, undefined, 'lg'),
-          h('div', { class: 'meta' }, h('b', { text: def.name }), h('span', { text: `Tier ${def.tier} Ã‚Â· ${def.kind} Ã‚Â· owned ${fmt(have)}` }))),
+          h('div', { class: 'meta' }, h('b', { text: def.name }), h('span', { text: `Tier ${def.tier} · ${def.kind} · owned ${fmt(have)}` }))),
         def.desc ? h('p', { class: 'muted small', text: def.desc }) : null,
         def.heal ? h('div', { class: 'chip good', text: `Heals ${fmt(def.heal)} HP` }) : null,
         def.buff ? h('div', { class: 'chip gold', text: `${def.buff.status} +${def.buff.potency} for ${Math.round(def.buff.duration)}s` }) : null,
@@ -84,10 +84,10 @@ export function gearSheet(uid: string, opts: GearOpts = {}) {
         h('div', { class: 'item' }, itemIcon(inst.id, inst, 'lg'),
           h('div', { class: 'meta' },
             h('b', { text: def.name, style: `color:${r.color}` }),
-            h('span', {}, h('span', { class: 'badge-r', style: `--rc:${r.color}`, text: r.name }), ` T${def.tier} Ã‚Â· ${SLOT_NAME[slot]}${def.style ? ' Ã‚Â· ' + def.style : ''}`))),
-        def.unique && def.desc ? h('p', { class: 'small gold', text: def.desc }) : null,
+            h('span', {}, h('span', { class: 'badge-r', style: `--rc:${r.color}`, text: r.name }), ` T${def.tier} · ${SLOT_NAME[slot]}${def.style ? ' · ' + def.style : ''}`))),
+        def.desc ? h('p', { class: `small ${def.unique ? 'gold' : 'muted'}`, text: def.desc }) : null,
         h('div', { class: 'card', style: 'margin-top:10px' }, ...statLines(st, cur && cur !== inst ? itemStats(cur) : undefined)),
-        Object.keys(aff).length ? h('div', { class: 'small muted' }, 'Affixes: ', (Object.entries(aff) as [StatKey, number][]).map(([k, v]) => `${STAT_LABEL[k]} ${fmtStat(k, v)}`).join(' Ã‚Â· ')) : null,
+        Object.keys(aff).length ? h('div', { class: 'small muted' }, 'Affixes: ', (Object.entries(aff) as [StatKey, number][]).map(([k, v]) => `${STAT_LABEL[k]} ${fmtStat(k, v)}`).join(' · ')) : null,
         def.apply ? h('div', { class: 'chip gold', style: 'margin-top:6px', text: `Inflicts ${def.apply} on hit` }) : null,
         def.element ? h('div', { class: 'chip', style: 'margin-top:6px', text: `Element: ${def.element}` }) : null,
       );
@@ -116,7 +116,7 @@ export function gearSheet(uid: string, opts: GearOpts = {}) {
         const cost = g.upgradeCost(inst);
         const chance = g.upgradeChance(inst);
         const row = h('div', { class: 'card' },
-          h('div', { class: 'row' }, h('b', { class: 'grow', text: `Enhance +${inst.up} Ã¢â€ â€™ +${inst.up + 1}` }), h('span', { class: 'chip', text: `${Math.round(chance * 100)}%` })),
+          h('div', { class: 'row' }, h('b', { class: 'grow', text: `Enhance +${inst.up} → +${inst.up + 1}` }), h('span', { class: 'chip', text: `${Math.round(chance * 100)}%` })),
           h('div', { class: 'tiny muted', style: 'margin:4px 0', text: inst.up >= 5 ? 'Failure lowers the level by 1.' : 'Failure is safe until +5.' }),
           h('div', { class: 'row' },
             scroll ? costChip(g.state, scroll, 1) : h('span', { class: 'cost no', text: 'Needs enchant scroll' }),

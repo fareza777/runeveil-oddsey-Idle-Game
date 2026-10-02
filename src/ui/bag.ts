@@ -82,7 +82,7 @@ export class BagScreen implements Screen {
       return;
     }
     const total = filtered.reduce((n, id) => n + Math.round(ITEMS[id].value * 0.5) * s.stacks[id], 0);
-    body.append(h('div', { class: 'small muted', style: 'margin-bottom:6px', text: `${filtered.length} kinds Â· worth about ${fmt(total)} gold` }));
+    body.append(h('div', { class: 'small muted', style: 'margin-bottom:6px', text: `${filtered.length} kinds · worth about ${fmt(total)} gold` }));
     body.append(h('div', { class: 'grid bag' }, ...filtered.map((id) => {
       const el = itemIcon(id);
       el.append(h('i', { class: 'qty', text: fmt(s.stacks[id]) }));

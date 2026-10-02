@@ -19,7 +19,7 @@ export function geared(zone: number, rarityLevel: number, heroLevel?: number, sk
   const z = ZONE_MAP[zone];
   const lvl = Math.round((z.levelRange[0] + z.levelRange[1]) / 2);
   const tier = gearTierForLevel(lvl);
-  const sl = skillLevel ?? Math.min(99, Math.round(lvl * 0.95));
+  const sl = skillLevel ?? Math.min(99, Math.round(lvl * 0.5));
   for (const id of SKILL_IDS) { s.skills[id] = sl; s.skillXp[id] = xpAtLevel(sl); }
   s.zoneUnlocked = 22;
   s.skills.exploration = 99;

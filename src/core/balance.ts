@@ -2,15 +2,17 @@
 export const BAL = {
   /** rarity a well-prepared player is expected to wield in zone z: round(expRarityBase + expRarityPerZone * z) */
   expRarityBase: 2,
-  expRarityPerZone: 0.9,
+  expRarityPerZone: 0.75,
   /** seconds the expected party needs to kill an average regular monster */
   killSeconds: 8,
   /** share of the party's total HP an average fight is meant to cost the expected party */
-  fightLoss: 0.24,
+  fightLoss: 0.45,
   monsterDefShare: 0.25,
   defK: 0.8,
-  bossHp: 7,
-  bossAtk: 0.5,
+  bossHp: 6,
+  bossAtk: 0.4,
+  /** per-zone growth of monster hp/atk beyond zone 10, so late-game gear keeps mattering */
+  lateGrowth: 0.02,
   eliteHp: 2.6,
   eliteAtk: 1.25,
   abilityDpsBonus: 1.2,

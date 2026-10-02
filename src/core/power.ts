@@ -1,6 +1,7 @@
 import type { GameState } from './types';
 import { expected } from './expected';
 import { computeHero } from './stats';
+import { BAL } from './balance';
 
 /**
  * How the party compares with the party a zone is built around: 1 means "as prepared as designed".
@@ -19,4 +20,4 @@ export function partyPower(s: GameState, zone: number): number {
 }
 
 /** Power at which a zone boss becomes a fair fight (found by simulation, see tests/sim.test.ts). */
-export const bossPowerNeeded = (zone: number): number => (zone <= 4 ? 0.65 : 0.8);
+export const bossPowerNeeded = (zone: number): number => Math.min(0.9, 0.5 + 0.1 * zone) * (1 + BAL.lateGrowth * Math.max(0, zone - 10));

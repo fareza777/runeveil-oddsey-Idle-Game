@@ -76,6 +76,19 @@ export const RELIC_NAMES = [
 RELIC_NAMES.forEach((n, i) => add({ id: `relic_${i}`, name: n, kind: 'material', tier: i, icon: `gen:relic|c=${GEAR_COLORS[Math.min(19, i * 2 + 1)]}`, value: val(i * 1.6, 8), tag: 'relic' }));
 ELEMENTS.forEach((e, i) => add({ id: `ess_${e.id}`, name: `Essence of ${e.name === 'Physical' ? 'Might' : e.name}`, kind: 'material', tier: i + 2, icon: `gen:essence|c=${e.color}`, value: val(8 + i, 5), tag: 'essence' }));
 
+/** Plain-language effect of a buff, so item sheets say what it actually does. */
+export function buffText(status: StatusId, potency: number): string {
+  const pct = Math.round(potency * 1000) / 10;
+  switch (status) {
+    case 'regen': return `Regeneration: restores ${pct}% of max HP every second`;
+    case 'might': return `Might: +${pct}% damage`;
+    case 'fortify': return `Fortify: +${pct}% defense`;
+    case 'haste': return `Haste: +${pct}% attack speed`;
+    case 'thorns': return `Thorns: reflects ${pct}% of damage taken`;
+    default: return `${status}: ${pct}%`;
+  }
+}
+
 // ---------- meals ----------
 export const MEAL_NAMES = [
   'Farmhand Stew', 'Potato Mash', 'Fish Chowder', 'Pumpkin Pie', 'Mushroom Skewers', 'Roast Corn Platter', 'Salmon Teriyaki', 'Beetroot Bake',
@@ -89,7 +102,7 @@ MEAL_NAMES.forEach((n, i) => {
   add({
     id: `meal_${i}`, name: n, kind: 'food', tier: i, icon: `gen:dish|c=${CROP_COLORS[i % 16]}`, value: val(i * 0.85, 6),
     heal: 0.2 + i * 0.017, buff: { status, potency, duration: 120 }, tag: 'meal',
-    desc: `Restores ${Math.round((0.2 + i * 0.017) * 100)}% max HP and grants a ${status} buff for 2 minutes.`,
+    desc: `Restores ${Math.round((0.2 + i * 0.017) * 100)}% max HP. ${buffText(status, potency)} for 2 minutes.`,
   });
 });
 
@@ -113,7 +126,7 @@ for (const line of POTION_LINES) {
     const t = line.start + k * line.step;
     if (line.status) {
       const potency = line.status === 'regen' ? 0.006 + k * 0.004 : line.status === 'thorns' ? 0.08 + k * 0.08 : 0.06 + k * 0.04;
-      add({ id, name, kind: 'potion', tier: t / 5, icon: `img:${line.icon}`, value: val(t / 5, 8), buff: { status: line.status, potency, duration: 180 }, tag: line.key, desc: `Grants ${line.status} (${Math.round(potency * 1000) / 10}%) for 3 minutes.` });
+      add({ id, name, kind: 'potion', tier: t / 5, icon: `img:${line.icon}`, value: val(t / 5, 8), buff: { status: line.status, potency, duration: 180 }, tag: line.key, desc: `${buffText(line.status, potency)} for 3 minutes.` });
     } else if (line.xp) {
       const pct = 0.1 + k * 0.05;
       add({ id, name, kind: 'potion', tier: t / 5, icon: `img:${line.icon}`, value: val(t / 5, 8), xpBoost: { pct, duration: 900 }, tag: line.key, desc: `+${Math.round(pct * 100)}% XP in all skills for 15 minutes.` });
@@ -160,6 +173,30 @@ NUMERALS.forEach((n, i) => {
     desc: `Upgrades gear up to tier ${Math.round((i + 1) * 2.5)} by one level (max +10). May fail at higher levels.`,
   });
 });
+
+// ---------- descriptions for everything that has no hand-written one ----------
+const TAG_DESC: Record<string, string> = {
+  ore: 'Raw ore dug from the rock. Smelt it into bars with Smithing.',
+  bar: 'A smelted metal bar. Forged into weapons and armor with Smithing.',
+  log: 'Freshly cut timber. Sawn into planks with Carpentry.',
+  plank: 'A sawn plank. Used for bows, staves and shields.',
+  hide: 'A raw animal hide. Cure it into leather with Leatherworking.',
+  leather: 'Cured leather. Used for light armor, grips and straps.',
+  fish: 'Fresh from the water. Grill it with Cooking to make food.',
+  herb: 'A wild herb. Used to brew potions with Alchemy and to cook rich meals.',
+  crop: 'Farm produce. Used in Cooking and Alchemy.',
+  drop: 'Dropped by monsters. Used in Alchemy and Enchanting.',
+  relic: 'Dug up from old ruins. Needed for Runecrafting, Enchanting and some potions.',
+  essence: 'Concentrated elemental power, distilled with Enchanting. Used to craft runes.',
+  scroll: 'Used to reinforce gear.',
+};
+for (const it of Object.values(ITEMS)) {
+  if (it.desc) continue;
+  if (it.tag === 'gem') it.desc = it.id.startsWith('gemr_') ? 'An uncut gemstone. Cut it with Jewelcrafting.' : 'A cut gemstone. Set into staves, rings and amulets.';
+  else if (it.kind === 'equip') it.desc = 'Equip it on a hero. Higher rarity means stronger stats and more bonus affixes.';
+  else if (it.kind === 'rune') it.desc = 'Socket it into a hero\u2019s rune slot for bonus stats and an elemental edge.';
+  else if (it.tag && TAG_DESC[it.tag]) it.desc = TAG_DESC[it.tag];
+}
 
 // ---------- misc ----------
 export const ITEM_LIST = (): ItemDef[] => Object.values(ITEMS);

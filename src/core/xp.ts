@@ -3,8 +3,8 @@ import { MAX_LEVEL } from '@/data/skills';
 /** Raw XP step of each level, before pacing. Content (action XP, monster XP) is tuned against this curve. */
 const base = (l: number): number => Math.floor((l + 60 * Math.pow(2, l / 8)) / 4);
 
-/** Pacing: higher levels take proportionally longer, so mastering a skill takes days of play, not hours. */
-const pace = (l: number): number => 2 + 0.11 * l;
+/** Pacing: higher levels take proportionally longer, so mastering one skill takes hundreds of hours of play. Level 10 comes in well under an hour, level 50 takes days. */
+const pace = (l: number): number => 6 + 0.35 * l;
 
 /** Cumulative XP needed to reach `level` (level 1 = 0). */
 const TABLE: number[] = [0, 0];

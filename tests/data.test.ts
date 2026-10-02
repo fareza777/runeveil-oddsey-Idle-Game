@@ -40,6 +40,15 @@ describe('content integrity', () => {
     expect(bad).toEqual([]);
   });
 
+  it('has consistent quest chains', () => {
+    const ids = new Set<string>();
+    const bad: string[] = [];
+    for (const q of QUESTS) { if (ids.has(q.id)) bad.push(`dup ${q.id}`); ids.add(q.id); }
+    for (const q of QUESTS) if (q.requires && !ids.has(q.requires)) bad.push(`${q.id} requires missing ${q.requires}`);
+    expect(bad).toEqual([]);
+    expect(QUESTS.filter((q) => q.kind === 'main').length).toBeGreaterThanOrEqual(60);
+  });
+
   it('has unique ids and names', () => {
     const names = new Map<string, string>();
     for (const it of Object.values(ITEMS)) {

@@ -3,6 +3,7 @@ import { ico, itemIcon, monsterSprite, setBar, bar, spriteEl, statusBadge } from
 import { zoneBgUrl } from './bg';
 import { openSheet, toast } from './modal';
 import { audio, musicForZone } from './audio';
+import { enemyList } from './bestiary';
 import { buzz, danger, moneyEl, readiness } from './common';
 import { host } from './host';
 import type { Screen } from './screen';
@@ -27,6 +28,8 @@ export class BattleScreen implements Screen {
   private info!: HTMLElement;
   private loadout!: HTMLElement;
   private ticker!: HTMLElement;
+  private enemies!: HTMLElement;
+  private enemiesSig = '';
   private shownEnemy = '';
   private shownZone = 0;
   private enemySig = '';
@@ -67,7 +70,9 @@ export class BattleScreen implements Screen {
     this.info = h('div', { class: 'card', style: 'margin:10px 12px 8px' });
     this.loadout = h('div', { class: 'row', style: 'margin:0 12px 6px;gap:8px' });
     this.ticker = h('div', { class: 'ticker', style: 'margin:0 8px' });
-    mount(this.el, this.arena, this.info, this.loadout, h('div', { class: 'small muted', style: 'margin:6px 14px 0', text: 'Recent loot' }), this.ticker);
+    this.enemies = h('div', { style: 'margin:10px 12px 0' });
+    this.enemiesSig = '';
+    mount(this.el, this.arena, this.info, this.loadout, this.enemies, h('div', { class: 'small muted', style: 'margin:10px 14px 0', text: 'Recent loot' }), this.ticker);
     this.renderInfo();
     this.renderLoadout();
     this.update();
@@ -179,6 +184,7 @@ export class BattleScreen implements Screen {
         if (!lockErr) {
           const killed = (g.state.bossKills[boss.id] ?? 0) > 0;
           card.append(h('div', { class: 'row', style: 'margin-top:8px;flex-wrap:wrap' },
+            h('button', { class: 'btn sm grow', text: 'Enemies', onclick: () => openSheet(`${z.name} enemies`, (b2) => { b2.append(enemyList(z.id)); }) }),
             h('button', { class: 'btn sm gold grow', text: 'Fight here', onclick: () => { g.state.zone = z.id; this.go(`zone:${z.id}`, close); } }),
             h('button', { class: 'btn sm red grow', text: `${killed ? '✓ ' : ''}Boss ${boss.name}`, onclick: () => { g.state.zone = z.id; this.go(boss.id, close); } }),
             wb ? h('button', { class: 'btn sm ghost grow', text: `${(g.state.bossKills[wb.id] ?? 0) > 0 ? '✓ ' : ''}${wb.name}`, onclick: () => { g.state.zone = z.id; this.go(wb.id, close); } }) : null));
@@ -209,6 +215,7 @@ export class BattleScreen implements Screen {
     }
     const fighting = g.state.activity?.type === 'combat' && !!rt;
     const zone = ZONE_MAP[this.shownZone];
+    this.syncEnemies(fighting ? rt!.enemyDef.id : undefined);
     this.zoneTag.replaceChildren(h('b', { text: zone.name }), `Lv ${zone.levelRange[0]}–${zone.levelRange[1]}`);
     mount(this.killTag, h('span', { class: 'muted', text: 'Kills ' }), fmt(fighting ? rt!.kills : 0), rt?.boss ? h('div', { class: 'bad', text: 'BOSS' }) : null);
     this.heroEls.forEach((he, i) => {
@@ -240,6 +247,16 @@ export class BattleScreen implements Screen {
     } else if (this.shownEnemy) {
       this.enemyWrap.classList.add('dead');
     }
+  }
+
+  private syncEnemies(activeId?: string) {
+    const s = host.game.state;
+    const zone = ZONE_MAP[this.shownZone];
+    const ids = [...zone.monsters, zone.elite, zone.boss];
+    const sig = `${this.shownZone}|${activeId ?? ''}|${ids.map((id) => `${s.codex.monsters[id] ? 1 : 0}${s.kills[id] ?? 0}`).join(',')}`;
+    if (sig === this.enemiesSig) return;
+    this.enemiesSig = sig;
+    this.enemies.replaceChildren(enemyList(this.shownZone, activeId));
   }
 
   private syncStatuses(he: { stat: HTMLElement; sig: string; root: HTMLElement }, f: Fighter) {

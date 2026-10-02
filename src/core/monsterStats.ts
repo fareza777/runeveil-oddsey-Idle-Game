@@ -19,7 +19,7 @@ export function monsterStats(m: MonsterDef) {
   const lf = 0.85 + 0.3 * Math.max(0, Math.min(1, (m.level - zone.levelRange[0]) / span));
   const hpK = m.boss ? BAL.bossHp : m.elite ? BAL.eliteHp : 1;
   const atkK = m.boss ? BAL.bossAtk : m.elite ? BAL.eliteAtk : 1;
-  const ease = zoneEase(m.zone);
+  const ease = zoneEase(m.zone) * (1 + BAL.lateGrowth * Math.max(0, m.zone - 10));
   const ref = ex.def;
   const mit = ref / (ref + BAL.defK * ref);
   const hits = BAL.killSeconds / 2.6;

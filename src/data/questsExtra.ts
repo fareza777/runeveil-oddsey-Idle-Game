@@ -14,17 +14,17 @@ const skill = (target: SkillId, n: number): QuestStep => ({ type: 'skill', targe
 const heroLevel = (n: number): QuestStep => ({ type: 'heroLevel', n, text: `Raise any hero to level ${n}` });
 
 /** Zone-like progress index for a skill level, so rewards track the same economy as monsters. */
-const zoneOfLevel = (lvl: number): number => Math.max(1, Math.min(22, 1 + Math.floor(((lvl - 1) * 21) / 98)));
-const scroll = (z: number, n = 1) => ({ item: `scroll_${Math.min(8, 1 + Math.floor(z / 3))}`, n });
-const food = (z: number, n = 10) => ({ item: `cfish_${Math.min(19, z)}`, n });
+export const zoneOfLevel = (lvl: number): number => Math.max(1, Math.min(22, 1 + Math.floor(((lvl - 1) * 21) / 98)));
+export const scroll = (z: number, n = 1) => ({ item: `scroll_${Math.min(8, 1 + Math.floor(z / 3))}`, n });
+export const food = (z: number, n = 10) => ({ item: `cfish_${Math.min(19, z)}`, n });
 
-interface Q {
+export interface Q {
   id: string; kind: 'main' | 'side'; name: string; giver: string; story: string; steps: QuestStep[];
   z: number; gold: number; items?: { item: string; n: number }[]; xp?: [SkillId, number]; hero?: string;
   requires?: string; reqZone?: number; reqSkill?: [SkillId, number];
 }
 
-function toDef(q: Q): QuestDef {
+export function toDef(q: Q): QuestDef {
   return {
     id: q.id, kind: q.kind, name: q.name, giver: q.giver, story: q.story, steps: q.steps,
     reward: { gold: money(q.gold, q.z), items: q.items, xp: q.xp ? [{ skill: q.xp[0], n: q.xp[1] }] : undefined, hero: q.hero },
@@ -32,12 +32,12 @@ function toDef(q: Q): QuestDef {
   };
 }
 
-const eliteOf = (z: number) => Object.values(MONSTERS).find((m) => m.zone === z && m.elite)!;
+export const eliteOf = (z: number) => Object.values(MONSTERS).find((m) => m.zone === z && m.elite)!;
 const commonOf = (z: number, k: number) => MONSTERS[`m_${z}_${k}`];
 
 // ---------- Chronicle of the Veil: a second main-story strand, one chapter per zone ----------
 const CHRONICLE: [string, string, string][] = [
-  ['Roots and Rumours', 'Elder Maeva', 'The camp is full of rumours. Gather proof of what is crawling out of the fields before panic does the work for us.'],
+  ['Roots and Rumors', 'Elder Maeva', 'The camp is full of rumors. Gather proof of what is crawling out of the fields before panic does the work for us.'],
   ['The Woodcutter\'s Debt', 'Scout Pell', 'Pell needs timber to rebuild the lookout the hornets wrecked. Honest work, honest pay.'],
   ['Marsh Medicine', 'Scholar Ilya', 'The marsh water makes people sick. Ilya believes the cure grows in the same mud.'],
   ['Hammer and Anvil', 'Forgemaster Brann', 'Brann will re-arm the pass guard if you bring him the steel and prove you can swing it.'],
@@ -147,7 +147,7 @@ function recruits(): Q[] {
   return [
     {
       id: 's_vex', kind: 'side', name: 'A Debt in the Dark', giver: 'Vex Nightblade', z: 9, gold: 5200, reqZone: 8, requires: 'main_7',
-      story: 'A woman in a grey hood waits at the edge of the firelight. Vex: "I collect debts for the dead. One of them is owed to you, or you to him. Survive my contract and I will fight for whoever is left standing."',
+      story: 'A woman in a gray hood waits at the edge of the firelight. Vex: "I collect debts for the dead. One of them is owed to you, or you to him. Survive my contract and I will fight for whoever is left standing."',
       steps: [
         killAny(8, 90, 'Defeat 90 monsters in Frostmere Tundra'),
         kill(e8.id, 8, `Defeat 8 ${e8.name}`),
@@ -276,7 +276,7 @@ function commissions(): Q[] {
       const n = 1 + (i % 3);
       out.push({
         id: `c_${r.id}`, kind: 'side', name: `Commission: ${r.name}`, giver: COMM_GIVER[skillId]!, z, gold: 260 * Math.pow(1.25, z - 1) * n,
-        story: `${COMM_GIVER[skillId]} has a customer who will accept nothing but a ${r.name.toLowerCase()}${n > 1 ? `, and a few spares` : ''}.`,
+        story: `${COMM_GIVER[skillId]} has a customer who will accept nothing but ${/^[aeiou]/i.test(r.name) ? 'an' : 'a'} ${r.name.toLowerCase()}${n > 1 ? `, and a few spares` : ''}.`,
         steps: [craft(r.id, n, `Craft ${n}× ${r.name}`)], reqSkill: [skillId, Math.max(1, r.level - 6)], xp: [skillId, 60 + r.level * 6],
       });
     }

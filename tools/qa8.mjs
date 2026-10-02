@@ -1,0 +1,18 @@
+import puppeteer from 'puppeteer-core';
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const b = await puppeteer.launch({ executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', headless: 'new', args: ['--no-sandbox'] });
+const p = await b.newPage();
+await p.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+const errs = []; p.on('pageerror', (e) => errs.push(e.message)); p.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
+const URL = 'http://localhost:5174/';
+await p.goto(URL, { waitUntil: 'networkidle0' }); await p.evaluate(() => localStorage.clear()); await p.goto(URL, { waitUntil: 'networkidle0' });
+const click = (sel, t) => p.evaluate((sel, t) => { const e = [...document.querySelectorAll(sel)].find((b) => b.textContent.includes(t) && b.offsetParent); if (e) { e.click(); return true; } return false; }, sel, t);
+await sleep(800); await click('button', 'New Game'); await sleep(400); await click('button', 'Skip'); await sleep(1200); await click('button', 'Start Adventure'); await sleep(2000);
+await click('.nav button', 'Battle'); await sleep(800);
+await click('button', 'Battle!'); await sleep(6000);
+await p.evaluate(() => { const s = document.querySelector('.screen'); if (s) s.scrollTop = 400; });
+await p.screenshot({ path: 'qa/b1.png' });
+console.log('enemy row', await p.evaluate(() => { const c = [...document.querySelectorAll('.card.tap')].find((e) => e.textContent.includes('Lv') && !e.textContent.includes('???') && e.textContent.includes('×')); if (c) { c.click(); return true; } return false; }));
+await sleep(600); await p.screenshot({ path: 'qa/b2.png' });
+await p.keyboard.press('Escape');
+console.log(errs.join('\n')); await b.close();
