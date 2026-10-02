@@ -12,8 +12,9 @@ import { QuestsScreen } from './quests';
 import { MoreScreen } from './more';
 import { Game } from '@/core/engine';
 import { saveState } from '@/core/save';
+import { huntStatus, todayKey } from '@/core/daily';
 import { readyCount } from '@/core/questSys';
-import { GATHER_MAP, HERO_MAP, ITEMS, MONSTERS, RECIPE_MAP, SKILL_MAP } from '@/data';
+import { BOSSES, GATHER_MAP, HERO_MAP, ITEMS, MONSTERS, RECIPE_MAP, SKILL_MAP } from '@/data';
 import { moneyEl, moneyText } from './common';
 import type { GameEvent } from '@/core/state';
 import type { GameState, OfflineReport } from '@/core/types';
@@ -55,6 +56,7 @@ export class AppShell {
   private last = 0;
   private uiAcc = 0;
   private saveAcc = 0;
+  private huntSeen = '';
   private hintEl: HTMLElement | null = null;
   private lastGold = -1;
   private lastBadge = '';
@@ -151,6 +153,12 @@ export class AppShell {
       if (this.saveAcc >= 8) {
         this.saveAcc = 0;
         this.persist();
+        const hu = huntStatus(this.game.state);
+        if (hu.open && this.huntSeen !== `${hu.id}@${todayKey()}`) {
+          this.huntSeen = `${hu.id}@${todayKey()}`;
+          toast(`${BOSSES[hu.id].name} has appeared! Fight it within the hour (Battle > Daily hunt).`, 'gold');
+          audio.sfx('boss_phase', 0.8);
+        }
       }
     }
     this.raf = requestAnimationFrame(this.frame);

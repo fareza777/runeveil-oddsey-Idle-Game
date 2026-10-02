@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { Game } from '@/core/engine';
 import { addItem, newGear, newState, recruitHero, PARTY_MAX } from '@/core/state';
 import { migrate } from '@/core/save';
-import { merchantStatus, merchantStock } from '@/core/daily';
+import { UNIQUE_IDS, huntStatus, merchantStatus, merchantStock } from '@/core/daily';
 import { CARD_IDS, cardDef } from '@/data/cards';
 import { ITEMS, RECIPES } from '@/data';
 import { socketCount } from '@/core/stats';
@@ -95,5 +95,32 @@ describe('crafting odds', () => {
     expect(hi.maxR).toBeGreaterThan(lo.maxR);
     expect(g.craftChanceAtLeast(high, high.out[0].item, 8)).toBeLessThan(g.craftChanceAtLeast(high, high.out[0].item, 4));
     expect(g.craftChanceAtLeast(low, low.out[0].item, hi.maxR + 1)).toBe(0);
+  });
+});
+
+describe('daily hunt', () => {
+  it('picks one of the twelve and is open for exactly one hour', () => {
+    const s = newState('Tester', 21);
+    const day = new Date(2030, 2, 9);
+    const id = huntStatus(s, day.getTime()).id;
+    expect(UNIQUE_IDS).toContain(id);
+    let mins = 0;
+    for (let m = 0; m < 24 * 60; m++) {
+      const h = huntStatus(s, day.getTime() + m * 60000);
+      expect(h.id).toBe(id);
+      if (h.open) mins++;
+    }
+    expect(mins).toBe(60);
+  });
+
+  it('varies between days and refuses a fight outside the window', () => {
+    const s = newState('Tester', 21);
+    const ids = new Set<string>();
+    for (let d = 1; d <= 40; d++) ids.add(huntStatus(s, new Date(2030, 3, d, 12).getTime()).id);
+    expect(ids.size).toBeGreaterThan(5);
+    const g = new Game(s);
+    const hu = g.hunt();
+    const other = UNIQUE_IDS.find((u) => u !== hu.id)!;
+    expect(g.start('combat', other)).toMatch(/not abroad today/);
   });
 });

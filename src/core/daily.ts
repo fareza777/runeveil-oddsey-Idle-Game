@@ -18,12 +18,26 @@ export function ensureDaily(s: GameState, now = Date.now()): void {
 }
 
 // ---------- unique daily enemies ----------
-export const rareMax = (id: string): number => (BOSSES[id]?.rare === 'legendary' ? 1 : 2);
-export const rareLeft = (s: GameState, id: string): number => {
-  ensureDaily(s);
-  return Math.max(0, rareMax(id) - (s.daily.rare[id] ?? 0));
-};
 export const UNIQUE_IDS: string[] = Object.keys(BOSSES).filter((id) => id.startsWith('ue_')).sort((a, b) => Number(a.slice(3)) - Number(b.slice(3)));
+
+export const HUNT_MIN = 60;
+
+export interface HuntStatus { id: string; open: boolean; start: number; end: number; startsIn: number; endsIn: number; kills: number }
+
+/**
+ * One named enemy walks the land each day, picked at random from the twelve, and can only be fought for
+ * one hour. The pick and the start time come from the day and the save seed, so they hold until midnight.
+ */
+export function huntStatus(s: GameState, now = Date.now()): HuntStatus {
+  ensureDaily(s, now);
+  const r = seeded(`hunt:${todayKey(now)}:${s.seed}`);
+  const id = UNIQUE_IDS[Math.floor(r() * UNIQUE_IDS.length)];
+  const start = 7 * 60 + Math.floor(r() * 16 * 60);
+  const end = start + HUNT_MIN;
+  const d = new Date(now);
+  const cur = d.getHours() * 60 + d.getMinutes() + d.getSeconds() / 60;
+  return { id, open: cur >= start && cur < end, start, end, startsIn: start - cur, endsIn: end - cur, kills: s.daily.rare[id] ?? 0 };
+}
 
 // ---------- wandering merchant ----------
 export const MERCHANT_BASE_MIN = 60;

@@ -6,7 +6,7 @@ import { danger, goldChip, readiness } from './common';
 import { host } from './host';
 import { watchAd } from './rewards';
 import { BOSSES, ITEMS, ZONE_MAP, rarity } from '@/data';
-import { MERCHANT_EXTEND_MAX, MERCHANT_EXTEND_MIN, UNIQUE_IDS, merchantStock, rareLeft, rareMax } from '@/core/daily';
+import { MERCHANT_EXTEND_MAX, MERCHANT_EXTEND_MIN, UNIQUE_IDS, merchantStock } from '@/core/daily';
 import { describeFx } from '@/data/cards';
 
 const hhmm = (min: number): string => {
@@ -18,40 +18,60 @@ const span = (min: number): string => {
   return m >= 60 ? `${Math.floor(m / 60)}h ${m % 60}m` : `${m}m`;
 };
 
-/** Daily named enemies: rare ones twice a day, legendary ones once. */
+/** The day's named enemy: one of twelve, picked at random, fightable for a single hour. */
 export function huntsSheet(onStart?: () => void) {
   const g = host.game;
-  openSheet('Daily hunts', (body, close) => {
-    body.append(h('p', { class: 'small muted', style: 'line-height:1.45', text: 'Named enemies stalk the land. Each can be fought a limited number of times per day (resets at local midnight). They hit far harder than bosses, so bring your best gear and cards.' }));
-    for (const id of UNIQUE_IDS) {
-      const b = BOSSES[id];
+  openSheet('Daily hunt', (body, close) => {
+    const render = () => {
+      if (!body.isConnected) return;
+      const s = g.state;
+      const hu = g.hunt();
+      const b = BOSSES[hu.id];
       const z = ZONE_MAP[b.zone];
       const err = g.canEnterZone(b.zone);
-      const left = rareLeft(g.state, id);
-      const r = readiness(g.state, b.zone);
-      const d = danger(r * 0.55);
+      const legend = b.rare === 'legendary';
+      const col = legend ? '#ff9a4d' : '#c78bff';
       const u = b.unique ? ITEMS[b.unique] : undefined;
-      const card = ITEMS[`card_${id}`];
-      body.append(h('div', { class: `card ${err ? 'locked' : ''}`, style: 'padding:8px' },
-        h('div', { class: 'row', style: 'gap:8px;align-items:flex-start' },
-          h('div', { class: 'slotbox', style: 'width:64px;height:64px;overflow:hidden;align-items:end' }, monsterSprite(b, 1.3, 60)),
+      const card = ITEMS[`card_${hu.id}`];
+      const r = readiness(s, b.zone);
+      const d = danger(r * 0.55);
+      body.replaceChildren();
+      body.append(h('p', { class: 'small muted', style: 'line-height:1.45', text: 'Each day one named enemy, chosen at random from twelve, walks the land. It can only be fought for one hour, at a different time every day. It hits far harder than any boss, so bring your best gear and cards.' }));
+      const status = hu.open ? `Here now. Slips away in ${span(hu.endsIn)}.` : hu.startsIn > 0 ? `Appears at ${hhmm(hu.start)} (in ${span(hu.startsIn)}) and stays until ${hhmm(hu.end)}.` : `It has gone for today (it was here ${hhmm(hu.start)}-${hhmm(hu.end)}).`;
+      body.append(h('div', { class: `card hunt-card ${hu.open ? 'live' : ''}`, style: 'padding:10px' },
+        h('div', { class: 'row', style: 'gap:10px;align-items:flex-start' },
+          h('div', { class: `slotbox hunt-pic ${hu.open ? '' : 'dim'}`, style: 'width:88px;height:88px;overflow:hidden;align-items:end' }, monsterSprite(b, 1.6, 82)),
           h('div', { class: 'grow', style: 'min-width:0' },
-            h('b', { style: `color:${b.rare === 'legendary' ? '#ff9a4d' : '#c78bff'}`, text: b.name }),
+            h('b', { style: `color:${col};font-size:16px`, text: b.name }),
             h('div', { class: 'tiny muted', text: `${b.title} · ${z.name} · Lv ${b.level}` }),
-            h('div', { class: 'row', style: 'gap:4px;flex-wrap:wrap;margin-top:3px' },
-              h('span', { class: 'chip', style: `color:${b.rare === 'legendary' ? '#ff9a4d' : '#c78bff'}`, text: b.rare === 'legendary' ? 'Legendary · 1/day' : 'Rare · 2/day' }),
-              err ? null : h('span', { class: `chip ${d.cls}`, text: d.label }),
-              h('span', { class: 'chip', text: `${left}/${rareMax(id)} left` })))),
+            h('div', { class: 'row', style: 'gap:4px;flex-wrap:wrap;margin-top:4px' },
+              h('span', { class: 'chip', style: `color:${col}`, text: legend ? 'Legendary' : 'Rare' }),
+              hu.open ? h('span', { class: 'chip live-chip', text: 'LIVE' }) : null,
+              err || !hu.open ? null : h('span', { class: `chip ${d.cls}`, text: d.label }),
+              hu.kills ? h('span', { class: 'chip', text: `Felled ${hu.kills}x today` }) : null))),
+        h('div', { class: 'small', style: `margin-top:8px;color:${hu.open ? '#8be39a' : 'var(--muted)'}`, text: status }),
         u ? h('div', { class: 'row tiny', style: 'margin-top:6px;gap:6px' }, itemIcon(u.id, undefined, 'sm'), h('span', { class: 'gold', text: `${u.name} · 35% per kill, guaranteed the first time` })) : null,
         card?.card ? h('div', { class: 'row tiny muted', style: 'margin-top:4px;gap:6px' }, cardEl(card.id, 'sm'), h('span', { text: `${card.name}: ${describeFx(card.card.fx).slice(0, 2).join(' · ')}` })) : null,
-        h('button', { class: `btn sm red block ${err || left <= 0 ? 'off' : ''}`, style: 'margin-top:8px', text: err ?? (left <= 0 ? 'Returns tomorrow' : 'Hunt'), onclick: () => {
-          if (err || left <= 0) { toast(err ?? 'Returns tomorrow', 'info'); return; }
-          const e2 = g.start('combat', id);
+        h('button', { class: `btn sm red block ${err || !hu.open ? 'off' : ''}`, style: 'margin-top:8px', text: err ?? (hu.open ? 'Hunt now' : hu.startsIn > 0 ? `Appears at ${hhmm(hu.start)}` : 'Gone until tomorrow'), onclick: () => {
+          if (err || !hu.open) { toast(err ?? (hu.startsIn > 0 ? `Appears at ${hhmm(hu.start)}` : 'Gone until tomorrow'), 'info'); return; }
+          const e2 = g.start('combat', hu.id);
           if (e2) { toast(e2, 'bad'); return; }
-          g.state.zone = b.zone;
+          s.zone = b.zone;
           audio.sfx('ui_confirm'); close(); host.refresh(); onStart?.();
         } })));
-    }
+      body.append(h('div', { class: 'tiny muted', style: 'margin:10px 0 4px', text: 'The twelve who may come' }));
+      body.append(h('div', { class: 'row', style: 'flex-wrap:wrap;gap:6px' }, ...UNIQUE_IDS.map((id) => {
+        const x = BOSSES[id];
+        return h('div', { class: `slotbox sm ${id === hu.id ? 'hi' : ''}`, title: x.name, style: `overflow:hidden;align-items:end;${id === hu.id ? '' : 'opacity:.55'}` }, monsterSprite(x, 0.6, 34));
+      })));
+    };
+    render();
+    let last = g.hunt().open;
+    const iv = setInterval(() => {
+      if (!body.isConnected) { clearInterval(iv); return; }
+      const o = g.hunt().open;
+      if (o !== last) { last = o; render(); }
+    }, 5000);
   });
 }
 

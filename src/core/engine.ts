@@ -9,7 +9,9 @@ import {
   addGear, addGold, addItem, countItem, gainXp, heroDef, itemSellPrice, newGear, sellPrice, takeItem, type Ctx, type GameEvent,
 } from './state';
 import { BAL, eliteChance, hallCost } from './balance';
-import { MERCHANT_EXTEND_MAX, MERCHANT_EXTEND_MIN, ensureDaily, merchantStatus, merchantStock, rareLeft } from './daily';
+import { MERCHANT_EXTEND_MAX, MERCHANT_EXTEND_MIN, ensureDaily, huntStatus, merchantStatus, merchantStock } from './daily';
+
+const clock = (min: number): string => `${String(Math.floor(min / 60)).padStart(2, '0')}:${String(Math.floor(min % 60)).padStart(2, '0')}`;
 import { benchHero, swapParty } from './state';
 import { cardKindForSlot } from '@/data/cards';
 import { socketCount } from './stats';
@@ -91,7 +93,11 @@ export class Game {
       const zone = isZone ? Number(id.slice(5)) : m?.zone;
       if (!zone) return 'Unknown target';
       ensureDaily(s);
-      if (m?.rare && rareLeft(s, m.id) <= 0) return `${m.name} will return tomorrow`;
+      if (m?.rare) {
+        const hunt = huntStatus(s);
+        if (hunt.id !== m.id) return `${m.name} is not abroad today`;
+        if (!hunt.open) return hunt.startsIn > 0 ? `${m.name} appears at ${clock(hunt.start)}` : `${m.name} has gone. It may return another day`;
+      }
       const err = this.canEnterZone(zone);
       if (err && !(m?.boss && id.startsWith('wboss') && zone <= s.zoneUnlocked)) return err;
     }
@@ -167,13 +173,16 @@ export class Game {
     }
     if (a.type === 'combat') {
       if (!this.rt) this.buildCombat();
+      if (this.rt!.enemyDef.rare && !huntStatus(s).open) {
+        this.stop(`${this.rt!.enemyDef.name} has slipped away. The hunt is over for today.`);
+        return;
+      }
       const res = combatStep(s, this.rt!, dt, this.ctx);
       if (res === 'stopped') this.stop('Your party was defeated. Visit Heroes to improve gear, then try again.');
       else if (res === 'bossDown' && this.rt!.enemyDef.rare) {
         const id = this.rt!.enemyDef.id;
         ensureDaily(s);
         s.daily.rare[id] = (s.daily.rare[id] ?? 0) + 1;
-        if (rareLeft(s, id) <= 0) this.stop(`${this.rt!.enemyDef.name} has been vanquished. It returns tomorrow.`);
       }
       return;
     }
@@ -297,6 +306,10 @@ export class Game {
       seconds: cap, capped: seconds > OFFLINE_CAP, items: {}, gear: [], gold: 0, xp: {}, kills: 0, bossKills: 0, wipes: 0, actions: 0, levelUps: [], activityName: this.activityName(),
     };
     const lvStart: Partial<Record<SkillId, number>> = {};
+    if (s.activity?.type === 'combat' && MONSTERS[s.activity.id]?.rare) {
+      this.stop('The hunt only lasts an hour and cannot be run while you are away.');
+      return rep;
+    }
     this.collector = (e) => {
       switch (e.t) {
         case 'item': rep.items[e.id] = (rep.items[e.id] ?? 0) + e.n; break;
@@ -482,8 +495,8 @@ export class Game {
   }
 
   // ---------- daily unique enemies and wandering merchant ----------
-  uniqueLeft(id: string): number {
-    return rareLeft(this.state, id);
+  hunt() {
+    return huntStatus(this.state);
   }
 
   merchant() {

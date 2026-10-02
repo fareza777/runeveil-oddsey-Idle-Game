@@ -328,3 +328,48 @@ textarea.field { min-height: 90px; font-size: 12px; resize: none; }
 .vw { opacity: .32; transition: opacity .25s; }
 .vw.on { opacity: 1; }
 .vobtn { position: absolute; top: calc(var(--safe-top) + 10px); right: 12px; z-index: 3; background: rgba(8,6,20,.7); color: var(--text, #eee); border: 1px solid var(--line); border-radius: 16px; padding: 5px 11px; font-size: 12px; }
+
+/* ---- battle animation pass ---- */
+.arena::before { content: ''; position: absolute; inset: -20% 0 0 0; pointer-events: none; z-index: 1; opacity: .5;
+  background-image: radial-gradient(circle, rgba(255,244,200,.85) 0 1.2px, transparent 2px), radial-gradient(circle, rgba(255,255,255,.55) 0 1px, transparent 1.8px), radial-gradient(circle, rgba(255,230,160,.6) 0 1.6px, transparent 2.4px);
+  background-size: 97px 131px, 151px 187px, 211px 173px; background-position: 10px 20px, 60px 90px, 120px 40px; animation: motes 22s linear infinite; }
+@keyframes motes { to { background-position: 40px -131px, 20px -187px, 90px -173px; } }
+.hero .sprite { animation: breathe 2.4s ease-in-out infinite; animation-delay: var(--d, 0s); transform-origin: 50% 100%; }
+.enemy .sprite { animation: breathe 2.8s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes breathe { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-3px) scale(1.015, .985); } }
+.enemy.hit .sprite { animation: hit .24s; }
+.enemy.hitc .sprite { animation: hitc .34s; }
+.enemy.dead .sprite { animation: die .42s forwards; }
+.enemy.spawn .sprite { animation: spawn .34s cubic-bezier(.2,1.4,.4,1); }
+@keyframes hit { 15% { transform: translateX(-9px) scale(.93, 1.06); filter: brightness(3.2) saturate(.2); } 45% { transform: translateX(6px) scale(1.04, .96); filter: brightness(1.6); } 100% { transform: none; } }
+@keyframes hitc { 12% { transform: translateX(-16px) scale(.88, 1.1) rotate(-3deg); filter: brightness(4) saturate(0); } 40% { transform: translateX(10px) scale(1.08, .93) rotate(2deg); filter: brightness(1.9) sepia(.4); } 70% { transform: translateX(-3px); } 100% { transform: none; } }
+@keyframes die { 25% { transform: scale(1.06); filter: brightness(4) saturate(0); } to { opacity: 0; transform: scale(.55) translateY(24px); filter: brightness(5) blur(4px); } }
+@keyframes spawn { from { opacity: 0; transform: translateY(-34px) scale(1.25); filter: brightness(2.2); } 60% { transform: translateY(4px) scale(.96, 1.04); } }
+.hero.hit .sprite { animation: herohit .26s; }
+@keyframes herohit { 15% { transform: translateX(-8px) scale(.93, 1.06); filter: brightness(2.4) hue-rotate(-30deg) saturate(2); } 50% { transform: translateX(4px); } 100% { transform: none; } }
+.hero.cast .sprite { animation: cast .6s; }
+@keyframes cast { 25% { transform: translateY(-14px) scale(1.16); filter: drop-shadow(0 0 10px var(--gold)) brightness(1.6); } 60% { transform: translateY(-4px) scale(1.06); filter: drop-shadow(0 0 6px var(--gold)) brightness(1.2); } 100% { transform: none; } }
+.hero.down .sprite { transition: transform .5s, opacity .5s, filter .5s; }
+.hero.low .bar.ally { animation: blink .7s infinite; }
+.hero.low .hb { filter: drop-shadow(0 0 5px rgba(255,60,70,.75)); }
+.enemy.aura-rare .body::before, .enemy.aura-legend .body::before, .enemy.aura-boss .body::before { content: ''; position: absolute; left: 50%; top: 50%; width: 150%; height: 120%; transform: translate(-50%, -50%); border-radius: 50%; z-index: -1; pointer-events: none; animation: aura 2.2s ease-in-out infinite; }
+.enemy.aura-rare .body::before { background: radial-gradient(circle, rgba(170,90,255,.55), rgba(120,40,220,.18) 55%, transparent 70%); }
+.enemy.aura-legend .body::before { background: radial-gradient(circle, rgba(255,150,50,.6), rgba(255,80,20,.2) 55%, transparent 70%); }
+.enemy.aura-boss .body::before { background: radial-gradient(circle, rgba(255,70,90,.35), rgba(160,20,40,.14) 55%, transparent 70%); }
+@keyframes aura { 50% { transform: translate(-50%, -50%) scale(1.14); opacity: .75; } }
+.enemy.aura-legend .sprite { filter: drop-shadow(0 0 8px rgba(255,140,40,.8)); }
+.enemy.aura-rare .sprite { filter: drop-shadow(0 0 8px rgba(180,100,255,.8)); }
+.spark { position: absolute; border-radius: 50%; pointer-events: none; z-index: 7; }
+.ringfx { position: absolute; border-radius: 50%; border: 3px solid var(--c); box-shadow: 0 0 12px var(--c), inset 0 0 10px var(--c); pointer-events: none; z-index: 6; }
+.ringfx.flat { border-width: 2px; height: auto !important; aspect-ratio: 3.4 / 1; }
+.starfx { position: absolute; pointer-events: none; z-index: 7; background: conic-gradient(from 0deg, transparent 0 6%, var(--c) 8% 10%, transparent 12% 24%, var(--c) 26% 28%, transparent 30% 49%, var(--c) 51% 53%, transparent 55% 74%, var(--c) 76% 78%, transparent 80%); -webkit-mask: radial-gradient(circle, #000 0 18%, transparent 68%); mask: radial-gradient(circle, #000 0 18%, transparent 68%); filter: drop-shadow(0 0 8px var(--c)); }
+.flashfx { position: absolute; inset: 0; pointer-events: none; z-index: 5; mix-blend-mode: screen; }
+.proj2 { position: absolute; pointer-events: none; z-index: 6; transform-origin: 0 50%; }
+.proj2.magic { width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: radial-gradient(circle, #fff 0 25%, var(--c) 60%, transparent 72%); box-shadow: 0 0 14px 4px var(--c); }
+.proj2.magic::before { content: ''; position: absolute; right: 6px; top: 50%; width: 40px; height: 8px; transform: translateY(-50%); background: linear-gradient(270deg, var(--c), transparent); border-radius: 50%; filter: blur(2px); opacity: .85; }
+.proj2.arrow { width: 34px; height: 3px; margin: -1px 0 0 -17px; border-radius: 2px; background: linear-gradient(90deg, transparent, var(--c) 55%, #fff); box-shadow: 0 0 8px var(--c); }
+.slash2 { position: absolute; pointer-events: none; z-index: 6; border-radius: 50%; border: 6px solid transparent; border-top-color: #fff; border-right-color: var(--c); filter: drop-shadow(0 0 8px var(--c)); }
+.slash2::after { content: ''; position: absolute; inset: 7px; border-radius: 50%; border: 4px solid transparent; border-top-color: var(--c); border-right-color: transparent; opacity: .8; }
+.num.crit { font-size: 30px; color: #ffe27a; animation: critup 1s ease-out forwards; text-shadow: 0 3px 0 #000, 0 0 10px #ff9a2a; }
+@keyframes critup { 0% { opacity: 0; transform: translate(-50%, 10px) scale(.4) rotate(-8deg); } 14% { opacity: 1; transform: translate(-50%, -4px) scale(1.5) rotate(3deg); } 30% { transform: translate(-50%, -6px) scale(1.15); } 100% { opacity: 0; transform: translate(-50%, -58px) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .arena::before, .enemy .body::before { animation: none !important; } }

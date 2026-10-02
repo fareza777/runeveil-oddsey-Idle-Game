@@ -5,7 +5,8 @@ import { openSheet, toast } from './modal';
 import { audio, musicForZone } from './audio';
 import { enemyList } from './bestiary';
 import { huntsSheet, merchantSheet } from './hunts';
-import { merchantStatus } from '@/core/daily';
+import { ArenaFx } from './fx';
+import { huntStatus, merchantStatus } from '@/core/daily';
 import { packAlive } from '@/core/combat';
 import { buzz, danger, moneyEl, readiness } from './common';
 import { host } from './host';
@@ -40,6 +41,9 @@ export class BattleScreen implements Screen {
   private shownZone = 0;
   private enemySig = '';
   private lastHurt = 0;
+  private afx!: ArenaFx;
+  private shotAt = 0;
+  private shotDelay = 0;
   private lastKey = '';
   private partySize = 0;
 
@@ -74,6 +78,7 @@ export class BattleScreen implements Screen {
     }));
     this.arena = h('div', { class: 'arena' }, this.zoneTag, this.killTag, this.enemyWrap, heroes, this.fx);
     this.arena.style.backgroundImage = `url(${zoneBgUrl(zone)})`;
+    this.afx = new ArenaFx(this.arena, this.fx);
 
     this.info = h('div', { class: 'card', style: 'margin:10px 12px 8px' });
     this.loadout = h('div', { class: 'row', style: 'margin:0 12px 6px;gap:8px' });
@@ -115,8 +120,9 @@ export class BattleScreen implements Screen {
       actions.append(h('button', { class: 'btn red grow', text: `Boss: ${boss.name}`, onclick: () => this.begin(boss.id) }));
     }
     const mer = merchantStatus(s);
+    const hunt = huntStatus(s);
     const extra = h('div', { class: 'row', style: 'margin-top:6px' },
-      h('button', { class: 'btn sm grow', text: 'Daily hunts', onclick: () => huntsSheet(() => this.show()) }),
+      h('button', { class: `btn sm grow ${hunt.open ? 'red' : ''}`, text: hunt.open ? 'Daily hunt is LIVE!' : 'Daily hunt', onclick: () => huntsSheet(() => this.show()) }),
       h('button', { class: `btn sm grow ${mer.open ? 'gold' : 'ghost'}`, text: mer.open ? 'Merchant is here!' : 'Merchant', onclick: () => merchantSheet(() => this.renderInfo()) }));
     if (fighting) actions.append(h('button', { class: 'btn ghost', text: 'Stop', onclick: () => { g.stop('You rest.'); host.refresh(); this.show(); } }));
 
@@ -239,6 +245,7 @@ export class BattleScreen implements Screen {
       setBar(he.hp, f.hp / f.maxHp);
       setBar(he.cd, 1 - Math.max(0, f.abilityTimer) / heroDef(host.game.state, i).ability.cd);
       he.root.classList.toggle('down', !f.alive);
+      he.root.classList.toggle('low', f.alive && f.hp / f.maxHp < 0.3);
       this.syncStatuses(he, f);
     });
     if (!fighting) {
@@ -316,7 +323,22 @@ export class BattleScreen implements Screen {
     this.badge.replaceChildren(...[n > 1 ? h('span', { class: 'packbadge', style: 'position:static', text: `x${n}` }) : null, giant ? h('span', { class: 'giantbadge', style: 'position:static', text: 'GIANT' }) : null].filter(Boolean) as HTMLElement[]);
     this.enemyWrap.classList.remove('dead');
     this.enemyWrap.classList.add('spawn');
+    this.enemyWrap.classList.toggle('aura-rare', def.rare === 'rare');
+    this.enemyWrap.classList.toggle('aura-legend', def.rare === 'legendary');
+    this.enemyWrap.classList.toggle('aura-boss', !!def.boss && !def.rare);
     setTimeout(() => this.enemyWrap.classList.remove('spawn'), 320);
+    if (!host.game.state.settings.reduceMotion) {
+      window.setTimeout(() => {
+        const feet = this.afx.at(this.enemyBody, 0.95);
+        this.afx.burst(feet, '#b9a98a', giant || def.boss ? 14 : 7, giant || def.boss ? 60 : 34, { ms: 520, size: 5 });
+        this.afx.ring(feet, '#d8c9a8', giant || def.boss ? 150 : 80, 480, true);
+        if (def.boss || giant) this.afx.shake(giant && !def.boss ? 4 : 6, 300);
+        if (def.rare) {
+          this.afx.flash(def.rare === 'legendary' ? '#ff8a2a' : '#a24dff', 0.4, 900);
+          this.banner(`${def.name}`, true);
+        }
+      }, 60);
+    }
     if (def.boss) audio.playMusic('m_boss');
   }
 
@@ -326,21 +348,44 @@ export class BattleScreen implements Screen {
     const reduce = g.state.settings.reduceMotion;
     switch (e.t) {
       case 'dmg': {
+        const col = e.elem === 'physical' ? '#ffe9b0' : ELEMENT_MAP[e.elem]?.color ?? '#ffe9b0';
         if (e.side === 'enemy') {
+          // Ranged shots land a moment after the swing event, so the impact waits for them.
+          const wait = performance.now() - this.shotAt < 60 ? this.shotDelay : 0;
           if (!e.miss && !e.heal) {
-            this.enemyWrap.classList.remove('hit');
-            if (!reduce) { void this.enemyWrap.offsetWidth; this.enemyWrap.classList.add('hit'); }
+            const impact = () => {
+              this.enemyWrap.classList.remove('hit', 'hitc');
+              if (!reduce) {
+                void this.enemyWrap.offsetWidth; this.enemyWrap.classList.add(e.crit ? 'hitc' : 'hit');
+                const p = this.afx.at(this.enemyBody, 0.5);
+                this.afx.burst(p, col, e.crit ? 16 : 6, e.crit ? 54 : 32);
+                if (e.crit) {
+                  this.afx.star(p, '#ffe27a', 92); this.afx.ring(p, col, 72); this.afx.shake(4, 220);
+                } else if (e.elem !== 'physical') this.afx.ring(p, col, 40, 300);
+              }
+            };
+            if (wait && !reduce) window.setTimeout(impact, wait); else impact();
             audio.sfx(e.crit ? 'hit_heavy' : 'hit', 0.6, e.crit ? 150 : 110);
           }
-          this.floatNum(this.enemyBody, e, 50 + (Math.random() - 0.5) * 30);
+          if (wait && !reduce) window.setTimeout(() => this.floatNum(this.enemyBody, e, 50 + (Math.random() - 0.5) * 30), wait);
+          else this.floatNum(this.enemyBody, e, 50 + (Math.random() - 0.5) * 30);
         } else {
           const he = this.heroEls[e.idx];
           if (he) {
             if (!e.miss && !e.heal) {
               he.root.classList.remove('hit');
-              if (!reduce) { void he.root.offsetWidth; he.root.classList.add('hit'); }
+              if (!reduce) {
+                void he.root.offsetWidth; he.root.classList.add('hit');
+                const p = this.afx.at(he.root, 0.45);
+                this.afx.burst(p, '#ff6a6a', 5, 26);
+                this.afx.shake(e.crit ? 5 : 2.5, 200);
+                this.afx.flash('#ff2a3a', e.crit ? 0.3 : 0.14, 300);
+              }
               const now = performance.now();
               if (now - this.lastHurt > 300) { this.lastHurt = now; audio.sfx('player_hurt', 0.5); buzz('light'); }
+            } else if (e.heal && !reduce) {
+              this.afx.burst(this.afx.at(he.root, 0.6), '#7dffa0', 6, 28, { up: true, size: 5, ms: 650 });
+              this.afx.ring(this.afx.at(he.root, 0.92), '#7dffa0', 60, 500, true);
             }
             this.floatNum(he.root, e, 50);
           }
@@ -354,12 +399,32 @@ export class BattleScreen implements Screen {
         if (he && !reduce) {
           he.root.classList.remove('cast'); void he.root.offsetWidth; he.root.classList.add('cast');
           this.floatText(he.root, e.name);
-        } else if (e.idx < 0) this.banner(e.name, true);
+          const feet = this.afx.at(he.root, 0.92);
+          this.afx.ring(feet, '#ffd45a', 90, 600, true);
+          this.afx.ring(feet, '#fff3b0', 54, 450, true);
+          this.afx.burst(this.afx.at(he.root, 0.7), '#ffd45a', 12, 44, { up: true, size: 5, ms: 700 });
+          this.afx.flash('#ffd45a', 0.16, 380);
+        } else if (e.idx < 0) {
+          this.banner(e.name, true);
+          if (!reduce) {
+            this.afx.flash('#ff2a3a', 0.34, 520);
+            this.afx.shake(7, 360);
+            this.afx.ring(this.afx.at(this.enemyBody, 0.6), '#ff5a6a', 120, 560);
+          }
+        }
         break;
       }
-      case 'kill':
+      case 'kill': {
         audio.sfx(e.boss ? 'boss_death' : 'enemy_death', 0.7);
+        if (!reduce) {
+          const p = this.afx.at(this.enemyBody, 0.55);
+          this.afx.burst(p, '#ffe9b0', e.boss ? 26 : 12, e.boss ? 90 : 52, { ms: 600, size: 5 });
+          this.afx.burst(p, '#f2c75c', e.boss ? 14 : 6, e.boss ? 70 : 40, { ms: 700 });
+          this.afx.ring(p, '#ffe9b0', e.boss ? 150 : 84, e.boss ? 620 : 420);
+          if (e.boss) { this.afx.shake(9, 420); this.afx.flash('#ffffff', 0.4, 520); }
+        }
         break;
+      }
       case 'boss':
         if (e.first) { this.banner('Boss defeated!'); audio.sfx('quest_complete'); buzz('heavy'); }
         break;
@@ -383,45 +448,37 @@ export class BattleScreen implements Screen {
     }
   }
 
-  /** Attack animation: the attacker lunges and a slash or projectile travels to the target. */
+  /** Attack animation: the attacker dashes or recoils, and a slash or comet reaches the target. */
   private swing(e: Extract<GameEvent, { t: 'swing' }>) {
-    if (this.fx.childElementCount > 20) return;
-    const a = this.arena.getBoundingClientRect();
     const col = ELEMENT_MAP[e.elem]?.color ?? '#ffffff';
-    const centre = (r: DOMRect, fy: number) => ({ x: r.left - a.left + r.width / 2, y: r.top - a.top + r.height * fy });
-    const play = (el: HTMLElement, frames: Keyframe[], ms: number) => {
-      this.fx.appendChild(el);
-      const an = el.animate(frames, { duration: ms, easing: 'ease-out', fill: 'forwards' });
-      an.onfinish = () => el.remove();
-    };
     if (e.side === 'hero') {
       const he = this.heroEls[e.idx];
       if (!he) return;
-      he.root.classList.remove('atk'); void he.root.offsetWidth; he.root.classList.add('atk');
-      const from = centre(he.root.getBoundingClientRect(), 0.28);
-      const to = centre(this.enemyBody.getBoundingClientRect(), 0.5);
+      const hb = he.root.querySelector('.hb') as HTMLElement | null;
+      const from = this.afx.at(he.root, 0.28);
+      const to = this.afx.at(this.enemyBody, 0.5);
+      const dx = to.x - from.x; const dy = to.y - from.y;
       if (e.style === 'melee') {
-        const s = h('div', { class: 'slashfx' });
-        s.style.setProperty('--c', col);
-        s.style.left = `${to.x - 35}px`; s.style.top = `${to.y - 35}px`;
-        play(s, [{ transform: 'rotate(-60deg) scale(.4)', opacity: 0 }, { transform: 'rotate(10deg) scale(1.05)', opacity: 1, offset: 0.4 }, { transform: 'rotate(50deg) scale(1.2)', opacity: 0 }], 300);
+        if (hb) this.afx.lunge(hb, dx * 0.5, dy * 0.55, 360);
+        window.setTimeout(() => this.afx.slash(to, col === '#ffffff' ? '#fff6d8' : col, e.idx % 2 === 1, 88), 120);
+        this.shotAt = performance.now(); this.shotDelay = 130;
       } else {
-        const ang = Math.atan2(to.y - from.y, to.x - from.x);
-        const p = h('div', { class: `proj ${e.style === 'ranged' ? 'arrow' : ''}` });
-        p.style.setProperty('--c', e.style === 'ranged' ? '#f0e6c8' : col);
-        p.style.left = `${from.x - 6}px`; p.style.top = `${from.y - 2}px`;
-        const rot = e.style === 'ranged' ? ` rotate(${ang}rad)` : '';
-        play(p, [{ transform: `translate(0,0)${rot} scale(.8)`, opacity: 1 }, { transform: `translate(${to.x - from.x}px,${to.y - from.y}px)${rot} scale(1.1)`, opacity: 1, offset: 0.85 }, { transform: `translate(${to.x - from.x}px,${to.y - from.y}px)${rot} scale(1.8)`, opacity: 0 }], 280);
+        if (hb) this.afx.lunge(hb, -dx * 0.03, 4, 300);
+        const ms = e.style === 'ranged' ? 260 : 330;
+        const c = e.style === 'ranged' ? '#f0e6c8' : col === '#ffffff' ? '#b9a6ff' : col;
+        this.afx.burst({ x: from.x + 10, y: from.y }, c, 4, 18, { ms: 300, size: 3 });
+        this.afx.shot(from, to, c, e.style === 'ranged' ? 'arrow' : 'magic', ms, () => {});
+        this.shotAt = performance.now(); this.shotDelay = ms * 0.88;
       }
     } else {
-      this.enemyWrap.classList.remove('foe'); void this.enemyWrap.offsetWidth; this.enemyWrap.classList.add('foe');
       const he = this.heroEls[e.idx];
+      const body = this.enemyBody.querySelector('.sprite') as HTMLElement | null;
+      const from = this.afx.at(this.enemyBody, 0.5);
+      const to = he ? this.afx.at(he.root, 0.45) : from;
+      if (body) this.afx.lunge(body, (to.x - from.x) * 0.22, (to.y - from.y) * 0.3, 380);
       if (he) {
-        const to = centre(he.root.getBoundingClientRect(), 0.4);
-        const s = h('div', { class: 'slashfx foe' });
-        s.style.setProperty('--c', col === '#ffffff' ? '#ff8a8a' : col);
-        s.style.left = `${to.x - 30}px`; s.style.top = `${to.y - 30}px`;
-        play(s, [{ transform: 'rotate(120deg) scale(.4)', opacity: 0 }, { transform: 'rotate(40deg) scale(1)', opacity: 1, offset: 0.4 }, { transform: 'rotate(-10deg) scale(1.1)', opacity: 0 }], 320);
+        const c = col === '#ffffff' ? '#ff8a8a' : col;
+        window.setTimeout(() => this.afx.slash(to, c, true, 72), 140);
       }
     }
   }
@@ -459,6 +516,7 @@ export class BattleScreen implements Screen {
 
   private banner(text: string, bad = false) {
     const b = h('div', { class: `banner ${bad ? 'bad' : ''}`, text });
+    if (text.length > 16) b.style.fontSize = text.length > 24 ? '19px' : '24px';
     this.arena.appendChild(b);
     setTimeout(() => b.remove(), 1850);
   }

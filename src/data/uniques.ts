@@ -68,7 +68,7 @@ for (const [bossId, name, typeKey, icon, element, apply, desc] of UNIQUES) {
   const base = gearBase(type, t);
   for (const k of Object.keys(base) as (keyof typeof base)[]) base[k] = Math.round((base[k] ?? 0) * 1.35 * 10) / 10;
   const def: ItemDef = {
-    id: `uni_${bossId}`, name, kind: 'equip', tier: t, icon: `img:${icon.replace(/^(img:)?unique_(u_)?/, 'unique_u_')}`, value: Math.round(60 * Math.pow(1.3, t) * econScale(zoneOfTier(t))),
+    id: `uni_${bossId}`, name, kind: 'equip', tier: t, icon: `img:${icon.replace(/^img:/, '').replace(/^unique_(u_)?/, 'unique_u_')}`, value: Math.round(60 * Math.pow(1.3, t) * econScale(zoneOfTier(t))),
     slot: type.slot, style: type.style, weaponKind: type.slot === 'weapon' ? typeKey : undefined, base, element, apply, unique: true, desc, tag: typeKey,
   };
   add(def);
