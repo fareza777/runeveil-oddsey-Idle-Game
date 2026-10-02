@@ -1,0 +1,11 @@
+import puppeteer from 'puppeteer-core';
+const b=await puppeteer.connect({browserURL:'http://127.0.0.1:9333',defaultViewport:null});
+const ps=await b.pages(); console.log(ps.length, ps.map(p=>p.url()));
+const p=ps[0];
+await p.evaluate(()=>[...document.querySelectorAll('.nav button')].find(x=>x.textContent.includes('Skills'))?.click());
+await new Promise(r=>setTimeout(r,500));
+await p.evaluate(()=>[...document.querySelectorAll('.skillcard')].find(x=>x.textContent.includes('Mining'))?.click());
+await new Promise(r=>setTimeout(r,500));
+await p.evaluate(()=>[...document.querySelectorAll('button')].find(x=>x.textContent==='Start')?.click());
+await new Promise(r=>setTimeout(r,2500));
+b.disconnect();
