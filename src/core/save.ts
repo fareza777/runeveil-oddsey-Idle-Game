@@ -51,6 +51,8 @@ export function migrate(raw: Partial<GameState>): GameState {
   s.bench = [...spare, ...overflow].filter((h, i, a) => a.findIndex((x) => x.id === h.id) === i && !s.heroes.some((x) => x.id === h.id));
   s.daily = { day: '', rare: {}, ...(raw.daily ?? {}) };
   s.merchant = { day: '', bought: [], extraMin: 0, ...(raw.merchant ?? {}) };
+  s.plan = raw.plan ?? null;
+  if (s.plan) s.plan.on = !!s.plan.on;
   s.cardsFound = { ...(raw.cardsFound ?? {}) };
   s.hall = { ...(raw.hall ?? {}) };
   s.v = GAME_VERSION;

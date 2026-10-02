@@ -60,7 +60,7 @@ export function newState(name = 'Wayfarer', seed = (Date.now() ^ 0x9e3779b9) >>>
     daily: { day: '', rare: {} }, merchant: { day: '', bought: [], extraMin: 0 }, cardsFound: {},
     stacks: { cfish_0: 6 }, gear: [], gold: 50, gems: 0, activity: null, zone: 1, zoneUnlocked: 1,
     kills: {}, bossKills: {}, loadout: { food: null, potion: null }, buffs: [], xpBoost: null,
-    quests: { done: [], active: ['main_0'], progress: {} }, codex: { items: {}, monsters: {} }, stats: {}, uidSeq: 1, tutorial: 0, seed, achievements: [], gatherCounts: {},
+    quests: { done: [], active: ['main_0'], progress: {} }, codex: { items: {}, monsters: {} }, stats: {}, uidSeq: 1, tutorial: 0, plan: null, seed, achievements: [], gatherCounts: {},
   };
 }
 

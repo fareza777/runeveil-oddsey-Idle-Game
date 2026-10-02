@@ -6,6 +6,7 @@ import { audio, musicForZone } from './audio';
 import { enemyList } from './bestiary';
 import { huntsSheet, merchantSheet } from './hunts';
 import { ArenaFx } from './fx';
+import { planSheet } from './plan';
 import { huntStatus, merchantStatus } from '@/core/daily';
 import { packAlive } from '@/core/combat';
 import { buzz, danger, moneyEl, readiness } from './common';
@@ -123,8 +124,9 @@ export class BattleScreen implements Screen {
     const hunt = huntStatus(s);
     const extra = h('div', { class: 'row', style: 'margin-top:6px' },
       h('button', { class: `btn sm grow ${hunt.open ? 'red' : ''}`, text: hunt.open ? 'Daily hunt is LIVE!' : 'Daily hunt', onclick: () => huntsSheet(() => this.show()) }),
+      h('button', { class: `btn sm grow ${s.plan?.on ? 'green' : ''}`, text: s.plan?.on ? 'Auto plan: ON' : 'Auto plan', onclick: () => planSheet() }),
       h('button', { class: `btn sm grow ${mer.open ? 'gold' : 'ghost'}`, text: mer.open ? 'Merchant is here!' : 'Merchant', onclick: () => merchantSheet(() => this.renderInfo()) }));
-    if (fighting) actions.append(h('button', { class: 'btn ghost', text: 'Stop', onclick: () => { g.stop('You rest.'); host.refresh(); this.show(); } }));
+    if (fighting) actions.append(h('button', { class: 'btn ghost', text: 'Stop', onclick: () => { g.userStop('You rest.'); host.refresh(); this.show(); } }));
 
     mount(this.info,
       h('div', { class: 'row' },
@@ -136,7 +138,7 @@ export class BattleScreen implements Screen {
 
   private key(): string {
     const g = host.game;
-    return `${g.state.activity?.type}|${g.state.activity?.id}|${g.rt?.boss}|${g.state.zone}|${g.state.heroes.length}`;
+    return `${g.state.activity?.type}|${g.state.activity?.id}|${g.rt?.boss}|${g.state.zone}|${g.state.heroes.length}|${g.state.plan?.on ? 1 : 0}`;
   }
 
   private begin(id: string) {

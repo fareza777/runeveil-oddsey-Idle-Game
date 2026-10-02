@@ -373,3 +373,10 @@ textarea.field { min-height: 90px; font-size: 12px; resize: none; }
 .num.crit { font-size: 30px; color: #ffe27a; animation: critup 1s ease-out forwards; text-shadow: 0 3px 0 #000, 0 0 10px #ff9a2a; }
 @keyframes critup { 0% { opacity: 0; transform: translate(-50%, 10px) scale(.4) rotate(-8deg); } 14% { opacity: 1; transform: translate(-50%, -4px) scale(1.5) rotate(3deg); } 30% { transform: translate(-50%, -6px) scale(1.15); } 100% { opacity: 0; transform: translate(-50%, -58px) scale(1); } }
 @media (prefers-reduced-motion: reduce) { .arena::before, .enemy .body::before { animation: none !important; } }
+
+/* ---- auto plan ---- */
+.sel { background: #1b1538; color: #f1ecff; border: 1px solid var(--line); border-radius: 8px; padding: 7px 6px; font-size: 13px; min-width: 0; max-width: 100%; font-family: inherit; }
+.sel.grow { flex: 1 1 0; }
+.plan-step { padding: 8px; }
+.plan-n { width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: #1a1230; display: inline-grid; place-items: center; font-size: 12px; flex: none; }
+.plan-live { border-color: #3c8a56; background: linear-gradient(#17301f, #121027); padding: 10px; }

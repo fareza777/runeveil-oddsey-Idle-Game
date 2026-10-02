@@ -56,7 +56,7 @@ export class QuestsScreen implements Screen {
     const guide = guideFor(s, q, i);
     if (!guide) return null;
     const act = s.activity;
-    const running = !!act && guide.kind !== 'open' && act.type === guide.kind && (act.id === guide.id || (guide.kind === 'combat' && act.id.startsWith('zone:') && guide.id === act.id));
+    const running = !!act && !!guide.chain && act.chain?.id === guide.chain.id || !!act && guide.kind !== 'open' && act.type === guide.kind && (act.id === guide.id || (guide.kind === 'combat' && act.id.startsWith('zone:') && guide.id === act.id));
     return h('div', { class: 'row', style: 'margin-top:8px;gap:8px;padding:8px;border-radius:8px;background:#1b1538;border:1px solid var(--line)' },
       h('div', { class: 'grow small', style: 'line-height:1.35' }, h('b', { text: 'Next: ' }), guide.label),
       h('button', { class: `btn sm ${running ? 'off' : 'gold'}`, text: running ? 'Running' : guide.kind === 'open' ? 'Open' : 'Go', onclick: () => this.go(guide) }));
@@ -66,6 +66,15 @@ export class QuestsScreen implements Screen {
     const g = host.game;
     audio.sfx('ui_click');
     if (guide.kind === 'open') { host.openSkill(guide.skill ?? (guide.id as SkillId)); return; }
+    if (guide.chain) {
+      const cerr = g.startChain(guide.chain.id, guide.chain.n);
+      if (!cerr) {
+        audio.sfx('ui_confirm'); host.refresh();
+        const sk = RECIPE_MAP[guide.chain.id]?.skill;
+        if (sk) host.openSkill(sk); else this.show();
+        return;
+      }
+    }
     if (guide.kind === 'combat') {
       const zone = guide.id.startsWith('zone:') ? Number(guide.id.slice(5)) : MONSTERS[guide.id]?.zone;
       if (zone) g.state.zone = zone;

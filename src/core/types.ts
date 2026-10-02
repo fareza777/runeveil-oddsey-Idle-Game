@@ -231,6 +231,8 @@ export interface ActivityState {
   progress: number;
   zone?: number;
   boss?: boolean;
+  /** Set while the game gathers and crafts the missing pieces for a craft. `repeat` restarts the count (used by plans). */
+  chain?: { id: string; n: number; made: number; repeat?: boolean };
 }
 
 export interface Settings {
@@ -291,6 +293,8 @@ export interface GameState {
   stats: Record<string, number>;
   uidSeq: number;
   tutorial: number;
+  /** Timed auto plan: a short list of activities that run one after another. */
+  plan: AutoPlan | null;
   seed: number;
   achievements: string[];
   gatherCounts: Record<string, number>;
@@ -319,3 +323,18 @@ export interface OfflineReport {
   activityName: string;
 }
 
+
+
+export interface PlanStep { kind: ActivityType; id: string; min: number }
+export interface AutoPlan {
+  steps: PlanStep[];
+  loop: boolean;
+  on: boolean;
+  idx: number;
+  /** Seconds left in the current step. */
+  stepLeft: number;
+  /** Seconds the plan may still run before it stops by itself. */
+  budget: number;
+  extended: number;
+  note: string;
+}

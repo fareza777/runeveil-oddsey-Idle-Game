@@ -6,6 +6,7 @@ import { costChip, goldChip, moneyText } from './common';
 import { audio } from './audio';
 import { host } from './host';
 import { stackSheet } from './itemSheet';
+import { chainNext, missingFor } from '@/core/chain';
 import type { Screen } from './screen';
 import { GATHER, GATHER_MAP, HEROES, ITEMS, rarity, RECIPES, RECIPE_MAP, SKILLS, SKILL_MAP, MAX_LEVEL } from '@/data';
 import { skillXpOf, countItem, type GameEvent } from '@/core/state';
@@ -30,7 +31,7 @@ for (const r of RECIPES) {
   }
 }
 
-type Row = { id: string; kind: 'gather' | 'craft'; bar: HTMLElement; btn: HTMLButtonElement; costs?: HTMLElement; recipe?: RecipeDef };
+type Row = { id: string; kind: 'gather' | 'craft'; bar: HTMLElement; btn: HTMLButtonElement; costs?: HTMLElement; miss?: HTMLElement; recipe?: RecipeDef };
 
 export class SkillsScreen implements Screen {
   el = h('div', { class: 'screen' });
@@ -171,11 +172,13 @@ export class SkillsScreen implements Screen {
   private begin(type: 'gather' | 'craft', id: string) {
     const g = host.game;
     const active = g.state.activity;
-    if (active?.type === type && active.id === id) {
-      g.stop('Stopped');
+    if ((active?.type === type && active.id === id) || (type === 'craft' && active?.chain?.id === id)) {
+      g.userStop('Stopped');
     } else {
-      const err = g.start(type, id);
+      const r = type === 'craft' ? RECIPE_MAP[id] : null;
+      const err = r && !g.canAfford(r) ? g.startChain(id, 1) : g.start(type, id);
       if (err) { toast(err, 'bad'); return; }
+      if (r && !g.canAfford(r)) toast(`Gathering what ${r.name} needs first. It will craft by itself when ready.`, 'info');
       audio.sfx(type === 'gather' ? 'harvest' : 'anvil', 0.6);
       this.el.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -219,13 +222,15 @@ export class SkillsScreen implements Screen {
       const marks = [3, 5, 8, 12, 16, 20].filter((m) => m <= maxR).slice(-3);
       oddsText = `Odds: ${marks.map((m) => `${rarity(m).name}+ ${pct(m)}`).join(' · ')}${marks.length ? ' · ' : ''}best ${rarity(maxR).name}`;
     }
-    this.rows.push({ id: r.id, kind: 'craft', bar: pr, btn, costs, recipe: r });
+    const miss = h('div', { class: 'small', style: 'margin-top:4px;color:#ffb27a;display:none' });
+    this.rows.push({ id: r.id, kind: 'craft', bar: pr, btn, costs, miss, recipe: r });
     const row = h('div', { class: `card ${locked ? 'locked' : ''}` },
       h('div', { class: 'item' }, out ? itemIcon(out.id, undefined, '') : ico(r.icon, 'lg'),
         h('div', { class: 'meta' }, h('b', { text: r.name }), h('span', { text: locked ? `Requires level ${r.level}` : `${fmtTime(g.actionTime(r.time))} · ${fmt(r.xp)} XP${r.outGold ? ` · sells ${moneyText(r.outGold)}` : ''}` })),
         locked ? h('span', { class: 'chip', text: `Lv ${r.level}` }) : btn),
       locked || !oddsText ? null : h('div', { class: 'small muted', style: 'margin-top:4px', text: oddsText }),
       locked ? null : costs,
+      locked ? null : miss,
       locked ? null : h('div', { style: 'margin-top:6px' }, pr));
     if (!locked) this.renderCosts(r, costs);
     return row;
@@ -262,14 +267,16 @@ export class SkillsScreen implements Screen {
     const act = g.state.activity;
     const refreshCosts = force || this.tick % 8 === 0;
     for (const r of this.rows) {
-      const on = act && act.type === r.kind && act.id === r.id;
+      const exact = !!act && act.type === r.kind && act.id === r.id;
+      const on = exact || (!!act && r.kind === 'craft' && act.chain?.id === r.id);
       let frac = 0;
-      if (on) {
+      if (exact && act) {
         const base = r.kind === 'gather' ? GATHER.find((x) => x.id === r.id)!.time : r.recipe!.time;
         frac = act.progress / g.actionTime(base);
       }
       setBar(r.bar, frac);
-      const txt = on ? 'Stop' : r.kind === 'gather' ? 'Start' : 'Craft';
+      const can = !r.recipe || g.canAfford(r.recipe);
+      const txt = on ? 'Stop' : r.kind === 'gather' ? 'Start' : can ? 'Craft' : 'Auto-make';
       if (r.btn.textContent !== txt) {
         r.btn.textContent = txt;
         r.btn.classList.toggle('red', !!on);
@@ -277,7 +284,13 @@ export class SkillsScreen implements Screen {
       }
       if (r.recipe && r.costs && refreshCosts) {
         this.renderCosts(r.recipe, r.costs);
-        r.btn.classList.toggle('off', !on && !g.canAfford(r.recipe));
+        const plan = !on && !can ? chainNext(g.state, r.recipe.id, 1) : null;
+        r.btn.classList.toggle('off', !on && !can && plan?.kind === 'fail');
+        if (r.miss) {
+          const show = !on && !can;
+          r.miss.style.display = show ? 'block' : 'none';
+          if (show) r.miss.textContent = plan?.kind === 'fail' ? `Missing ${missingFor(g.state, r.recipe.id)}. ${plan.reason}.` : `Missing ${missingFor(g.state, r.recipe.id)}. Tap Auto-make and the game gathers and prepares it for you.`;
+        }
       }
     }
   }

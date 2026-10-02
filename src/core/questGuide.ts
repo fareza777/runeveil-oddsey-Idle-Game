@@ -1,6 +1,6 @@
 import type { GameState, QuestDef, SkillId } from './types';
 import { GATHER, MONSTERS, RECIPES, RECIPE_MAP, GATHER_MAP, ITEMS, SKILL_MAP, ZONES } from '@/data';
-import { stepDone } from './questSys';
+import { stepDone, stepProgress } from './questSys';
 import { countItem, heroDef } from './state';
 import { gearTierForLevel } from './balance';
 import { GEAR_TYPE_MAP } from '@/data/gear';
@@ -13,6 +13,8 @@ export interface Guide {
   skill?: SkillId;
   /** Short hint, e.g. "Mine Copper Outcrop" or "Needs 4 more Copper Ore". */
   label: string;
+  /** When set, Go makes the whole recipe: it gathers and crafts what is missing, then crafts `n`. */
+  chain?: { id: string; n: number };
 }
 
 const COMBAT_SKILLS: SkillId[] = ['combat', 'marksmanship', 'arcana', 'fortitude'];
@@ -170,7 +172,12 @@ export function guideFor(s: GameState, q: QuestDef, i: number): Guide | null {
       }
       return guideItem(s, st.target ?? '');
     }
-    case 'craft': return guideRecipe(s, st.target ?? '');
+    case 'craft': {
+      const g = guideRecipe(s, st.target ?? '');
+      if (!g || !RECIPE_MAP[st.target ?? '']) return g;
+      const left = Math.max(1, st.n - stepProgress(s, q, i));
+      return { ...g, chain: { id: st.target!, n: left }, label: `Craft ${RECIPE_MAP[st.target!].name}${left > 1 ? ` x${left}` : ''}: the game gathers what is missing` };
+    }
     case 'own': return guideItem(s, st.target ?? '');
     case 'skill': return guideSkill(s, st.target as SkillId);
     case 'heroLevel': case 'gold': case 'zone': return fight(s, bestZone(s), 'Fight in your best zone');

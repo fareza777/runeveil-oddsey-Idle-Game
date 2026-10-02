@@ -13,8 +13,10 @@ import { MoreScreen } from './more';
 import { Game } from '@/core/engine';
 import { saveState } from '@/core/save';
 import { huntStatus, todayKey } from '@/core/daily';
-import { readyCount } from '@/core/questSys';
-import { BOSSES, GATHER_MAP, HERO_MAP, ITEMS, MONSTERS, RECIPE_MAP, SKILL_MAP } from '@/data';
+import { fmtMin } from '@/core/plan';
+import { readyCount, stepDone } from '@/core/questSys';
+import { guideFor } from '@/core/questGuide';
+import { BOSSES, GATHER_MAP, HERO_MAP, ITEMS, MONSTERS, QUEST_MAP, RECIPE_MAP, SKILL_MAP } from '@/data';
 import { moneyEl, moneyText } from './common';
 import type { GameEvent } from '@/core/state';
 import type { GameState, OfflineReport } from '@/core/types';
@@ -32,11 +34,41 @@ const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: 'more', label: 'More', icon: 'img:ui_icon_settings' },
 ];
 
-const HINTS: { text: string; tab: TabId; done: (s: GameState) => boolean }[] = [
+interface Hint {
+  text: string | ((s: GameState) => string);
+  tab: TabId;
+  /** Starts something for the player when Go is pressed, instead of only opening a tab. */
+  run?: (g: Game) => string | null;
+  /** The hint is satisfied (and the next one appears) when this is true. */
+  done: (s: GameState) => boolean;
+  /** Shown on the Go button while `busy` is true. */
+  busy?: (s: GameState) => boolean;
+}
+
+const startFirstQuestStep = (g: Game): string | null => {
+  const s = g.state;
+  for (const id of s.quests.active) {
+    const q = QUEST_MAP[id];
+    if (!q) continue;
+    const i = q.steps.findIndex((_, k) => !stepDone(s, q, k));
+    const guide = i >= 0 ? guideFor(s, q, i) : null;
+    if (!guide || guide.kind === 'open') continue;
+    if (guide.chain) return g.startChain(guide.chain.id, guide.chain.n);
+    if (guide.kind === 'combat' && guide.id.startsWith('zone:')) s.zone = Number(guide.id.slice(5));
+    return g.start(guide.kind, guide.id);
+  }
+  return null;
+};
+
+const gearMade = (s: GameState) => (s.stats.made_craft_sword_1 ?? 0) > 0;
+const HINTS: Hint[] = [
   { text: 'Welcome to Runeveil! You start alone. Tap Battle! to fight in the Greenhollow Vale. More heroes join through quests.', tab: 'battle', done: (s) => !!s.activity || (s.stats.kills ?? 0) > 0 },
-  { text: 'Only one activity runs at a time. Open Quests: the "Next" line shows what to do, and Go starts it for you.', tab: 'quests', done: (s) => s.quests.done.length > 0 || (s.stats.gathers ?? 0) > 0 },
-  { text: 'Open Skills to gather (Mining, Woodcutting) and craft. Gathered goods feed crafting.', tab: 'skills', done: (s) => (s.stats.gathers ?? 0) > 0 },
-  { text: 'Craft gear in Smithing or Carpentry, then equip it from Heroes with Auto-equip.', tab: 'heroes', done: (s) => (s.stats.crafts ?? 0) > 0 },
+  { text: 'Only one activity runs at a time. Tap Go and the game starts your first quest task. Later, the "Next" line in Quests always tells you what to do.', tab: 'quests', run: startFirstQuestStep, done: (s) => s.quests.done.length > 0 || (s.stats.gathers ?? 0) > 0 },
+  {
+    text: (s) => (s.activity?.chain?.id === 'craft_sword_1' ? 'Making your first Copper Sword. The game mines the ore, smelts the bars and forges the sword for you. Just watch!' : 'Your first gear: tap Go and the game will mine ore, smelt bars and forge a Copper Sword for you, all by itself.'),
+    tab: 'skills', run: (g) => (g.state.activity?.chain?.id === 'craft_sword_1' ? null : g.startChain('craft_sword_1', 1)), done: gearMade, busy: (s) => s.activity?.chain?.id === 'craft_sword_1',
+  },
+  { text: 'The sword is ready! Open Heroes and tap Auto-equip so your party wears it. Crafting anything works the same way: tap Auto-make and the game gathers what is missing.', tab: 'heroes', done: (s) => (s.stats.sawHeroes ?? 0) > 0 },
 ];
 
 export class AppShell {
@@ -83,7 +115,7 @@ export class AppShell {
     this.actBar = bar('act thin', 0);
     this.actbar = h('div', { class: 'row', style: 'padding:5px 12px;background:#0f0b22;border-bottom:1px solid var(--line);gap:10px;display:none' },
       this.actName, h('div', { style: 'width:90px' }, this.actBar),
-      h('button', { class: 'btn sm ghost', text: 'Stop', onclick: () => { this.game.stop('Stopped'); this.refreshTop(true); this.screens[this.tab].show(); } }));
+      h('button', { class: 'btn sm ghost', text: 'Stop', onclick: () => { this.game.userStop('Stopped'); this.refreshTop(true); this.screens[this.tab].show(); } }));
     const top = h('div', { class: 'top' }, this.topTitle, h('span', { class: 'res', title: 'Silver · 10,000 silver = 1 gold · 10,000 gold = 1 platinum' }, this.topGold));
     this.main = h('div', { id: 'main' }, ...Object.values(this.screens).map((sc) => { sc.el.style.display = 'none'; return sc.el; }));
     this.nav = h('div', { class: 'nav' }, ...TABS.map((t) => {
@@ -121,6 +153,7 @@ export class AppShell {
   // ---------- navigation ----------
   go(tab: TabId) {
     this.tab = tab;
+    if (tab === 'heroes' && this.game.state.tutorial >= 3 && (gearMade(this.game.state))) this.game.state.stats.sawHeroes = 1;
     for (const [id, sc] of Object.entries(this.screens)) sc.el.style.display = id === tab ? '' : 'none';
     for (const [id, b] of this.navBtns) b.classList.toggle('on', id === tab);
     this.screens[tab].show();
@@ -211,10 +244,10 @@ export class AppShell {
         const e = rt?.enemy;
         const act = this.game.activityName();
         const foe = e ? (MONSTERS[rt!.monsterId]?.name ?? '') : '';
-        this.actName.textContent = `Fighting · ${act}${foe && foe !== act ? ` · ${foe}` : ''}`;
+        this.actName.textContent = `Fighting · ${act}${foe && foe !== act ? ` · ${foe}` : ''}${this.planTag()}`;
         setBar(this.actBar, e ? e.hp / e.maxHp : 0);
       } else {
-        this.actName.textContent = `${a.type === 'gather' ? 'Gathering' : 'Crafting'} · ${this.game.activityName()}`;
+        this.actName.textContent = `${a.type === 'gather' ? 'Gathering' : 'Crafting'} · ${this.game.activityName()}${a.chain ? ` for ${RECIPE_MAP[a.chain.id]?.name ?? ''}` : ''}${this.planTag()}`;
         setBar(this.actBar, this.progressFrac());
       }
     }
@@ -227,6 +260,11 @@ export class AppShell {
       if (rc > 0) b.append(h('i', { class: 'dot', text: String(rc) }));
     }
     this.syncHint();
+  }
+
+  private planTag(): string {
+    const p = this.game.state.plan;
+    return p?.on ? ` · Plan ${p.idx + 1}/${p.steps.length}, ${fmtMin(Math.ceil(p.stepLeft / 60))} left` : '';
   }
 
   private progressFrac(): number {
@@ -247,11 +285,27 @@ export class AppShell {
       this.hintEl = null;
       return;
     }
-    if (this.hintEl && this.hintEl.dataset.i === String(i)) return;
-    this.hintEl?.remove();
     const hint = HINTS[i];
-    this.hintEl = h('div', { class: 'hint', 'data-i': String(i) }, ico('img:ui_icon_flare'), h('div', { class: 'grow', text: hint.text }),
-      h('button', { class: 'btn sm gold', text: 'Go', onclick: () => { this.go(hint.tab); } }),
+    const text = typeof hint.text === 'function' ? hint.text(s) : hint.text;
+    const busy = !!hint.busy?.(s);
+    if (this.hintEl && this.hintEl.dataset.i === String(i)) {
+      const tx = this.hintEl.querySelector('.grow');
+      if (tx && tx.textContent !== text) tx.textContent = text;
+      const gb = this.hintEl.querySelector('.btn') as HTMLElement | null;
+      if (gb) { gb.textContent = busy ? 'Working...' : 'Go'; gb.classList.toggle('off', busy); }
+      return;
+    }
+    this.hintEl?.remove();
+    this.hintEl = h('div', { class: 'hint', 'data-i': String(i) }, ico('img:ui_icon_flare'), h('div', { class: 'grow', text }),
+      h('button', { class: 'btn sm gold', text: busy ? 'Working...' : 'Go', onclick: () => {
+        if (hint.run) {
+          const err = hint.run(this.game);
+          if (err) { toast(err, 'bad'); return; }
+          audio.sfx('ui_confirm');
+          this.refreshTop(true);
+        }
+        this.go(hint.tab);
+      } }),
       h('button', { class: 'x', style: 'width:26px;height:26px;font-size:12px', text: '✕', onclick: () => { s.tutorial = HINTS.length; this.hintEl?.remove(); this.hintEl = null; } }));
     document.body.appendChild(this.hintEl);
   }

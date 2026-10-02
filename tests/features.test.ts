@@ -124,3 +124,67 @@ describe('daily hunt', () => {
     expect(g.start('combat', other)).toMatch(/not abroad today/);
   });
 });
+describe('auto-supplied crafting', () => {
+  it('mines, smelts and forges a copper sword from an empty bag', () => {
+    const g = new Game(newState('Tester', 31));
+    expect(g.startChain('craft_sword_1', 1)).toBeNull();
+    const seen = new Set<string>();
+    for (let i = 0; i < 60 * 60 * 4 && g.state.activity; i++) {
+      seen.add(g.state.activity.id);
+      g.advance(1);
+    }
+    expect(g.state.activity).toBeNull();
+    expect(g.state.stats.crafts).toBeGreaterThanOrEqual(2);
+    expect(seen.has('craft_sword_1')).toBe(true);
+    expect([...seen].some((id) => id.startsWith('smelt_'))).toBe(true);
+    expect([...seen].some((id) => id.startsWith('mine_'))).toBe(true);
+  });
+
+  it('explains why a chain cannot run', () => {
+    const g = new Game(newState('Tester', 32));
+    expect(g.startChain(RECIPES.filter((r) => r.skill === 'smithing').slice(-1)[0].id, 1)).toMatch(/level|coin/i);
+  });
+});
+
+describe('auto plan', () => {
+  it('runs steps in order, loops, and respects its time limit', () => {
+    const s = newState('Tester', 41);
+    const g = new Game(s);
+    const err = g.startPlan([{ kind: 'gather', id: 'wood_0', min: 10 }, { kind: 'combat', id: 'zone:1', min: 10 }], true);
+    expect(err).toBeNull();
+    const order: string[] = [];
+    for (let i = 0; i < 60 * 60 * 2; i++) {
+      g.advance(1);
+      const a = s.activity;
+      const tag = a ? a.type : 'none';
+      if (order[order.length - 1] !== tag) order.push(tag);
+    }
+    expect(order.slice(0, 5)).toEqual(['gather', 'combat', 'gather', 'combat', 'gather']);
+    expect(s.plan!.on).toBe(true);
+    for (let i = 0; i < 60 * 60 * 7; i++) g.advance(1);
+    expect(s.plan!.on).toBe(false);
+    expect(s.activity).toBeNull();
+    expect(s.plan!.note).toMatch(/time limit/);
+  });
+
+  it('pauses when the player starts something else, and ads add time once per slot', () => {
+    const g = new Game(newState('Tester', 42));
+    g.startPlan([{ kind: 'gather', id: 'wood_0', min: 30 }], false);
+    expect(g.start('gather', 'mine_0')).toBeNull();
+    expect(g.state.plan!.on).toBe(false);
+    const before = g.state.plan!.budget;
+    expect(g.extendPlan()).toBe(true);
+    expect(g.state.plan!.budget).toBeGreaterThan(before);
+    expect(g.extendPlan()).toBe(true);
+    expect(g.extendPlan()).toBe(false);
+  });
+
+  it('skips a step that cannot run and finishes when a non-looping plan ends', () => {
+    const s = newState('Tester', 43);
+    const g = new Game(s);
+    expect(g.startPlan([{ kind: 'combat', id: 'zone:9', min: 10 }, { kind: 'gather', id: 'wood_0', min: 10 }], false)).toBeNull();
+    expect(s.activity?.id).toBe('wood_0');
+    for (let i = 0; i < 60 * 15; i++) g.advance(1);
+    expect(s.plan!.on).toBe(false);
+  });
+});

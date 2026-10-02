@@ -17,6 +17,9 @@ import { cardKindForSlot } from '@/data/cards';
 import { socketCount } from './stats';
 import { money } from './money';
 import { AD_RULES } from '@/ads/config';
+import { chainNext } from './chain';
+import { PLAN_RULES, stepLabel } from './plan';
+import type { PlanStep } from './types';
 
 export const OFFLINE_CAP = 12 * 3600;
 const STEP = 0.25;
@@ -31,6 +34,8 @@ export class Game {
   private acc = 0;
   private qAcc = 0;
   private collector: ((e: GameEvent) => void) | null = null;
+  /** True while the auto plan is starting something, so that it does not cancel itself. */
+  private internal = false;
 
   constructor(state: GameState) {
     this.state = state;
@@ -101,6 +106,7 @@ export class Game {
       const err = this.canEnterZone(zone);
       if (err && !(m?.boss && id.startsWith('wboss') && zone <= s.zoneUnlocked)) return err;
     }
+    if (!this.internal && s.plan?.on) { s.plan.on = false; s.plan.note = 'Paused because you started something else'; }
     s.activity = { type, id, progress: 0, boss: type === 'combat' && !id.startsWith('zone:') && !!MONSTERS[id]?.boss };
     if (type === 'combat') this.buildCombat();
     else this.rt = null;
@@ -158,6 +164,11 @@ export class Game {
   }
 
   advance(dt: number) {
+    this.advanceCore(dt);
+    if (this.state.plan?.on) this.planTick(dt);
+  }
+
+  private advanceCore(dt: number) {
     const s = this.state;
     s.playTime += dt;
     s.clock += dt;
@@ -208,9 +219,10 @@ export class Game {
     const time = this.actionTime(g.time);
     a.progress += dt;
     let guard = 0;
-    while (a.progress >= time && s.activity && guard++ < 5000) {
+    while (a.progress >= time && s.activity === a && guard++ < 5000) {
       a.progress -= time;
       this.completeGather(g.id);
+      this.chainStep();
     }
   }
 
@@ -247,15 +259,16 @@ export class Game {
     const time = this.actionTime(r.time);
     let guard = 0;
     a.progress += dt;
-    while (a.progress >= time && s.activity && guard++ < 5000) {
+    while (a.progress >= time && s.activity === a && guard++ < 5000) {
       if (!this.canAfford(r)) {
         this.stop('Out of materials');
         return;
       }
       a.progress -= time;
       this.completeCraft(r);
+      this.chainStep();
     }
-    if (s.activity && a.progress > 0 && !this.canAfford(r)) {
+    if (s.activity === a && a.progress > 0 && !this.canAfford(r)) {
       a.progress = 0;
       this.stop('Out of materials');
     }
@@ -294,8 +307,127 @@ export class Game {
     if (r.outGold) addGold(s, r.outGold * (1 + skillBonuses(s).goldPct / 100), ctx);
     gainXp(s, r.skill, r.xp, ctx);
     s.stats.crafts = (s.stats.crafts ?? 0) + 1;
+    s.stats[`made_${r.id}`] = (s.stats[`made_${r.id}`] ?? 0) + 1;
     questEvent(s, 'craft', r.id);
     ctx.emit({ t: 'action', kind: 'craft', id: r.id });
+  }
+
+  // ---------- auto-supplied crafting ----------
+  /** Start making `n` of a recipe, gathering and crafting whatever is missing along the way. */
+  startChain(recipeId: string, n: number, repeat = false): string | null {
+    const next = chainNext(this.state, recipeId, n);
+    if (next.kind === 'fail') return next.reason;
+    const err = this.start(next.kind, next.id);
+    if (err) return err;
+    this.state.activity!.chain = { id: recipeId, n, made: 0, repeat };
+    return null;
+  }
+
+  /** After each finished action: count a finished piece, then move to the next link of the chain. */
+  private chainStep() {
+    const s = this.state;
+    const a = s.activity;
+    const c = a?.chain;
+    if (!a || !c) return;
+    if (a.type === 'craft' && a.id === c.id) {
+      c.made++;
+      if (c.made >= c.n) {
+        if (c.repeat) c.made = 0;
+        else { this.stop(`Finished crafting ${RECIPE_MAP[c.id]?.name ?? ''}`.trim()); return; }
+      }
+    }
+    const next = chainNext(s, c.id, c.n - c.made);
+    if (next.kind === 'fail') { this.stop(next.reason); return; }
+    if (next.kind !== a.type || next.id !== a.id) s.activity = { type: next.kind, id: next.id, progress: 0, chain: c };
+  }
+
+  // ---------- auto plan ----------
+  /** Stop on the player's request: this also ends a running plan. */
+  userStop(reason = 'Stopped') {
+    const p = this.state.plan;
+    if (p?.on) { p.on = false; p.note = 'Stopped by you'; }
+    this.stop(reason);
+  }
+
+  startPlan(steps: PlanStep[], loop: boolean): string | null {
+    const s = this.state;
+    if (!steps.length || steps.length > PLAN_RULES.maxSteps) return `A plan needs 1 to ${PLAN_RULES.maxSteps} steps`;
+    if (steps.some((x) => !PLAN_RULES.stepMinutes.includes(x.min))) return 'Invalid step length';
+    s.plan = { steps: steps.map((x) => ({ ...x })), loop, on: true, idx: 0, stepLeft: 0, budget: PLAN_RULES.baseHours * 3600, extended: 0, note: '' };
+    const err = this.planEnter(0);
+    return err;
+  }
+
+  extendPlan(): boolean {
+    const p = this.state.plan;
+    if (!p || p.extended >= PLAN_RULES.extendMax) return false;
+    p.extended++;
+    p.budget += PLAN_RULES.extendHours * 3600;
+    if (!p.on && p.note.includes('time limit')) { p.on = true; p.note = 'Time limit extended'; this.planEnter(p.idx); }
+    return true;
+  }
+
+  private beginStep(st: PlanStep): string | null {
+    const s = this.state;
+    this.internal = true;
+    try {
+      if (st.kind === 'combat') {
+        const zone = Number(st.id.slice(5));
+        const err = this.canEnterZone(zone);
+        if (err) return err;
+        const e2 = this.start('combat', st.id);
+        if (!e2) s.zone = zone;
+        return e2;
+      }
+      if (st.kind === 'gather') return this.start('gather', st.id);
+      return this.startChain(st.id, PLAN_RULES.craftBatch, true);
+    } finally {
+      this.internal = false;
+    }
+  }
+
+  /** Begin step `from`, or the first one after it that can run. Ends the plan when none can. */
+  private planEnter(from: number): string | null {
+    const s = this.state;
+    const p = s.plan!;
+    const skipped: string[] = [];
+    for (let k = 0; k < p.steps.length; k++) {
+      const idx = from + k;
+      if (idx >= p.steps.length && !p.loop) break;
+      const i = idx % p.steps.length;
+      const st = p.steps[i];
+      const err = this.beginStep(st);
+      if (!err) {
+        p.idx = i;
+        p.stepLeft = st.min * 60;
+        p.note = skipped.length ? `Skipped ${skipped.join(', ')}` : '';
+        this.toast(`Auto plan: ${stepLabel(st)} for ${st.min} min`, 'info');
+        return null;
+      }
+      skipped.push(`${stepLabel(st)} (${err})`);
+    }
+    const why = skipped.length ? `Nothing could run: ${skipped[0]}` : 'Auto plan finished';
+    this.endPlan(why);
+    return skipped.length ? why : null;
+  }
+
+  private endPlan(reason: string) {
+    const p = this.state.plan;
+    if (p) { p.on = false; p.note = reason; }
+    if (this.state.activity) this.stop(reason);
+    else this.emit({ t: 'stop', reason });
+  }
+
+  private planTick(dt: number) {
+    const s = this.state;
+    const p = s.plan!;
+    p.budget -= dt;
+    p.stepLeft -= dt;
+    if (p.budget <= 0) { this.endPlan('Auto plan reached its time limit'); return; }
+    if (s.activity && p.stepLeft > 0) return;
+    const failed = !s.activity;
+    if (failed) p.note = 'A step ended early, moving on';
+    this.planEnter(p.idx + 1);
   }
 
   // ---------- offline ----------
@@ -333,7 +465,7 @@ export class Game {
     try {
       let left = cap;
       const combat = s.activity?.type === 'combat';
-      const step = combat ? 1 : 30;
+      const step = combat || s.plan?.on ? 1 : 30;
       while (left > 0.001) {
         const dt = Math.min(step, left);
         left -= dt;

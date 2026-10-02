@@ -14,6 +14,7 @@ import { InAppReview } from '@capacitor-community/in-app-review';
 import { partyPower } from '@/core/stats';
 import { BAG_MAX } from '@/core/state';
 import { merchantSheet } from './hunts';
+import { planSheet } from './plan';
 import { rewardsCard } from './rewards';
 import { albumSheet } from './cards';
 import { CARD_IDS } from '@/data';
@@ -42,6 +43,7 @@ export class MoreScreen implements Screen {
             h('span', { text: `Played ${fmtTime(s.playTime)}` })))),
       rewardsCard(() => this.show()),
       h('h2', { text: 'Menu' }),
+      row('img:ui_icon_flare', 'Auto plan', s.plan?.on ? `Running: step ${s.plan.idx + 1} of ${s.plan.steps.length}` : 'Farm for an hour, then battle for two. Runs while you are away', () => planSheet()),
       row('img:ui_icon_gold', 'Wandering merchant', (() => { const m = merchantStatus(s); return m.open ? 'She is here now! Unique and high-rarity goods' : m.startsIn > 0 ? 'Visits once a day, for about an hour' : 'Gone for today'; })(), () => merchantSheet(() => this.show())),
       row('img:ui_icon_inventory', 'Card album', `${Object.keys(s.cardsFound).length}/${CARD_IDS.length} monster cards discovered`, () => albumSheet()),
       row('img:ui_icon_codex', 'Codex', 'Monsters, bosses and items you have discovered', () => this.codex()),
