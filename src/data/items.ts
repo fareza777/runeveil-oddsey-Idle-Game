@@ -1,5 +1,6 @@
 import type { Element, ItemDef, StatusId } from '@/core/types';
 import { econScale } from '@/core/money';
+import { ITEM_ART } from './artManifest';
 import { ELEMENTS } from './combatData';
 import { GEAR_TYPES, gearBase, gearId, gearName } from './gear';
 import {
@@ -8,9 +9,10 @@ import {
 } from './tiers';
 
 export const ITEMS: Record<string, ItemDef> = {};
+/** Items with bespoke generated art in assets/gen/items/<id>.png (see tools/make_item_jobs.mjs). */
 export const add = (d: ItemDef) => {
   if (ITEMS[d.id]) throw new Error(`duplicate item ${d.id}`);
-  ITEMS[d.id] = d;
+  ITEMS[d.id] = ITEM_ART.has(d.id) ? { ...d, icon: `art:${d.id}` } : d;
 };
 const val = (t: number, f = 1) => Math.max(1, Math.round(4 * Math.pow(1.3, t) * f * econScale(1 + (t * 21) / 20)));
 

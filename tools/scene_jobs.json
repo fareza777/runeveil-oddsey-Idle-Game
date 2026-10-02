@@ -1,0 +1,212 @@
+[
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/combat.png",
+        "prompt":  "pixel art game background, side view scene, a dusty castle training yard with wooden practice dummies, stone wall and banners, warm evening light, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9101,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/fortitude.png",
+        "prompt":  "pixel art game background, side view scene, a rocky canyon with crumbling cliffs and loose boulders, dramatic stormy sky, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9102,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/marksmanship.png",
+        "prompt":  "pixel art game background, side view scene, an archery range in a green meadow with straw targets on stands, distant hills, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9103,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/arcana.png",
+        "prompt":  "pixel art game background, side view scene, an arcane tower study with a glowing magic circle on the floor, floating runes, bookshelves, purple light, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9104,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/mining.png",
+        "prompt":  "pixel art game background, side view scene, inside a deep mine cave tunnel with glittering ore veins in rock walls, wooden supports and hanging lanterns, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9105,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/woodcutting.png",
+        "prompt":  "pixel art game background, side view scene, a dense pine forest clearing with tall trees, sun rays through the canopy, tree stumps, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9106,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/fishing.png",
+        "prompt":  "pixel art game background, side view scene, a calm lake shore with a wooden dock at dawn, reeds, misty water, pink and orange sky, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9107,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/herbalism.png",
+        "prompt":  "pixel art game background, side view scene, a flower meadow at the edge of a forest with herbs, mushrooms and wildflowers, soft golden light, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9108,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/farming.png",
+        "prompt":  "pixel art game background, side view scene, a golden wheat farm field with a red barn and a windmill, blue sky and clouds, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9109,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/hunting.png",
+        "prompt":  "pixel art game background, side view scene, a misty hillside forest with animal tracks, dead logs and ferns at dusk, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9110,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/excavation.png",
+        "prompt":  "pixel art game background, side view scene, a desert archaeological dig site with sand dunes, broken ancient pillars and wooden scaffolds, hot sky, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9111,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/smithing.png",
+        "prompt":  "pixel art game background, side view scene, a blacksmith forge interior with a glowing furnace, anvil, hanging tools, orange firelight, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9112,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/carpentry.png",
+        "prompt":  "pixel art game background, side view scene, a woodworking workshop with stacked planks, sawhorses, sawdust and tools on the walls, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9113,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/leatherworking.png",
+        "prompt":  "pixel art game background, side view scene, a tannery yard with hides stretched on wooden racks, barrels and hanging leather, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9114,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/jewelcrafting.png",
+        "prompt":  "pixel art game background, side view scene, a gem cutter workshop inside a crystal cave with glowing crystals and a workbench, sparkling light, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9115,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/cooking.png",
+        "prompt":  "pixel art game background, side view scene, a rustic outdoor camp kitchen with a campfire, hanging cooking pots and wooden tables, twilight, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9116,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/alchemy.png",
+        "prompt":  "pixel art game background, side view scene, an alchemist laboratory with bubbling cauldrons, shelves of colorful potion bottles, green and purple glow, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9117,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/enchanting.png",
+        "prompt":  "pixel art game background, side view scene, a mystic scriptorium with floating scrolls, glowing sigils on the walls and candles, blue light, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9118,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/runecrafting.png",
+        "prompt":  "pixel art game background, side view scene, an ancient stone altar room with huge glowing carved runes in the walls, teal and gold light, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9119,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/exploration.png",
+        "prompt":  "pixel art game background, side view scene, a mountain overlook viewpoint at sunrise with a winding path, distant ranges and a banner on a pole, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9120,
+        "h":  192
+    },
+    {
+        "w":  384,
+        "out":  "public/assets/gen/scenes/trading.png",
+        "prompt":  "pixel art game background, side view scene, a lively medieval market square with striped stalls, crates, caravan wagons and banners, midday sun, no characters, empty open ground in the lower third for characters to stand, detailed, atmospheric",
+        "remove_bg":  false,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9121,
+        "h":  192
+    }
+]

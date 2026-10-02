@@ -22,6 +22,7 @@ export type GameEvent =
   | { t: 'ability'; idx: number; name: string }
   | { t: 'heroLevel'; idx: number; level: number }
   | { t: 'recruit'; id: string }
+  | { t: 'swing'; side: 'hero' | 'enemy'; idx: number; elem: Element; style: 'melee' | 'ranged' | 'magic' }
   | { t: 'quest'; id: string; what: 'ready' | 'accepted' | 'done' }
   | { t: 'toast'; text: string; kind?: 'good' | 'bad' | 'info' }
   | { t: 'stop'; reason: string }

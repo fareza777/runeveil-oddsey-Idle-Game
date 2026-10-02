@@ -1,0 +1,62 @@
+[
+    {
+        "w":  128,
+        "out":  "public/assets/gen/heroes/cand_thessaly_a.png",
+        "prompt":  "pixel art RPG character sprite, full body standing, facing right, young female storm mage, long wind-swept pale blue hair, white and cyan robes with gold trim, holding a lightning-wrapped crystal staff, crackling electricity around her, anime fantasy style similar to classic JRPG battler sprites, clean outline, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  7097,
+        "h":  128
+    },
+    {
+        "w":  128,
+        "out":  "public/assets/gen/heroes/cand_thessaly_b.png",
+        "prompt":  "pixel art RPG character sprite, full body standing, facing right, young female storm mage, long wind-swept pale blue hair, white and cyan robes with gold trim, holding a lightning-wrapped crystal staff, crackling electricity around her, anime fantasy style similar to classic JRPG battler sprites, clean outline, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  7098,
+        "h":  128
+    },
+    {
+        "w":  128,
+        "out":  "public/assets/gen/heroes/cand_thessaly_c.png",
+        "prompt":  "pixel art RPG character sprite, full body standing, facing right, young female storm mage, long wind-swept pale blue hair, white and cyan robes with gold trim, holding a lightning-wrapped crystal staff, crackling electricity around her, anime fantasy style similar to classic JRPG battler sprites, clean outline, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  7099,
+        "h":  128
+    },
+    {
+        "w":  128,
+        "out":  "public/assets/gen/heroes/cand_vex_a.png",
+        "prompt":  "pixel art RPG character sprite, full body standing, facing right, female shadowblade assassin, dark purple hooded cloak, silver short hair, twin curved daggers, glowing violet eyes, black leather armor, anime fantasy style similar to classic JRPG battler sprites, clean outline, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  7097,
+        "h":  128
+    },
+    {
+        "w":  128,
+        "out":  "public/assets/gen/heroes/cand_vex_b.png",
+        "prompt":  "pixel art RPG character sprite, full body standing, facing right, female shadowblade assassin, dark purple hooded cloak, silver short hair, twin curved daggers, glowing violet eyes, black leather armor, anime fantasy style similar to classic JRPG battler sprites, clean outline, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  7098,
+        "h":  128
+    },
+    {
+        "w":  128,
+        "out":  "public/assets/gen/heroes/cand_vex_c.png",
+        "prompt":  "pixel art RPG character sprite, full body standing, facing right, female shadowblade assassin, dark purple hooded cloak, silver short hair, twin curved daggers, glowing violet eyes, black leather armor, anime fantasy style similar to classic JRPG battler sprites, clean outline, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  7099,
+        "h":  128
+    }
+]

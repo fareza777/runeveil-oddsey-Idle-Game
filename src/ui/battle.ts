@@ -8,7 +8,7 @@ import { host } from './host';
 import type { Screen } from './screen';
 import type { Fighter } from '@/core/combat';
 import type { GameEvent } from '@/core/state';
-import { BOSSES, ITEMS, ZONES, ZONE_MAP, rarity } from '@/data';
+import { BOSSES, ELEMENT_MAP, ITEMS, ZONES, ZONE_MAP, rarity } from '@/data';
 import { countItem, heroDef } from '@/core/state';
 import type { MonsterDef } from '@/core/types';
 
@@ -299,6 +299,7 @@ export class BattleScreen implements Screen {
         }
         break;
       }
+      case 'swing': if (!reduce) this.swing(e); break;
       case 'ability': {
         audio.sfx('cast', 0.8, 150);
         const he = this.heroEls[e.idx];
@@ -331,6 +332,49 @@ export class BattleScreen implements Screen {
       case 'heroLevel': toast(`${heroDef(g.state, e.idx).name} reached level ${e.level}`, 'good'); audio.sfx('level_up'); break;
       case 'food': audio.sfx('heal', 0.5); this.floatText(this.heroEls[e.idx]?.root ?? this.arena, 'Ate ' + (ITEMS[e.item]?.name ?? '')); break;
       default: break;
+    }
+  }
+
+  /** Attack animation: the attacker lunges and a slash or projectile travels to the target. */
+  private swing(e: Extract<GameEvent, { t: 'swing' }>) {
+    if (this.fx.childElementCount > 20) return;
+    const a = this.arena.getBoundingClientRect();
+    const col = ELEMENT_MAP[e.elem]?.color ?? '#ffffff';
+    const centre = (r: DOMRect, fy: number) => ({ x: r.left - a.left + r.width / 2, y: r.top - a.top + r.height * fy });
+    const play = (el: HTMLElement, frames: Keyframe[], ms: number) => {
+      this.fx.appendChild(el);
+      const an = el.animate(frames, { duration: ms, easing: 'ease-out', fill: 'forwards' });
+      an.onfinish = () => el.remove();
+    };
+    if (e.side === 'hero') {
+      const he = this.heroEls[e.idx];
+      if (!he) return;
+      he.root.classList.remove('atk'); void he.root.offsetWidth; he.root.classList.add('atk');
+      const from = centre(he.root.getBoundingClientRect(), 0.28);
+      const to = centre(this.enemyBody.getBoundingClientRect(), 0.5);
+      if (e.style === 'melee') {
+        const s = h('div', { class: 'slashfx' });
+        s.style.setProperty('--c', col);
+        s.style.left = `${to.x - 35}px`; s.style.top = `${to.y - 35}px`;
+        play(s, [{ transform: 'rotate(-60deg) scale(.4)', opacity: 0 }, { transform: 'rotate(10deg) scale(1.05)', opacity: 1, offset: 0.4 }, { transform: 'rotate(50deg) scale(1.2)', opacity: 0 }], 300);
+      } else {
+        const ang = Math.atan2(to.y - from.y, to.x - from.x);
+        const p = h('div', { class: `proj ${e.style === 'ranged' ? 'arrow' : ''}` });
+        p.style.setProperty('--c', e.style === 'ranged' ? '#f0e6c8' : col);
+        p.style.left = `${from.x - 6}px`; p.style.top = `${from.y - 2}px`;
+        const rot = e.style === 'ranged' ? ` rotate(${ang}rad)` : '';
+        play(p, [{ transform: `translate(0,0)${rot} scale(.8)`, opacity: 1 }, { transform: `translate(${to.x - from.x}px,${to.y - from.y}px)${rot} scale(1.1)`, opacity: 1, offset: 0.85 }, { transform: `translate(${to.x - from.x}px,${to.y - from.y}px)${rot} scale(1.8)`, opacity: 0 }], 280);
+      }
+    } else {
+      this.enemyWrap.classList.remove('foe'); void this.enemyWrap.offsetWidth; this.enemyWrap.classList.add('foe');
+      const he = this.heroEls[e.idx];
+      if (he) {
+        const to = centre(he.root.getBoundingClientRect(), 0.4);
+        const s = h('div', { class: 'slashfx foe' });
+        s.style.setProperty('--c', col === '#ffffff' ? '#ff8a8a' : col);
+        s.style.left = `${to.x - 30}px`; s.style.top = `${to.y - 30}px`;
+        play(s, [{ transform: 'rotate(120deg) scale(.4)', opacity: 0 }, { transform: 'rotate(40deg) scale(1)', opacity: 1, offset: 0.4 }, { transform: 'rotate(-10deg) scale(1.1)', opacity: 0 }], 320);
+      }
     }
   }
 

@@ -19,6 +19,7 @@ export function iconUrl(spec: string): { url: string; hue: number } {
     const c = rest.find((r) => r.startsWith('c='))?.slice(2) ?? '#9a9ab0';
     return { url: genIconUrl(kind, c), hue };
   }
+  if (s.startsWith('art:')) return { url: asset(`gen/items/${s.slice(4)}.png`), hue };
   const name = s.startsWith('img:') ? s.slice(4) : s;
   if (name.startsWith('ui_')) return { url: asset(`gen/ui/${name.slice(3)}.png`), hue };
   return { url: asset(`icons/${name}.png`), hue };

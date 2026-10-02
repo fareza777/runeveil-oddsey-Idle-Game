@@ -199,6 +199,7 @@ function heroStrike(state: GameState, rt: CombatRt, h: Fighter, mult: number, ct
   const e = rt.enemy;
   if (!e || !e.alive) return;
   const elem = opts.element ?? h.element;
+  ctx.emit({ t: 'swing', side: 'hero', idx: h.idx, elem, style: heroDef(state, h.idx).style });
   if (hasStatus(h, 'blind') && ctx.rng() < 0.25) {
     ctx.emit({ t: 'dmg', side: 'enemy', idx: 0, n: 0, crit: false, elem, miss: true, text: 'Miss' });
     return;
@@ -256,6 +257,7 @@ function pickTarget(rt: CombatRt, ctx: Ctx): Fighter | null {
 
 function enemyStrike(state: GameState, rt: CombatRt, e: Fighter, mult: number, target: Fighter, ctx: Ctx, status = true) {
   const m = rt.enemyDef;
+  ctx.emit({ t: 'swing', side: 'enemy', idx: target.idx, elem: m.element, style: 'melee' });
   if (hasStatus(e, 'blind') && ctx.rng() < 0.25) {
     ctx.emit({ t: 'dmg', side: 'hero', idx: target.idx, n: 0, crit: false, elem: m.element, miss: true, text: 'Miss' });
     return;

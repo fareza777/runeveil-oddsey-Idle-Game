@@ -1,13 +1,14 @@
 import { h, fmt, fmtTime, mount } from './dom';
-import { bar, ico, itemIcon, setBar } from './icons';
+import { bar, ico, iconUrl, itemIcon, setBar } from './icons';
+import { ActivityScene } from './scene';
 import { toast } from './modal';
 import { costChip, goldChip, moneyText } from './common';
 import { audio } from './audio';
 import { host } from './host';
 import { stackSheet } from './itemSheet';
 import type { Screen } from './screen';
-import { GATHER, HEROES, ITEMS, RECIPES, SKILLS, SKILL_MAP, MAX_LEVEL } from '@/data';
-import { skillXpOf, countItem } from '@/core/state';
+import { GATHER, GATHER_MAP, HEROES, ITEMS, RECIPES, RECIPE_MAP, SKILLS, SKILL_MAP, MAX_LEVEL } from '@/data';
+import { skillXpOf, countItem, type GameEvent } from '@/core/state';
 import { xpAtLevel } from '@/core/xp';
 import type { GatherDef, RecipeDef, SkillId } from '@/core/types';
 
@@ -38,6 +39,7 @@ export class SkillsScreen implements Screen {
   private cards = new Map<SkillId, { xp: HTMLElement; lv: HTMLElement; card: HTMLElement }>();
   private tick = 0;
   private showAllLocked = false;
+  private scene: ActivityScene | null = null;
 
   show() {
     if (this.open) this.showDetail(this.open);
@@ -46,6 +48,22 @@ export class SkillsScreen implements Screen {
 
   reset() {
     this.open = null;
+  }
+
+  private dropScene() {
+    this.scene?.destroy();
+    this.scene = null;
+  }
+
+  /** Reward popups inside the scene for the open skill. */
+  event(e: GameEvent) {
+    if (!this.scene) return;
+    const act = host.game.state.activity;
+    const running = act && act.type !== 'combat' ? (act.type === 'gather' ? GATHER_MAP[act.id]?.skill : RECIPE_MAP[act.id]?.skill) : undefined;
+    if (running !== this.open && e.t !== 'level') return;
+    if (e.t === 'item' && ITEMS[e.id]) this.scene.reward(`+${fmt(e.n)} ${ITEMS[e.id].name}`, iconUrl(ITEMS[e.id].icon).url);
+    else if (e.t === 'gear') this.scene.reward(ITEMS[e.inst.id].name, iconUrl(ITEMS[e.inst.id].icon).url);
+    else if (e.t === 'level' && this.open === e.skill) this.scene.reward(`Level ${e.level}!`);
   }
 
   openSkill(id: SkillId) {
@@ -57,10 +75,19 @@ export class SkillsScreen implements Screen {
     this.open = null;
     this.rows = [];
     this.cards.clear();
+    this.dropScene();
     const s = host.game.state;
     const total = SKILLS.reduce((n, k) => n + s.skills[k.id], 0);
+    const act = s.activity;
+    const runSkill: SkillId | null = act?.type === 'gather' ? GATHER_MAP[act.id]?.skill ?? null : act?.type === 'craft' ? RECIPE_MAP[act.id]?.skill ?? null : null;
+    let banner: HTMLElement | null = null;
+    if (runSkill) {
+      this.scene = new ActivityScene(runSkill, { compact: true });
+      banner = h('div', { class: 'tap', onclick: () => { this.openSkill(runSkill); this.show(); } }, this.scene.el);
+    }
     const kids: (HTMLElement | null)[] = [
       h('div', { class: 'row' }, h('h2', { style: 'margin:4px 0;flex:1', text: 'Skills' }), h('span', { class: 'chip gold', text: `Total level ${total}` })),
+      banner,
       h('div', { class: 'small muted', style: 'margin-bottom:6px', text: 'Gather raw materials, refine them, then craft gear and supplies for your heroes. Tap a skill to begin.' }),
     ];
     for (const grp of GROUPS) {
@@ -94,6 +121,8 @@ export class SkillsScreen implements Screen {
     const def = SKILL_MAP[id];
     const lv = s.skills[id];
     this.rows = [];
+    this.dropScene();
+    this.scene = new ActivityScene(id);
     const a = xpAtLevel(lv);
     const b = xpAtLevel(Math.min(MAX_LEVEL, lv + 1));
     const xpBar = bar('xp tall', this.xpFrac(id), lv >= MAX_LEVEL ? 'MAX' : `${fmt(skillXpOf(s, id) - a)} / ${fmt(b - a)} XP`);
@@ -132,6 +161,7 @@ export class SkillsScreen implements Screen {
 
     mount(this.el,
       h('button', { class: 'back', text: '‹ All skills', onclick: () => { this.showGrid(); } }),
+      this.scene.el,
       head,
       gathers.length || recipes.length ? h('h3', { text: gathers.length ? 'Gather' : 'Craft', style: 'color:var(--muted)' }) : null,
       list);
@@ -147,6 +177,7 @@ export class SkillsScreen implements Screen {
       const err = g.start(type, id);
       if (err) { toast(err, 'bad'); return; }
       audio.sfx(type === 'gather' ? 'harvest' : 'anvil', 0.6);
+      this.el.scrollTo({ top: 0, behavior: 'smooth' });
     }
     host.refresh();
     this.updateRows(true);
