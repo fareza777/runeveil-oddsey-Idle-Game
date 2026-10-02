@@ -69,6 +69,8 @@ const STARTER_WEAPON: Record<string, string> = { melee: 'sword', ranged: 'bow', 
 export function starterState(name: string): GameState {
   const s = newState(name);
   giveKit(s, 0);
+  s.stacks.cfish_0 = 20;
+  s.loadout.food = 'cfish_0';
   return s;
 }
 

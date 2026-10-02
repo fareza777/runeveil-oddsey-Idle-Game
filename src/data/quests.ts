@@ -3,6 +3,8 @@ import { SKILL_MAP } from './skills';
 import { ZONE_SEEDS } from './zoneSeeds';
 import { money } from '@/core/money';
 import { buildExtraQuests } from './questsExtra';
+import { GATHER_MAP } from './gather';
+import { RECIPE_MAP } from './recipes';
 
 const kill = (target: string, n: number, text: string): QuestStep => ({ type: 'kill', target, n, text });
 const killAny = (zone: number, n: number, text: string): QuestStep => ({ type: 'killAny', target: String(zone), n, text });
@@ -55,10 +57,19 @@ ZONE_SEEDS.forEach((seed, i) => {
   const [name, story] = MAIN_STORY[i];
   const steps: QuestStep[] = [killAny(z, 18 + z * 3, `Defeat ${18 + z * 3} monsters in ${seed.name}`)];
   const mode = z % 4;
-  if (mode === 0) steps.push(gather(`mine_${Math.min(11, Math.floor(z / 2))}`, 15 + z, `Mine ${15 + z} ore from the nodes of ${seed.name}`));
-  else if (mode === 1) steps.push(craft(`smelt_${Math.min(11, Math.floor(z / 2))}`, 5 + z, `Smelt ${5 + z} bars`));
-  else if (mode === 2) steps.push(gather(`fish_${Math.min(19, z)}`, 10 + z, `Catch ${10 + z} fish`));
-  else steps.push(craft(`cook_${Math.min(23, z)}`, 3 + Math.floor(z / 2), 'Cook meals for the road'));
+  // Skill steps use the best node a player who has trained about as far as the zone's Exploration gate can reach.
+  const cap = z <= 2 ? 5 : Math.round(1 + (z - 1) * 3.6 * 0.9) + 1;
+  const best = (prefix: string, levelOf: (id: string) => number | undefined) => {
+    let k = 0;
+    while ((levelOf(`${prefix}${k + 1}`) ?? 999) <= cap) k++;
+    return `${prefix}${k}`;
+  };
+  const nodeLevel = (id: string) => GATHER_MAP[id]?.level;
+  const recipeLevel = (id: string) => RECIPE_MAP[id]?.level;
+  if (mode === 0) steps.push(gather(best('mine_', nodeLevel), 15 + z, `Mine ${15 + z} ore from the nodes of ${seed.name}`));
+  else if (mode === 1) steps.push(craft(best('smelt_', recipeLevel), 5 + z, `Smelt ${5 + z} bars`));
+  else if (mode === 2) steps.push(gather(best('fish_', nodeLevel), 10 + z, `Catch ${10 + z} fish`));
+  else steps.push(craft(best('cook_', recipeLevel), 3 + Math.floor(z / 2), 'Cook meals for the road'));
   steps.push(boss(`boss_${z}`, `Defeat ${seed.boss.name}, ${seed.boss.title}`));
   QUESTS.push({
     id: `main_${z}`, kind: 'main', name, giver: story.split(':')[0], story, steps,

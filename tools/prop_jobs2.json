@@ -1,0 +1,302 @@
+[
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_awl_a.png",
+        "prompt":  "fantasy RPG item icon, a leatherworking awl tool with a wooden grip and a sharp needle, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9317,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_awl_b.png",
+        "prompt":  "fantasy RPG item icon, a leatherworking awl tool with a wooden grip and a sharp needle, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9318,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_chisel_a.png",
+        "prompt":  "fantasy RPG item icon, a jeweler\u0027s chisel and small mallet tool, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9319,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_chisel_b.png",
+        "prompt":  "fantasy RPG item icon, a jeweler\u0027s chisel and small mallet tool, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9320,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_ladle_a.png",
+        "prompt":  "fantasy RPG item icon, a long wooden cooking ladle spoon, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9321,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_ladle_b.png",
+        "prompt":  "fantasy RPG item icon, a long wooden cooking ladle spoon, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9322,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_flask_a.png",
+        "prompt":  "fantasy RPG item icon, a glass alchemy flask filled with glowing bubbling green liquid, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9323,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_flask_b.png",
+        "prompt":  "fantasy RPG item icon, a glass alchemy flask filled with glowing bubbling green liquid, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9324,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_quill_a.png",
+        "prompt":  "fantasy RPG item icon, a feather quill pen with glowing blue ink, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9325,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_quill_b.png",
+        "prompt":  "fantasy RPG item icon, a feather quill pen with glowing blue ink, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9326,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_spyglass_a.png",
+        "prompt":  "fantasy RPG item icon, a brass spyglass telescope, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9327,
+        "h":  64
+    },
+    {
+        "w":  64,
+        "out":  "public/assets/gen/scene_props/cand_tool_spyglass_b.png",
+        "prompt":  "fantasy RPG item icon, a brass spyglass telescope, held diagonally with the handle at the bottom-left and the working end at the top-right, single object centered, clean dark outline, detailed pixel art, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9328,
+        "h":  64
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/tree.png",
+        "prompt":  "pixel art game sprite, a large leafy green pine tree with a thick brown trunk, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9529,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/rock.png",
+        "prompt":  "pixel art game sprite, a large grey boulder with glowing copper and blue ore veins, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9530,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/anvil.png",
+        "prompt":  "pixel art game sprite, a blacksmith anvil standing on a wooden stump with a glowing hot metal bar on top, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9531,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/cauldron.png",
+        "prompt":  "pixel art game sprite, a black iron cauldron bubbling with glowing green liquid over a small fire, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9532,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/cookpot.png",
+        "prompt":  "pixel art game sprite, a cooking pot hanging over a campfire with rising steam, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9533,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/wheat.png",
+        "prompt":  "pixel art game sprite, a thick patch of golden wheat stalks growing from soil, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9534,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/herbs.png",
+        "prompt":  "pixel art game sprite, a patch of leafy green herbs with white and purple flowers, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9535,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/dummy.png",
+        "prompt":  "pixel art game sprite, a wooden training dummy made of straw and logs on a post, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9536,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/target.png",
+        "prompt":  "pixel art game sprite, an archery target with red and white rings on a wooden tripod stand, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9537,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/workbench.png",
+        "prompt":  "pixel art game sprite, a carpenter workbench with a wooden plank clamped on it and wood shavings, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9538,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/rack.png",
+        "prompt":  "pixel art game sprite, a wooden drying rack with an animal hide stretched on it, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9539,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/gembench.png",
+        "prompt":  "pixel art game sprite, a jeweler workbench with a glowing sparkling gem under a small lamp, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9540,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/runestone.png",
+        "prompt":  "pixel art game sprite, a tall standing stone slab covered in glowing teal carved runes, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9541,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/dirtpit.png",
+        "prompt":  "pixel art game sprite, a shallow dig pit with piles of dirt and a half-buried ancient relic, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9542,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/fish.png",
+        "prompt":  "pixel art game sprite, a jumping silver blue fish with water splash, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9543,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/deer.png",
+        "prompt":  "pixel art game sprite, a brown forest deer standing in side view with antlers, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9544,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/cart.png",
+        "prompt":  "pixel art game sprite, a merchant wooden cart loaded with crates, sacks and goods, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9545,
+        "h":  96
+    },
+    {
+        "w":  96,
+        "out":  "public/assets/gen/scene_props/boulder.png",
+        "prompt":  "pixel art game sprite, a big falling grey boulder with cracks, side view, single object centered, clean dark outline, detailed, plain background",
+        "remove_bg":  true,
+        "style":  "default",
+        "model":  "rd-plus",
+        "seed":  9546,
+        "h":  96
+    }
+]

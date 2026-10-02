@@ -15,8 +15,8 @@ export const BAL = {
   eliteAtk: 1.25,
   abilityDpsBonus: 1.2,
   /** monster hp/atk multiplier in zone 1; rises linearly to 1 by easeUntil so a fresh party can win */
-  easeStart: 0.4,
-  easeUntil: 5,
+  easeStart: 0.2,
+  easeUntil: 6,
   /** fraction of the hero level a well-played character is assumed to have in the matching skill (expected-party model) */
   expSkillShare: 0.5,
   /** Training Hall: max ranks per hero, +2% atk/hp per rank, price base in silver */

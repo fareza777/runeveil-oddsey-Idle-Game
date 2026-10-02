@@ -37,3 +37,6 @@ export const xpForReq = (reqLevel: number, mult = 1): number =>
 export const HERO_MAX_LEVEL = 100;
 /** Hero level curve (separate from skills): gentler growth. */
 export const heroXpToNext = (level: number): number => Math.round(40 * Math.pow(level, 1.9) + 60);
+
+/** Hero XP for one kill: a hero at the monster's level needs about 6 + 1.2 * level kills per level, so early levels come quickly and the late game takes days. */
+export const heroKillXp = (monsterLevel: number, mult = 1): number => (heroXpToNext(monsterLevel) / (6 + 1.2 * monsterLevel)) * mult;

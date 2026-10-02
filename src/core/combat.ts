@@ -3,6 +3,7 @@ import { BOSSES, ELEMENT_MAP, ITEMS, MONSTERS, STATUS_MAP } from '@/data';
 import { BAL } from './balance';
 import { monsterStats } from './monsterStats';
 import { computeHero, skillBonuses, type HeroCombat } from './stats';
+import { heroKillXp } from './xp';
 import { addGold, addItem, gainHeroXp, gainXp, heroDef, takeItem, type Ctx } from './state';
 import { rollMonsterLoot } from './loot';
 import { questEvent } from './questSys';
@@ -435,7 +436,17 @@ function autoSupplies(state: GameState, rt: CombatRt, dt: number, ctx: Ctx) {
       rt.potionCd = 2;
     }
   }
-  if (rt.foodCd > 0 || !state.loadout.food) return;
+  if (rt.foodCd > 0) return;
+  if (!state.loadout.food || (state.stacks[state.loadout.food] ?? 0) <= 0) {
+    let best: string | null = null;
+    let heal = 0;
+    for (const id in state.stacks) {
+      const d = ITEMS[id];
+      if (d?.kind === 'food' && d.heal && state.stacks[id] > 0 && d.heal > heal) { best = id; heal = d.heal; }
+    }
+    if (!best) return;
+    state.loadout.food = best;
+  }
   const foodId = state.loadout.food;
   if ((state.stacks[foodId] ?? 0) <= 0) return;
   const fd = ITEMS[foodId];
@@ -467,8 +478,9 @@ function onKill(state: GameState, rt: CombatRt, ctx: Ctx) {
   }
   rollMonsterLoot(state, m, ctx, first);
   const skills = new Set<string>();
+  const heroXp = heroKillXp(m.level, m.boss ? 8 : m.elite ? 2.2 : 1);
   state.heroes.forEach((_, i) => {
-    gainHeroXp(state, i, m.xp * 0.8, ctx);
+    gainHeroXp(state, i, heroXp, ctx);
     skills.add(heroDef(state, i).skill);
   });
   for (const sk of skills) gainXp(state, sk as never, m.xp, ctx);

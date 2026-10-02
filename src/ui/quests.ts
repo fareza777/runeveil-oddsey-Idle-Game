@@ -4,9 +4,10 @@ import { toast } from './modal';
 import { audio } from './audio';
 import { host } from './host';
 import type { Screen } from './screen';
-import { HERO_MAP, ITEMS, QUESTS, QUEST_MAP, SKILL_MAP } from '@/data';
-import { acceptQuest, availableQuests, claimQuest, questDone, stepProgress } from '@/core/questSys';
-import type { QuestDef } from '@/core/types';
+import { GATHER_MAP, HERO_MAP, ITEMS, MONSTERS, QUESTS, QUEST_MAP, RECIPE_MAP, SKILL_MAP } from '@/data';
+import { acceptQuest, availableQuests, claimQuest, questDone, stepDone, stepProgress } from '@/core/questSys';
+import { guideFor, type Guide } from '@/core/questGuide';
+import type { QuestDef, SkillId } from '@/core/types';
 import { buzz, goldChip } from './common';
 
 type Tab = 'active' | 'available' | 'done';
@@ -15,7 +16,10 @@ export class QuestsScreen implements Screen {
   el = h('div', { class: 'screen' });
   private tab: Tab = 'active';
 
+  private built = 0;
+
   show() {
+    this.built = performance.now();
     const g = host.game;
     const s = g.state;
     const avail = availableQuests(s);
@@ -39,7 +43,43 @@ export class QuestsScreen implements Screen {
     mount(this.el, h('div', { class: 'row' }, h('h2', { style: 'margin:4px 0;flex:1', text: 'Quests' }), h('span', { class: 'chip gold', text: `${s.quests.done.length}/${total} done` })), seg, list);
   }
 
-  update() { /* progress is updated when the tab is reopened */ }
+  update() {
+    if (this.tab === 'active' && performance.now() - this.built > 2500) this.show();
+  }
+
+  /** Points at the first unfinished step and starts the activity that advances it. */
+  private guideRow(q: QuestDef): HTMLElement | null {
+    const g = host.game;
+    const s = g.state;
+    const i = q.steps.findIndex((_, k) => !stepDone(s, q, k));
+    if (i < 0) return null;
+    const guide = guideFor(s, q, i);
+    if (!guide) return null;
+    const act = s.activity;
+    const running = !!act && guide.kind !== 'open' && act.type === guide.kind && (act.id === guide.id || (guide.kind === 'combat' && act.id.startsWith('zone:') && guide.id === act.id));
+    return h('div', { class: 'row', style: 'margin-top:8px;gap:8px;padding:8px;border-radius:8px;background:#1b1538;border:1px solid var(--line)' },
+      h('div', { class: 'grow small', style: 'line-height:1.35' }, h('b', { text: 'Next: ' }), guide.label),
+      h('button', { class: `btn sm ${running ? 'off' : 'gold'}`, text: running ? 'Running' : guide.kind === 'open' ? 'Open' : 'Go', onclick: () => this.go(guide) }));
+  }
+
+  private go(guide: Guide) {
+    const g = host.game;
+    audio.sfx('ui_click');
+    if (guide.kind === 'open') { host.openSkill(guide.skill ?? (guide.id as SkillId)); return; }
+    if (guide.kind === 'combat') {
+      const zone = guide.id.startsWith('zone:') ? Number(guide.id.slice(5)) : MONSTERS[guide.id]?.zone;
+      if (zone) g.state.zone = zone;
+    }
+    const err = g.start(guide.kind, guide.id);
+    if (err) { toast(err, 'bad'); return; }
+    audio.sfx('ui_confirm');
+    host.refresh();
+    if (guide.kind === 'combat') host.go('battle');
+    else if (guide.kind === 'gather' || guide.kind === 'craft') {
+      const skill = guide.kind === 'gather' ? GATHER_MAP[guide.id]?.skill : RECIPE_MAP[guide.id]?.skill;
+      if (skill) host.openSkill(skill); else this.show();
+    }
+  }
 
   private card(q: QuestDef, mode: 'active' | 'available'): HTMLElement {
     const g = host.game;
@@ -60,6 +100,7 @@ export class QuestsScreen implements Screen {
       h('div', { class: 'tiny muted', text: `from ${q.giver}` }),
       h('p', { class: 'small', style: 'margin:6px 0;line-height:1.4;color:#d6d0f5', text: q.story }),
       ...steps,
+      mode === 'active' && !done ? this.guideRow(q) : null,
       h('div', { class: 'row', style: 'margin-top:8px;flex-wrap:wrap' }, ...rewards, h('span', { class: 'grow' }),
         mode === 'available'
           ? h('button', { class: 'btn sm gold', text: 'Accept', onclick: () => { acceptQuest(s, q.id, g.ctx); audio.sfx('quest_new'); toast('Quest accepted', 'good'); this.show(); host.refresh(); } })

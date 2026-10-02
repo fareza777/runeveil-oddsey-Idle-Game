@@ -10,7 +10,7 @@ const SLIDES = [
   { art: 'rv_intro_1', title: 'A Quiet World', text: 'For a thousand years the Runeveil has hung over the land, a ward woven from lantern light. Villages slept. Roads stayed safe.' },
   { art: 'rv_intro_2', title: 'The Veil Frays', text: 'Something ancient is pulling at its threads. Where the weave tears, monsters crawl through and the old rune-kings stir.' },
   { art: 'rv_intro_3', title: 'Twenty-Two Rifts', text: 'From Greenhollow Vale to the Throne of the First Rune, each zone hides a boss that holds a stolen thread.' },
-  { art: 'rv_intro_4', title: 'Five Lanterns', text: 'Kaelen, Sylra, Orren, Brynna and Mirel carry the last lanterns. Lead them, gear them, and teach them twenty-one trades.' },
+  { art: 'rv_intro_4', title: 'One Lantern', text: 'You begin alone, with a single lantern. Complete quests along the road and allies will join you, up to seven heroes. Gear them and teach them twenty-one trades.' },
   { art: 'rv_intro_5', title: 'Adventure Never Sleeps', text: 'Fight, gather and craft. Your party keeps working while you are away for up to twelve hours. Come back to a pile of loot.' },
 ];
 

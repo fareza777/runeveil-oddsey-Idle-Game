@@ -170,7 +170,9 @@ export class ActivityScene {
     let i = s.heroes.findIndex((_, k) => heroDef(s, k).skill === this.skill);
     if (i < 0) i = 0;
     const def = heroDef(s, i);
-    return img(def.sprite.startsWith('gen/') ? `${def.sprite}.png` : `pack/battlers/${def.sprite}.png`);
+    const base = def.sprite.split('/').pop()!;
+    // Scenes draw their own tool, so use the unarmed variant and fall back to the battle sprite while it loads.
+    return img(`gen/heroes_work/${base}.png`) ?? img(def.sprite.startsWith('gen/') ? `${def.sprite}.png` : `pack/battlers/${def.sprite}.png`);
   }
 
   // ---------- loop ----------

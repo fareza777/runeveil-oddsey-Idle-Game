@@ -30,10 +30,10 @@ const TABS: { id: TabId; label: string; icon: string }[] = [
 ];
 
 const HINTS: { text: string; tab: TabId; done: (s: GameState) => boolean }[] = [
-  { text: 'Welcome to Runeveil! Tap Battle! to send your heroes into the Greenhollow Vale.', tab: 'battle', done: (s) => s.activity?.type === 'combat' || (s.stats.kills ?? 0) > 0 },
-  { text: 'Your heroes fight on their own. Open Skills and start Mining or Woodcutting. Gathered goods feed crafting.', tab: 'skills', done: (s) => (s.stats.gathers ?? 0) > 0 },
+  { text: 'Welcome to Runeveil! You start alone. Tap Battle! to fight in the Greenhollow Vale. More heroes join through quests.', tab: 'battle', done: (s) => !!s.activity || (s.stats.kills ?? 0) > 0 },
+  { text: 'Only one activity runs at a time. Open Quests: the "Next" line shows what to do, and Go starts it for you.', tab: 'quests', done: (s) => s.quests.done.length > 0 || (s.stats.gathers ?? 0) > 0 },
+  { text: 'Open Skills to gather (Mining, Woodcutting) and craft. Gathered goods feed crafting.', tab: 'skills', done: (s) => (s.stats.gathers ?? 0) > 0 },
   { text: 'Craft gear in Smithing or Carpentry, then equip it from Heroes with Auto-equip.', tab: 'heroes', done: (s) => (s.stats.crafts ?? 0) > 0 },
-  { text: 'Check Quests for guidance and rewards. Main quests lead you across the world.', tab: 'quests', done: (s) => s.quests.done.length > 1 },
 ];
 
 export class AppShell {
@@ -65,6 +65,7 @@ export class AppShell {
     host.game = this.game;
     host.refresh = () => this.refreshTop(true);
     host.go = (t) => this.go(t);
+    host.openSkill = (id) => { (this.screens.skills as SkillsScreen).openSkill(id); this.go('skills'); };
     host.save = () => void saveState(this.game.state);
     setFullNumbers(state.settings.numberFormat === 'full');
     audio.setVolumes(state.settings.sfx, state.settings.music);
