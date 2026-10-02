@@ -1,12 +1,12 @@
 import { add, h, fmt, mount } from './dom';
-import { ico, itemIcon, spriteEl } from './icons';
+import { itemIcon, spriteEl } from './icons';
 import { openSheet, toast } from './modal';
-import { SLOT_NAME, STAT_LABEL, buzz, costChip, fmtStat, goldChip, statLines } from './common';
+import { SLOT_NAME, STAT_LABEL, buzz, costChip, fmtStat, goldChip, moneyEl, moneyText, statLines } from './common';
 import { audio } from './audio';
 import { host } from './host';
-import { GATHER, HEROES, ITEMS, RECIPES, SKILL_MAP, rarity } from '@/data';
+import { GATHER, ITEMS, RECIPES, SKILL_MAP, rarity } from '@/data';
 import { itemStats, MAX_UP, affixesOf } from '@/core/stats';
-import { countItem, itemSellPrice, sellPrice } from '@/core/state';
+import { countItem, heroDef, itemSellPrice, sellPrice } from '@/core/state';
 import type { ItemInstance, Slot, StatKey } from '@/core/types';
 
 /** Where an item comes from and what it feeds, so crafting chains are visible. */
@@ -18,9 +18,9 @@ function chain(id: string): HTMLElement | null {
   const line = (label: string, names: string[]) =>
     names.length ? h('div', { class: 'small', style: 'margin-top:4px' }, h('span', { class: 'muted', text: `${label}: ` }), names.slice(0, 4).join(', '), names.length > 4 ? ` +${names.length - 4}` : '') : null;
   return h('div', { class: 'ability' },
-    line('Gathered', [...new Set(gathered.map((g) => `${SKILL_MAP[g.skill].name} · ${g.name}`))]),
-    line('Crafted', [...new Set(made.map((r) => `${SKILL_MAP[r.skill].name} · ${r.name}`))]),
-    line('Used in', [...new Set(used.map((r) => `${SKILL_MAP[r.skill].name} · ${r.name}`))]));
+    line('Gathered', [...new Set(gathered.map((g) => `${SKILL_MAP[g.skill].name} Ã‚Â· ${g.name}`))]),
+    line('Crafted', [...new Set(made.map((r) => `${SKILL_MAP[r.skill].name} Ã‚Â· ${r.name}`))]),
+    line('Used in', [...new Set(used.map((r) => `${SKILL_MAP[r.skill].name} Ã‚Â· ${r.name}`))]));
 }
 
 export function stackSheet(id: string, onChange?: () => void) {
@@ -32,7 +32,7 @@ export function stackSheet(id: string, onChange?: () => void) {
       const have = countItem(g.state, id);
       add(body, 
         h('div', { class: 'item' }, itemIcon(id, undefined, 'lg'),
-          h('div', { class: 'meta' }, h('b', { text: def.name }), h('span', { text: `Tier ${def.tier} · ${def.kind} · owned ${fmt(have)}` }))),
+          h('div', { class: 'meta' }, h('b', { text: def.name }), h('span', { text: `Tier ${def.tier} Ã‚Â· ${def.kind} Ã‚Â· owned ${fmt(have)}` }))),
         def.desc ? h('p', { class: 'muted small', text: def.desc }) : null,
         def.heal ? h('div', { class: 'chip good', text: `Heals ${fmt(def.heal)} HP` }) : null,
         def.buff ? h('div', { class: 'chip gold', text: `${def.buff.status} +${def.buff.potency} for ${Math.round(def.buff.duration)}s` }) : null,
@@ -84,16 +84,17 @@ export function gearSheet(uid: string, opts: GearOpts = {}) {
         h('div', { class: 'item' }, itemIcon(inst.id, inst, 'lg'),
           h('div', { class: 'meta' },
             h('b', { text: def.name, style: `color:${r.color}` }),
-            h('span', {}, h('span', { class: 'badge-r', style: `--rc:${r.color}`, text: r.name }), ` T${def.tier} · ${SLOT_NAME[slot]}${def.style ? ' · ' + def.style : ''}`))),
+            h('span', {}, h('span', { class: 'badge-r', style: `--rc:${r.color}`, text: r.name }), ` T${def.tier} Ã‚Â· ${SLOT_NAME[slot]}${def.style ? ' Ã‚Â· ' + def.style : ''}`))),
         def.unique && def.desc ? h('p', { class: 'small gold', text: def.desc }) : null,
         h('div', { class: 'card', style: 'margin-top:10px' }, ...statLines(st, cur && cur !== inst ? itemStats(cur) : undefined)),
-        Object.keys(aff).length ? h('div', { class: 'small muted' }, 'Affixes: ', (Object.entries(aff) as [StatKey, number][]).map(([k, v]) => `${STAT_LABEL[k]} ${fmtStat(k, v)}`).join(' · ')) : null,
+        Object.keys(aff).length ? h('div', { class: 'small muted' }, 'Affixes: ', (Object.entries(aff) as [StatKey, number][]).map(([k, v]) => `${STAT_LABEL[k]} ${fmtStat(k, v)}`).join(' Ã‚Â· ')) : null,
         def.apply ? h('div', { class: 'chip gold', style: 'margin-top:6px', text: `Inflicts ${def.apply} on hit` }) : null,
         def.element ? h('div', { class: 'chip', style: 'margin-top:6px', text: `Element: ${def.element}` }) : null,
       );
 
       if (!opts.equipped) {
-        heroRow.append(...HEROES.map((hd, i) => {
+        heroRow.append(...g.state.heroes.map((_, i) => {
+          const hd = heroDef(g.state, i);
           const fit = g.fitsHero(i, inst);
           const b = h('button', { class: `btn sm ${fit ? '' : 'ghost'}`, style: 'flex:1;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:2px', onclick: () => {
             g.equip(i, uid);
@@ -115,7 +116,7 @@ export function gearSheet(uid: string, opts: GearOpts = {}) {
         const cost = g.upgradeCost(inst);
         const chance = g.upgradeChance(inst);
         const row = h('div', { class: 'card' },
-          h('div', { class: 'row' }, h('b', { class: 'grow', text: `Enhance +${inst.up} → +${inst.up + 1}` }), h('span', { class: 'chip', text: `${Math.round(chance * 100)}%` })),
+          h('div', { class: 'row' }, h('b', { class: 'grow', text: `Enhance +${inst.up} Ã¢â€ â€™ +${inst.up + 1}` }), h('span', { class: 'chip', text: `${Math.round(chance * 100)}%` })),
           h('div', { class: 'tiny muted', style: 'margin:4px 0', text: inst.up >= 5 ? 'Failure lowers the level by 1.' : 'Failure is safe until +5.' }),
           h('div', { class: 'row' },
             scroll ? costChip(g.state, scroll, 1) : h('span', { class: 'cost no', text: 'Needs enchant scroll' }),
@@ -126,7 +127,7 @@ export function gearSheet(uid: string, opts: GearOpts = {}) {
               if (res === 'ok') { toast(`Enhanced to +${find()!.up}!`, 'good'); audio.sfx('upgrade'); buzz('medium'); }
               else if (res === 'fail') { toast('Enhancement failed', 'bad'); audio.sfx('upgrade_fail'); }
               else if (res === 'noscroll') toast('You need an enchant scroll (craft with Enchanting)', 'bad');
-              else if (res === 'nogold') toast('Not enough gold', 'bad');
+              else if (res === 'nogold') toast('Not enough coin', 'bad');
               opts.onChange?.(); host.refresh(); render();
             } })));
         add(body, row);
@@ -134,8 +135,8 @@ export function gearSheet(uid: string, opts: GearOpts = {}) {
       if (!opts.equipped) {
         const p = sellPrice(g.state, inst);
         add(body, h('button', { class: 'btn gold block', onclick: () => {
-          g.sellGear([uid]); audio.sfx('coin'); toast(`Sold for ${fmt(p)} gold`, 'gold'); opts.onChange?.(); host.refresh(); close();
-        } }, 'Sell for ', ico('img:ui_icon_gold', 'sm'), ` ${fmt(p)}`));
+          g.sellGear([uid]); audio.sfx('coin'); toast(`Sold for ${moneyText(p)}`, 'gold'); opts.onChange?.(); host.refresh(); close();
+        } }, 'Sell for ', moneyEl(p)));
       }
     };
     render();

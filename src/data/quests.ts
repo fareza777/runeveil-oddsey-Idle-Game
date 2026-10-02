@@ -1,6 +1,8 @@
 import type { QuestDef, QuestStep, SkillId } from '@/core/types';
 import { SKILL_MAP } from './skills';
 import { ZONE_SEEDS } from './zoneSeeds';
+import { money } from '@/core/money';
+import { buildExtraQuests } from './questsExtra';
 
 const kill = (target: string, n: number, text: string): QuestStep => ({ type: 'kill', target, n, text });
 const killAny = (zone: number, n: number, text: string): QuestStep => ({ type: 'killAny', target: String(zone), n, text });
@@ -16,15 +18,15 @@ export const QUESTS: QuestDef[] = [];
 // ---------- main story ----------
 const MAIN_STORY: [string, string][] = [
   ['The Thinning Veil', 'Elder Maeva: "The fields hum at night. Something is leaking through the Veil. Start where it is thinnest, in Greenhollow."'],
-  ['Hornets in the Hollow', 'Scout Pell: "The wasps in Whisperwood are swarming earlier every year. Follow the humming and find the nest."'],
+  ['Hornets in the Hollow', 'Scout Pell: "The wasps in Whisperwood are swarming earlier every year. Follow the humming and find the nest. Take Sylra Windmere along, the best tracker of the high woods. She has been waiting for someone worth following."'],
   ['What the Marsh Remembers', 'Scholar Ilya: "The old marsh maps are wrong. The ground rearranges. Bring me proof."'],
-  ['The Pass Remains Guarded', 'Quartermaster Tobin: "We need the foothill road open. Something with horns is collecting tolls."'],
+  ['The Pass Remains Guarded', 'Quartermaster Tobin: "We need the foothill road open. Something with horns is collecting tolls. Brynna Stoneward holds the gate there. If you clear the pass, she will fight beside you."'],
   ['Gold in the Glare', 'Merchant Zeyla: "The dunes hide a ruined city. If you bring back anything shiny, the caravan guilds will pay handsomely."'],
   ['A Pulse Beneath the Stone', 'Forgemaster Brann: "The caverns glow wrong. Roots that breathe. Go down and see what is waking."'],
-  ['The Fleet That Wouldn\'t Sink', 'Harbormaster Quill: "Every dusk the wrecks float back up. Please make them stop."'],
+  ['The Fleet That Wouldn\'t Sink', 'Harbormaster Quill: "Every dusk the wrecks float back up. Please make them stop. A hooded scholar named Orren Ashgrove says he can read what drives them. He will join you if you sink the fleet for good."'],
   ['Cold Truths', 'Warden Hallis: "The tundra queen\'s winter is spreading. If it reaches the valley, the harvest is over."'],
   ['Fire Under Glass', 'Ashwright Corin: "The caldera djinn is bargaining with the mountain. I do not like what it is asking for."'],
-  ['The Archivist\'s Ledger', 'Elder Maeva: "Beneath the sunken crypts sits a ledger of every soul. Our names may already be in it."'],
+  ['The Archivist\'s Ledger', 'Elder Maeva: "Beneath the sunken crypts sits a ledger of every soul. Our names may already be in it. Mirel Dawnsong, a cleric of the lost sun-order, will walk with you once the Warden falls."'],
   ['Coils and Courts', 'Huntress Rahne: "The jungle empress sends serpents to the border. Cut the head, and the vines forget."'],
   ['Heart of the Geode', 'Scholar Ilya: "The crystals are singing one note. It is getting louder."'],
   ['Thunder on the Peaks', 'Skywatcher Odd: "Storms circle the heights without moving. Something is riding them."'],
@@ -46,6 +48,8 @@ QUESTS.push({
   reward: { gold: 120, items: [{ item: 'cfish_0', n: 5 }], xp: [{ skill: 'combat', n: 40 }] },
 });
 
+const HERO_FOR_MAIN: Record<number, string> = { 2: 'sylra', 4: 'brynna', 7: 'orren', 10: 'mirel' };
+
 ZONE_SEEDS.forEach((seed, i) => {
   const z = i + 1;
   const [name, story] = MAIN_STORY[i];
@@ -59,7 +63,8 @@ ZONE_SEEDS.forEach((seed, i) => {
   QUESTS.push({
     id: `main_${z}`, kind: 'main', name, giver: story.split(':')[0], story, steps,
     reward: {
-      gold: Math.round(150 * Math.pow(1.45, z - 1)), items: [{ item: `scroll_${Math.min(8, 1 + Math.floor(z / 3))}`, n: 1 }, { item: `cfish_${Math.min(19, z)}`, n: 10 }],
+      gold: money(150 * Math.pow(1.45, z - 1), z), hero: [2, 4, 7, 10].includes(z) ? HERO_FOR_MAIN[z] : undefined,
+      items: [{ item: `scroll_${Math.min(8, 1 + Math.floor(z / 3))}`, n: 1 }, { item: `cfish_${Math.min(19, z)}`, n: 10 }],
       xp: [{ skill: 'combat', n: 80 * z }],
     },
     requires: `main_${z - 1}`, reqZone: z,
@@ -67,7 +72,7 @@ ZONE_SEEDS.forEach((seed, i) => {
 });
 
 // ---------- side quests ----------
-interface S { id: string; name: string; giver: string; story: string; steps: QuestStep[]; gold: number; items?: { item: string; n: number }[]; zone?: number; skill?: [SkillId, number]; xp?: [SkillId, number] }
+interface S { requires?: string; id: string; name: string; giver: string; story: string; steps: QuestStep[]; gold: number; items?: { item: string; n: number }[]; zone?: number; skill?: [SkillId, number]; xp?: [SkillId, number] }
 const SIDE: S[] = [
   { id: 's_pie', name: "Maeva's Pumpkin Pie", giver: 'Elder Maeva', story: 'The elder wants a pie for the harvest festival. Carrots will not do.', steps: [gather('farm_5', 6, 'Grow 6 Pumpkins'), craft('cook_3', 1, 'Bake a Pumpkin Pie')], gold: 300, xp: ['cooking', 120], skill: ['farming', 8] },
   { id: 's_blade', name: 'A Blade for Tobin', giver: 'Quartermaster Tobin', story: 'The quartermaster needs a sturdy sword for the watch.', steps: [craft('smelt_0', 8, 'Smelt 8 Copper Bars'), craft('craft_sword_1', 1, 'Forge a Copper Sword')], gold: 250, xp: ['smithing', 100] },
@@ -81,9 +86,9 @@ const SIDE: S[] = [
   { id: 's_slime', name: 'Gel Quota', giver: 'Ashwright Corin', story: 'Alchemy needs gel. Slimes have it. You do the math.', steps: [kill('m_1_1', 12, 'Defeat 12 Meadow Slimes'), own('drop_slime_0', 10, 'Hold 10 Slime Gel')], gold: 280, xp: ['combat', 100] },
   { id: 's_elite1', name: 'The Elder Slime', giver: 'Elder Maeva', story: 'A great slime blocks the old well. Please deal with it.', steps: [kill('m_1_14', 3, 'Defeat 3 Elder Greenhollow Slimes')], gold: 450, xp: ['combat', 200], zone: 1 },
   { id: 's_hero10', name: 'Proving Ground', giver: 'Quartermaster Tobin', story: 'Tobin wants to see the party earn their stripes.', steps: [heroLevel(10)], gold: 600, items: [{ item: 'scroll_1', n: 2 }] },
-  { id: 's_fort', name: 'Take the Hit', giver: 'Brynna Stoneward', story: 'A bulwark learns by being struck. Do not wince.', steps: [skill('fortitude', 10)], gold: 700, xp: ['fortitude', 300] },
-  { id: 's_arc', name: 'The Study of Embers', giver: 'Orren Ashgrove', story: 'Orren asks you to practise spellcraft until your hands glow.', steps: [skill('arcana', 10)], gold: 700, xp: ['arcana', 300] },
-  { id: 's_mark', name: 'Straight Shot', giver: 'Sylra Windmere', story: 'Sylra has a challenge: hit the mark a hundred times without looking away.', steps: [skill('marksmanship', 10)], gold: 700, xp: ['marksmanship', 300] },
+  { requires: 'main_4', id: 's_fort', name: 'Take the Hit', giver: 'Brynna Stoneward', story: 'A bulwark learns by being struck. Do not wince.', steps: [skill('fortitude', 10)], gold: 700, xp: ['fortitude', 300] },
+  { requires: 'main_7', id: 's_arc', name: 'The Study of Embers', giver: 'Orren Ashgrove', story: 'Orren asks you to practise spellcraft until your hands glow.', steps: [skill('arcana', 10)], gold: 700, xp: ['arcana', 300] },
+  { requires: 'main_2', id: 's_mark', name: 'Straight Shot', giver: 'Sylra Windmere', story: 'Sylra has a challenge: hit the mark a hundred times without looking away.', steps: [skill('marksmanship', 10)], gold: 700, xp: ['marksmanship', 300] },
   { id: 's_foreign', name: 'The Desert Bargain', giver: 'Merchant Zeyla', story: 'Zeyla wants sand pearls, and a fair price.', steps: [killAny(5, 25, 'Defeat 25 monsters in Sunscar Dunes'), own('gem_3', 3, 'Hold 3 Cut Topaz')], gold: 1100, zone: 5, xp: ['trading', 400] },
   { id: 's_trade', name: 'Merchant Prince', giver: 'Merchant Zeyla', story: 'Run a caravan. Make a profit. Zeyla will do the paperwork.', steps: [craft('trade_0', 10, 'Run 10 Village Peddling trips'), craft('trade_1', 10, 'Run 10 Roadside Stall trips')], gold: 900, xp: ['trading', 300] },
   { id: 's_mine20', name: 'Deep Veins', giver: 'Forgemaster Brann', story: 'Brann wants his miners to go deeper. You are the miners.', steps: [skill('mining', 20)], gold: 1200, xp: ['mining', 600] },
@@ -103,17 +108,21 @@ const SIDE: S[] = [
   { id: 's_wb3', name: 'Calamity: Verdantyr', giver: 'Huntress Rahne', story: 'The jungle grew a king. Rahne wants the crown.', steps: [boss('wboss_3', 'Defeat Verdantyr, the Thorn Colossus')], gold: 14000, items: [{ item: 'scroll_6', n: 2 }], zone: 15 },
   { id: 's_wb4', name: 'Calamity: Umbraxis', giver: 'Lady Veyra', story: 'Something is eating the shadows of the town. Bring them back.', steps: [boss('wboss_4', 'Defeat Umbraxis, the Eclipse Devourer')], gold: 22000, items: [{ item: 'scroll_7', n: 2 }], zone: 18 },
   { id: 's_wb5', name: 'Calamity: Voltarion', giver: 'Skywatcher Odd', story: 'A wish with a temper. Do not wish back.', steps: [boss('wboss_5', 'Defeat Voltarion, the Storm Sovereign')], gold: 32000, items: [{ item: 'scroll_8', n: 2 }], zone: 20 },
-  { id: 's_wb6', name: 'Calamity: Lumenar', giver: 'Mirel Dawnsong', story: 'The last guardian of the first dawn. Mirel will sing while you fight.', steps: [boss('wboss_6', 'Defeat Lumenar, the Dawn Reliquary')], gold: 60000, items: [{ item: 'scroll_8', n: 4 }], zone: 22 },
+  { requires: 'main_10', id: 's_wb6', name: 'Calamity: Lumenar', giver: 'Mirel Dawnsong', story: 'The last guardian of the first dawn. Mirel will sing while you fight.', steps: [boss('wboss_6', 'Defeat Lumenar, the Dawn Reliquary')], gold: 60000, items: [{ item: 'scroll_8', n: 4 }], zone: 22 },
   { id: 's_all', name: 'Jack of Many Trades', giver: 'Elder Maeva', story: 'The elder dares you to master the basics of every craft.', steps: [skill('smithing', 15), skill('carpentry', 15), skill('leatherworking', 15), skill('jewelcrafting', 15), skill('alchemy', 15)], gold: 4000, xp: ['exploration', 800] },
   { id: 's_explore', name: 'Cartographer\'s Dream', giver: 'Scout Pell', story: 'Fill in the maps. Pell will pay by the square mile.', steps: [skill('exploration', 25), gather('scout_5', 20, 'Scout Sunscar Dunes 20 times')], gold: 3000, xp: ['exploration', 900] },
 ];
 
+const sideZone = (s: S): number => s.zone ?? (s.skill ? Math.min(22, 1 + Math.floor((s.skill[1] * 21) / 99)) : 2);
+
 for (const s of SIDE) {
   QUESTS.push({
     id: s.id, kind: 'side', name: s.name, giver: s.giver, story: s.story, steps: s.steps,
-    reward: { gold: s.gold, items: s.items, xp: s.xp ? [{ skill: s.xp[0], n: s.xp[1] }] : undefined },
-    reqZone: s.zone, reqSkill: s.skill ? { skill: s.skill[0], level: s.skill[1] } : undefined,
+    reward: { gold: money(s.gold, sideZone(s)), items: s.items, xp: s.xp ? [{ skill: s.xp[0], n: s.xp[1] }] : undefined },
+    requires: s.requires, reqZone: s.zone, reqSkill: s.skill ? { skill: s.skill[0], level: s.skill[1] } : undefined,
   });
 }
+
+QUESTS.push(...buildExtraQuests());
 
 export const QUEST_MAP: Record<string, QuestDef> = Object.fromEntries(QUESTS.map((q) => [q.id, q]));

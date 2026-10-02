@@ -13,7 +13,8 @@ import { MoreScreen } from './more';
 import { Game } from '@/core/engine';
 import { saveState } from '@/core/save';
 import { readyCount } from '@/core/questSys';
-import { GATHER_MAP, ITEMS, MONSTERS, RECIPE_MAP, SKILL_MAP } from '@/data';
+import { GATHER_MAP, HERO_MAP, ITEMS, MONSTERS, RECIPE_MAP, SKILL_MAP } from '@/data';
+import { moneyEl, moneyText } from './common';
 import type { GameEvent } from '@/core/state';
 import type { GameState, OfflineReport } from '@/core/types';
 import { App as CapApp } from '@capacitor/app';
@@ -78,7 +79,7 @@ export class AppShell {
     this.actbar = h('div', { class: 'row', style: 'padding:5px 12px;background:#0f0b22;border-bottom:1px solid var(--line);gap:10px;display:none' },
       this.actName, h('div', { style: 'width:90px' }, this.actBar),
       h('button', { class: 'btn sm ghost', text: 'Stop', onclick: () => { this.game.stop('Stopped'); this.refreshTop(true); this.screens[this.tab].show(); } }));
-    const top = h('div', { class: 'top' }, this.topTitle, h('span', { class: 'res', title: 'Gold' }, ico('img:ui_icon_gold'), this.topGold));
+    const top = h('div', { class: 'top' }, this.topTitle, h('span', { class: 'res', title: 'Silver · 10,000 silver = 1 gold · 10,000 gold = 1 platinum' }, this.topGold));
     this.main = h('div', { id: 'main' }, ...Object.values(this.screens).map((sc) => { sc.el.style.display = 'none'; return sc.el; }));
     this.nav = h('div', { class: 'nav' }, ...TABS.map((t) => {
       const b = h('button', { onclick: () => { audio.unlock(); audio.sfx('ui_click', 0.6); if (t.id === 'skills' && this.tab === 'skills') (this.screens.skills as SkillsScreen).reset(); this.go(t.id); } }, ico(t.icon), h('span', { text: t.label }));
@@ -185,7 +186,7 @@ export class AppShell {
         r.classList.remove('pulse'); void r.offsetWidth; r.classList.add('pulse');
       }
       this.lastGold = s.gold;
-      this.topGold.textContent = fmt(s.gold);
+      this.topGold.replaceChildren(moneyEl(s.gold));
     }
     const a = s.activity;
     if (!a) {
@@ -255,6 +256,7 @@ export class AppShell {
         else if (e.what === 'accepted') toast('New quest started', 'info');
         break;
       case 'zone': toast('A new zone has been unlocked!', 'gold'); break;
+      case 'recruit': toast(`${HERO_MAP[e.id].name} joined your party!`, 'gold'); audio.sfx('quest_complete', 0.8); break;
       case 'stop':
         toast(e.reason, 'bad');
         this.refreshTop(true);
@@ -274,7 +276,7 @@ export class AppShell {
       add(body, 
         h('div', { class: 'center muted small', text: `${rep.activityName} for ${fmtTime(rep.seconds)}${rep.capped ? ' (12h limit)' : ''}` }),
         h('div', { class: 'grid g3', style: 'margin:10px 0' },
-          this.stat('Gold', fmt(rep.gold), 'img:ui_icon_gold'),
+          this.stat('Coin', moneyText(rep.gold), 'img:ui_icon_gold'),
           rep.kills ? this.stat('Kills', fmt(rep.kills), 'img:ui_icon_attack') : this.stat('Actions', fmt(rep.actions), 'img:ui_icon_skill'),
           rep.bossKills ? this.stat('Bosses', fmt(rep.bossKills), 'img:ui_icon_crown') : this.stat('Items', fmt(items.reduce((n, [, c]) => n + c, 0)), 'img:ui_icon_inventory')),
         rep.wipes ? h('div', { class: 'chip bad', style: 'margin-bottom:8px', text: `Party was defeated ${rep.wipes} time${rep.wipes > 1 ? 's' : ''}` }) : null,

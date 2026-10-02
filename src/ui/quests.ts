@@ -4,10 +4,10 @@ import { toast } from './modal';
 import { audio } from './audio';
 import { host } from './host';
 import type { Screen } from './screen';
-import { ITEMS, QUESTS, QUEST_MAP, SKILL_MAP } from '@/data';
+import { HERO_MAP, ITEMS, QUESTS, QUEST_MAP, SKILL_MAP } from '@/data';
 import { acceptQuest, availableQuests, claimQuest, questDone, stepProgress } from '@/core/questSys';
 import type { QuestDef } from '@/core/types';
-import { buzz } from './common';
+import { buzz, goldChip } from './common';
 
 type Tab = 'active' | 'available' | 'done';
 
@@ -46,7 +46,8 @@ export class QuestsScreen implements Screen {
     const s = g.state;
     const done = mode === 'active' && questDone(s, q);
     const rewards: HTMLElement[] = [];
-    if (q.reward.gold) rewards.push(h('span', { class: 'cost' }, ico('img:ui_icon_gold'), fmt(q.reward.gold)));
+    if (q.reward.hero) rewards.push(h('span', { class: 'cost gold', style: 'padding-left:6px' }, `Recruit: ${HERO_MAP[q.reward.hero].name}`));
+    if (q.reward.gold) rewards.push(goldChip(s.gold, q.reward.gold));
     for (const it of q.reward.items ?? []) if (ITEMS[it.item]) rewards.push(h('span', { class: 'cost', title: ITEMS[it.item].name }, ico(ITEMS[it.item].icon), `×${it.n}`));
     for (const x of q.reward.xp ?? []) rewards.push(h('span', { class: 'cost' }, ico(SKILL_MAP[x.skill].icon), `${fmt(x.n)} XP`));
     const steps = q.steps.map((st, i) => {

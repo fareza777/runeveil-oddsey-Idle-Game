@@ -17,7 +17,15 @@ export const BAL = {
   /** monster hp/atk multiplier in zone 1; rises linearly to 1 by easeUntil so a fresh party can win */
   easeStart: 0.4,
   easeUntil: 5,
+  /** fraction of the hero level a well-played character is assumed to have in the matching skill (expected-party model) */
+  expSkillShare: 0.5,
+  /** Training Hall: max ranks per hero, +2% atk/hp per rank, price base in silver */
+  hallMaxRank: 20,
+  hallPctPerRank: 2,
 };
+
+/** Silver price of the next Training Hall rank. */
+export const hallCost = (rank: number): number => Math.round(1500 * 1.5 ** rank);
 
 export const gearTierForLevel = (level: number): number => Math.max(1, Math.min(20, Math.round(1 + ((level - 1) * 19) / 99)));
 

@@ -2,7 +2,7 @@ import { Capacitor } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
 import type { GameState } from './types';
 import { defaultSettings, newState, GAME_VERSION } from './state';
-import { SKILL_IDS } from '@/data';
+import { HERO_MAP, SKILL_IDS } from '@/data';
 import { xpAtLevel } from './xp';
 
 const KEY = 'runeveil.save.v1';
@@ -44,7 +44,9 @@ export function migrate(raw: Partial<GameState>): GameState {
   }
   s.quests = { done: [], active: [], progress: {}, ...(raw.quests ?? {}) };
   s.codex = { items: {}, monsters: {}, ...(raw.codex ?? {}) };
-  s.heroes = base.heroes.map((h, i) => ({ ...h, ...(raw.heroes?.[i] ?? {}), equip: { ...(raw.heroes?.[i]?.equip ?? {}) } }));
+  const known = (raw.heroes ?? []).filter((h) => HERO_MAP[h.id]);
+  s.heroes = known.length ? known.map((h) => ({ ...h, level: h.level || 1, xp: h.xp || 0, equip: { ...h.equip } })) : base.heroes;
+  s.hall = { ...(raw.hall ?? {}) };
   s.v = GAME_VERSION;
   return s;
 }

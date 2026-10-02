@@ -54,7 +54,8 @@ export function statusBadge(id: StatusId, stacks = 1): HTMLElement {
 
 const heroSizeCache = new Map<string, number>();
 export function spriteEl(sprite: string, opts: { hue?: number; sat?: number; zoom: number; max?: number; scale?: number; cls?: string; dir?: string }): HTMLImageElement {
-  const img = h('img', { class: `sprite ${opts.cls ?? ''}`, src: asset(`${opts.dir ?? 'pack/battlers'}/${sprite}.png`), alt: '', draggable: false });
+  const src = sprite.startsWith('gen/') ? asset(`${sprite}.png`) : asset(`${opts.dir ?? 'pack/battlers'}/${sprite}.png`);
+  const img = h('img', { class: `sprite ${opts.cls ?? ''}`, src, alt: '', draggable: false });
   const apply = (nh: number) => {
     let px = nh * opts.zoom * (opts.scale ?? 1);
     if (opts.max) px = Math.min(opts.max, px);

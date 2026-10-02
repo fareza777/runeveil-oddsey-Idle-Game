@@ -1,5 +1,6 @@
 import type { GameState } from './types';
-import { HEROES, SKILL_IDS, ZONE_MAP } from '@/data';
+import { SKILL_IDS, ZONE_MAP } from '@/data';
+import { storyPartyAt } from '@/data/combatData';
 import { GEAR_TYPES, gearId } from '@/data/gear';
 import { BAL, gearTierForLevel } from './balance';
 import { computeHero } from './stats';
@@ -16,18 +17,18 @@ export function expectedState(zone: number, rarityLevel = expectedRarity(zone)):
   const z = ZONE_MAP[zone];
   const lvl = Math.round((z.levelRange[0] + z.levelRange[1]) / 2);
   const tier = gearTierForLevel(lvl);
-  const sl = Math.min(99, Math.round(lvl * 0.95));
+  const sl = Math.min(99, Math.round(lvl * BAL.expSkillShare));
   for (const id of SKILL_IDS) {
     s.skills[id] = sl;
     s.skillXp[id] = xpAtLevel(sl);
   }
-  HEROES.forEach((h, i) => {
-    s.heroes[i].level = Math.min(100, lvl);
+  s.heroes = storyPartyAt(zone).map((h) => ({ id: h.id, level: Math.min(100, lvl), xp: 0, equip: {} }));
+  storyPartyAt(zone).forEach((h, i) => {
     const put = (key: string) => {
       const t = GEAR_TYPES.find((g) => g.key === key)!;
       s.heroes[i].equip[t.slot] = newGear(s, gearId(key, tier), rarityLevel);
     };
-    put(WEAPON_FOR[h.style]);
+    put(h.id === 'vex' ? 'dagger' : WEAPON_FOR[h.style]);
     ['shield', 'helm', 'cuirass', 'greaves', 'gloves', 'boots', 'amulet', 'ring'].forEach(put);
     if (h.style === 'magic') put('orb');
   });

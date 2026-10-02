@@ -5,6 +5,7 @@ import { countItem } from '@/core/state';
 import type { GameState, Slot, StatKey, Stats } from '@/core/types';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { host } from './host';
+import { splitMoney } from '@/core/money';
 import { expected } from '@/core/expected';
 import { BAL } from '@/core/balance';
 import { zoneEase } from '@/core/monsterStats';
@@ -45,8 +46,27 @@ export function costChip(s: GameState, item: string, n: number): HTMLElement {
   return h('span', { class: `cost ${have < n ? 'no' : ''}`, title: def?.name }, ico(def?.icon ?? 'img:ui_icon_gift'), `${fmt(have)}/${fmt(n)}`);
 }
 
+/** Up to two leading denominations, e.g. "3p 2,345g", "12g 3,450s" or "845s". */
+export function moneyText(silver: number): string {
+  const m = splitMoney(silver);
+  if (m.platinum) return `${fmt(m.platinum)}p${m.gold ? ` ${fmt(m.gold)}g` : ''}`;
+  if (m.gold) return `${fmt(m.gold)}g${m.silver ? ` ${fmt(m.silver)}s` : ''}`;
+  return `${fmt(m.silver)}s`;
+}
+
+/** Coin-icon money display, same shape as moneyText. */
+export function moneyEl(silver: number, cls = ''): HTMLElement {
+  const m = splitMoney(silver);
+  const parts: [string, number][] = m.platinum
+    ? [['p', m.platinum], ['g', m.gold]]
+    : m.gold ? [['g', m.gold], ['s', m.silver]] : [['s', m.silver]];
+  const el = h('span', { class: `money ${cls}` });
+  for (const [k, v] of parts) if (v > 0 || parts.length === 1) el.append(h('span', { class: 'mn' }, h('i', { class: `coin ${k}` }), fmt(v)));
+  return el;
+}
+
 export function goldChip(have: number, need: number): HTMLElement {
-  return h('span', { class: `cost ${have < need ? 'no' : ''}` }, ico('img:ui_icon_gold'), fmt(need));
+  return h('span', { class: `cost ${have < need ? 'no' : ''}` }, moneyEl(need));
 }
 
 export function buzz(kind: 'light' | 'medium' | 'heavy' = 'light') {
@@ -76,4 +96,4 @@ export function danger(r: number): { label: string; cls: string } {
   return { label: 'Deadly', cls: 'bad' };
 }
 
-export const heroPortrait = (sprite: string) => h('img', { class: 'sprite', src: `${import.meta.env.BASE_URL}assets/pack/battlers/${sprite}.png`, style: 'height:52px' });
+export const heroPortrait = (sprite: string) => h('img', { class: 'sprite', src: `${import.meta.env.BASE_URL}assets/${sprite.startsWith('gen/') ? sprite : `pack/battlers/${sprite}`}.png`, style: 'height:52px' });

@@ -1,13 +1,14 @@
 import type { GameState, ItemInstance, MonsterDef, OfflineReport, RecipeDef, Slot, SkillId } from './types';
-import { GATHER_MAP, HEROES, ITEMS, MONSTERS, RECIPE_MAP, ZONE_MAP, ZONES, rarity } from '@/data';
+import { GATHER_MAP, ITEMS, MONSTERS, RECIPE_MAP, ZONE_MAP, ZONES, rarity } from '@/data';
 import { combatStep, createCombat, refreshHeroes, type CombatRt } from './combat';
 import { MAX_UP, itemStats, partyLuck, skillBonuses } from './stats';
 import { mulberry32 } from './rng';
 import { rollEntry, rarityQ, rollRarity } from './loot';
 import { gatherEvent, questEvent, refreshQuests } from './questSys';
 import {
-  addGear, addGold, addItem, countItem, gainXp, itemSellPrice, newGear, sellPrice, takeItem, type Ctx, type GameEvent,
+  addGear, addGold, addItem, countItem, gainXp, heroDef, itemSellPrice, newGear, sellPrice, takeItem, type Ctx, type GameEvent,
 } from './state';
+import { BAL, hallCost } from './balance';
 
 export const OFFLINE_CAP = 12 * 3600;
 const STEP = 0.25;
@@ -36,6 +37,7 @@ export class Game {
   }
 
   private emit = (e: GameEvent) => {
+    if (e.t === 'recruit' && this.state.activity?.type === 'combat') this.buildCombat();
     if (this.collector) this.collector(e);
     else for (const l of this.listeners) l(e);
   };
@@ -467,8 +469,23 @@ export class Game {
 
   fitsHero(heroIdx: number, g: ItemInstance): boolean {
     const def = ITEMS[g.id];
-    if (def.slot === 'weapon' && def.style) return def.style === heroStyle(heroIdx);
+    if (def.slot === 'weapon' && def.style) return def.style === heroDef(this.state, heroIdx).style;
     return true;
+  }
+
+  /** Buys one Training Hall rank for a hero. Returns an error string or null. */
+  trainHero(heroIdx: number): string | null {
+    const s = this.state;
+    const id = s.heroes[heroIdx]?.id;
+    if (!id) return 'No such hero';
+    const rank = s.hall[id] ?? 0;
+    if (rank >= BAL.hallMaxRank) return 'Training complete';
+    const cost = hallCost(rank);
+    if (s.gold < cost) return 'Not enough coin';
+    s.gold -= cost;
+    s.hall[id] = rank + 1;
+    if (this.rt) refreshHeroes(s, this.rt);
+    return null;
   }
 
   monsterOf(id: string): MonsterDef | undefined {
@@ -479,5 +496,4 @@ export class Game {
   rarityRollQ(): number { return rarityQ(this.state); }
 }
 
-const heroStyle = (i: number) => HEROES[i].style;
 

@@ -2,6 +2,7 @@ import { add, h, fmt, fmtTime, mount, setFullNumbers } from './dom';
 import { ico, itemIcon, monsterSprite } from './icons';
 import { confirmBox, openSheet, toast } from './modal';
 import { audio } from './audio';
+import { moneyText } from './common';
 import { host } from './host';
 import type { Screen } from './screen';
 import { BOSSES, ITEMS, MONSTERS, RARITIES, SKILLS, ZONES } from '@/data';
@@ -25,13 +26,13 @@ export class MoreScreen implements Screen {
     const done = s.quests.done.length;
     const row = (icon: string, title: string, sub: string, on: () => void, danger = false) =>
       h('div', { class: 'card tap item', onclick: () => { audio.sfx('ui_click'); on(); } }, ico(icon, 'lg'),
-        h('div', { class: 'meta' }, h('b', { class: danger ? 'bad' : '', text: title }), h('span', { text: sub })), h('span', { class: 'muted', text: '›' }));
+        h('div', { class: 'meta' }, h('b', { class: danger ? 'bad' : '', text: title }), h('span', { text: sub })), h('span', { class: 'muted', text: 'â€º' }));
 
     mount(this.el,
       h('div', { class: 'card' },
         h('div', { class: 'item' }, h('img', { class: 'portrait', src: `${import.meta.env.BASE_URL}assets/gen/brand/rv_icon.png` }),
           h('div', { class: 'meta' }, h('b', { style: 'font-size:18px;font-family:var(--head);color:var(--gold)', text: s.name }),
-            h('span', { text: `Zone ${s.zoneUnlocked} reached · ${done} quests · power ${fmt(partyPower(s))}` }),
+            h('span', { text: `Zone ${s.zoneUnlocked} reached Â· ${done} quests Â· power ${fmt(partyPower(s))}` }),
             h('span', { text: `Played ${fmtTime(s.playTime)}` })))),
       h('h2', { text: 'Menu' }),
       row('img:ui_icon_codex', 'Codex', 'Monsters, bosses and items you have discovered', () => this.codex()),
@@ -54,7 +55,7 @@ export class MoreScreen implements Screen {
     const rows: [string, string][] = [
       ['Time played', fmtTime(s.playTime)], ['Total skill level', `${total} / ${SKILLS.length * 99}`], ['Monsters defeated', fmt(st.kills ?? 0)], ['Bosses defeated', fmt(st.bossKills ?? 0)],
       ['Party wipes', fmt(st.wipes ?? 0)], ['Resources gathered', fmt(st.gathers ?? 0)], ['Items crafted', fmt(st.crafts ?? 0)], ['Enhancements', fmt(st.upgrades ?? 0)],
-      ['Gold earned', fmt(st.goldEarned ?? 0)], ['Items sold', fmt(st.itemsSold ?? 0)], ['Gear auto-sold', fmt(st.autoSold ?? 0)], ['Total XP gained', fmt(st.xpTotal ?? 0)],
+      ['Coin earned', moneyText(st.goldEarned ?? 0)], ['Items sold', fmt(st.itemsSold ?? 0)], ['Gear auto-sold', fmt(st.autoSold ?? 0)], ['Total XP gained', fmt(st.xpTotal ?? 0)],
       ['Items discovered', `${Object.keys(s.codex.items).length} / ${Object.keys(ITEMS).length}`], ['Monsters discovered', `${Object.keys(s.codex.monsters).length} / ${Object.keys(MONSTERS).length}`],
     ];
     openSheet('Statistics', (body) => add(body, h('div', { class: 'card kv' }, ...rows.flatMap(([a, b]) => [h('span', { text: a }), h('b', { text: b })]))));
@@ -88,7 +89,7 @@ export class MoreScreen implements Screen {
           list.append(h('div', { class: 'grid bag' }, ...all.map((d) => {
             const known = !!s.codex.items[d.id];
             const el = known ? itemIcon(d.id) : h('span', { class: 'slotbox empty' }, h('span', { class: 'muted', text: '?' }));
-            if (known) el.addEventListener('click', () => toast(`${d.name} · tier ${d.tier}`, 'info'));
+            if (known) el.addEventListener('click', () => toast(`${d.name} Â· tier ${d.tier}`, 'info'));
             return el;
           })));
         }
@@ -110,7 +111,7 @@ export class MoreScreen implements Screen {
           m.resist ? h('span', { class: 'chip bad', text: `resists: ${m.resist}` }) : null, m.inflicts ? h('span', { class: 'chip gold', text: `inflicts ${m.inflicts.status}` }) : null,
           h('span', { class: 'chip', text: `defeated ${fmt(s.kills[id] ?? 0)}` })),
         b ? h('p', { class: 'small muted', style: 'line-height:1.4', text: `${b.title}. ${b.lore}` }) : null,
-        b ? h('div', { class: 'ability' }, ...b.abilities.map((a) => h('div', {}, h('b', { text: a.name + ' ' }), `every ${a.every}s · ${a.kind}`))) : null,
+        b ? h('div', { class: 'ability' }, ...b.abilities.map((a) => h('div', {}, h('b', { text: a.name + ' ' }), `every ${a.every}s Â· ${a.kind}`))) : null,
         h('h3', { text: 'Drops' }),
         h('div', { class: 'row', style: 'flex-wrap:wrap;gap:4px' }, ...m.drops.filter((d) => ITEMS[d.item]).map((d) => h('span', { class: 'cost' }, ico(ITEMS[d.item].icon), `${ITEMS[d.item].name} ${Math.round(d.chance * 1000) / 10}%`))));
     });
@@ -148,7 +149,7 @@ export class MoreScreen implements Screen {
           st.autoSell = v <= 1 ? 0 : v;
           ((e.target as HTMLElement).parentElement!.firstElementChild!.lastElementChild as HTMLElement).textContent = sellLabel();
         }, onchange: apply }));
-      const fmtRow = h('div', { class: 'card row' }, h('div', { class: 'grow' }, h('b', { text: 'Number format' }), h('div', { class: 'tiny muted', text: 'Short: 1.2K · Full: 1,234' })),
+      const fmtRow = h('div', { class: 'card row' }, h('div', { class: 'grow' }, h('b', { text: 'Number format' }), h('div', { class: 'tiny muted', text: 'Short: 1.2K Â· Full: 1,234' })),
         h('button', { class: 'btn sm', text: st.numberFormat === 'short' ? 'Short' : 'Full', onclick: (e: Event) => {
           st.numberFormat = st.numberFormat === 'short' ? 'full' : 'short';
           (e.target as HTMLElement).textContent = st.numberFormat === 'short' ? 'Short' : 'Full';

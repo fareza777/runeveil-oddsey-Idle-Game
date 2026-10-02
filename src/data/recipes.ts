@@ -1,5 +1,6 @@
 import type { RecipeDef } from '@/core/types';
 import { xpForReq } from '@/core/xp';
+import { econScale, money, zoneOfTier } from '@/core/money';
 import { ELEMENTS } from './combatData';
 import { GEAR_TYPES, gearId, gearName } from './gear';
 import { ITEMS, MEAL_NAMES, POTION_LINES, POTION_PREFIX, RUNE_TIERS } from './items';
@@ -58,7 +59,7 @@ GEAR_TYPES.forEach((type, ti) => {
     }
     push({
       id: `craft_${type.key}_${t}`, skill: type.skill, name: gearName(type, t), level: L, xp: xpForReq(L, 1.5),
-      time: 4 + t * 0.2, inputs, gold: Math.round(12 * Math.pow(1.32, t - 1)), out: [inp(gearId(type.key, t), 1)], quality: true, icon: ITEMS[gearId(type.key, t)].icon,
+      time: 4 + t * 0.2, inputs, gold: Math.round(12 * Math.pow(1.32, t - 1) * econScale(zoneOfTier(t))), out: [inp(gearId(type.key, t), 1)], quality: true, icon: ITEMS[gearId(type.key, t)].icon,
     });
   }
 });
@@ -72,7 +73,7 @@ MEAL_NAMES.forEach((_, i) => {
   const L = 4 + Math.round(i * 3.9);
   const inputs = [inp(`crop_${Math.floor((i * CROPS.length) / MEAL_NAMES.length)}`, 2), inp(`cfish_${Math.floor((i * FISH.length) / MEAL_NAMES.length)}`, 1)];
   if (i >= 8) inputs.push(inp(`herb_${Math.floor(((i - 8) * HERBS.length) / 16)}`, 1));
-  push({ id: `cook_${i}`, skill: 'cooking', name: ITEMS[`meal_${i}`].name, level: L, xp: xpForReq(L, 1.3), time: 4.5, inputs, gold: 4 + i * 6, out: [inp(`meal_${i}`, 1)], icon: iconOf(`meal_${i}`) });
+  push({ id: `cook_${i}`, skill: 'cooking', name: ITEMS[`meal_${i}`].name, level: L, xp: xpForReq(L, 1.3), time: 4.5, inputs, gold: money(4 + i * 6, 1 + (i * 21) / 23), out: [inp(`meal_${i}`, 1)], icon: iconOf(`meal_${i}`) });
 });
 
 // ---------- alchemy ----------
@@ -86,7 +87,7 @@ for (const line of POTION_LINES) {
     const pre = POTION_PREFIX[Math.min(POTION_PREFIX.length - 1, Math.round((k * (POTION_PREFIX.length - 1)) / Math.max(1, line.tiers - 1)))];
     void pre;
     const id = `pot_${line.key}_${k}`;
-    push({ id: `brew_${line.key}_${k}`, skill: 'alchemy', name: ITEMS[id].name, level: L, xp: xpForReq(L, 1.3), time: 5, inputs, gold: 6 + Math.round(L * 1.4), out: [inp(id, 1)], icon: iconOf(id) });
+    push({ id: `brew_${line.key}_${k}`, skill: 'alchemy', name: ITEMS[id].name, level: L, xp: xpForReq(L, 1.3), time: 5, inputs, gold: money(6 + Math.round(L * 1.4), 1 + (L * 21) / 99), out: [inp(id, 1)], icon: iconOf(id) });
   }
 }
 
@@ -107,7 +108,7 @@ for (let k = 1; k <= 8; k++) {
   push({
     id: `scribe_${k}`, skill: 'enchanting', name: ITEMS[`scroll_${k}`].name, level: L, xp: xpForReq(L, 1.4), time: 6,
     inputs: [inp('ess_physical', 1 + Math.ceil(k / 2)), inp(`ess_${el}`, 1), inp(`relic_${Math.round(((k - 1) * 11) / 7)}`, 1)],
-    gold: Math.round(80 * Math.pow(2.2, k)), out: [inp(`scroll_${k}`, 1)], icon: iconOf(`scroll_${k}`),
+    gold: money(80 * Math.pow(2.2, k), 1 + (k - 1) * 3), out: [inp(`scroll_${k}`, 1)], icon: iconOf(`scroll_${k}`),
   });
 }
 
@@ -119,14 +120,14 @@ ELEMENTS.forEach((e, i) => {
     const id = `rune_${e.id}_${rt.key}`;
     push({
       id: `carve_${e.id}_${rt.key}`, skill: 'runecrafting', name: ITEMS[id].name, level: L, xp: xpForReq(L, 1.4), time: 6,
-      inputs: [inp(`plank_${r}`, 2), inp(`ess_${e.id}`, ti === 0 ? 3 : 8), inp(`relic_${r}`, 1)], gold: Math.round(300 * Math.pow(3.3, ti)), out: [inp(id, 1)], quality: true, icon: iconOf(id),
+      inputs: [inp(`plank_${r}`, 2), inp(`ess_${e.id}`, ti === 0 ? 3 : 8), inp(`relic_${r}`, 1)], gold: money(300 * Math.pow(3.3, ti), ti === 0 ? 8 : 15), out: [inp(id, 1)], quality: true, icon: iconOf(id),
     });
   });
 });
 [['might', 40], ['fortune', 46], ['ward', 52], ['swift', 58]].forEach(([k, L], i) => {
   push({
     id: `carve_${k}`, skill: 'runecrafting', name: ITEMS[`rune_${k}`].name, level: L as number, xp: xpForReq(L as number, 1.4), time: 7,
-    inputs: [inp('plank_5', 3), inp(`ess_${ELEMENTS[(i * 2) % 8].id}`, 4), inp('relic_6', 1)], gold: 2500, out: [inp(`rune_${k}`, 1)], quality: true, icon: iconOf(`rune_${k}`),
+    inputs: [inp('plank_5', 3), inp(`ess_${ELEMENTS[(i * 2) % 8].id}`, 4), inp('relic_6', 1)], gold: money(2500, 10), out: [inp(`rune_${k}`, 1)], quality: true, icon: iconOf(`rune_${k}`),
   });
 });
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { Game } from '@/core/engine';
 import { newState } from '@/core/state';
 import { GEAR_TYPES, gearId } from '@/data/gear';
-import { BOSSES, HEROES, ITEMS, ZONES, ZONE_MAP, SKILL_IDS } from '@/data';
+import { BOSSES, storyPartyAt, ITEMS, ZONES, ZONE_MAP, SKILL_IDS } from '@/data';
 import { gearTierForLevel } from '@/core/balance';
 import { newGear } from '@/core/state';
 import { computeHero } from '@/core/stats';
@@ -23,7 +23,9 @@ export function geared(zone: number, rarityLevel: number, heroLevel?: number, sk
   for (const id of SKILL_IDS) { s.skills[id] = sl; s.skillXp[id] = xpAtLevel(sl); }
   s.zoneUnlocked = 22;
   s.skills.exploration = 99;
-  HEROES.forEach((h, i) => {
+  const party = storyPartyAt(zone);
+  s.heroes = party.map((h) => ({ id: h.id, level: 1, xp: 0, equip: {} }));
+  party.forEach((h, i) => {
     s.heroes[i].level = heroLevel ?? Math.min(100, Math.round(lvl * 1.0));
     const put = (key: string) => {
       const t = GEAR_TYPES.find((g) => g.key === key)!;

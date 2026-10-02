@@ -1,0 +1,11 @@
+import puppeteer from 'puppeteer-core';
+import { readdirSync, readFileSync } from 'node:fs';
+const chrome = ['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'].find((p)=>{try{readFileSync(p);return true}catch{return false}});
+const dir = process.argv[2]; const pat = new RegExp(process.argv[3] || '.'); const out = process.argv[4] || 'qa/items.png'; const w = Number(process.argv[5] || 128);
+const b = await puppeteer.launch({ executablePath: chrome, headless: true });
+const p = await b.newPage(); await p.setViewport({ width: 1100, height: 700 });
+const files = readdirSync(dir).filter(f => pat.test(f));
+const html = files.map(f => `<div style="display:inline-block;text-align:center;font:9px sans-serif;color:#aaa"><img src="data:image/png;base64,${readFileSync(dir + '/' + f).toString('base64')}" style="width:${w}px;image-rendering:pixelated;background:#2a2740"><br>${f.replace('.png','')}</div>`).join('');
+await p.setContent(`<body style="margin:4px;background:#111">${html}</body>`);
+await p.screenshot({ path: out, fullPage: true });
+await b.close(); console.log(files.length);

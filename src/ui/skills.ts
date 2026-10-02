@@ -1,7 +1,7 @@
 import { h, fmt, fmtTime, mount } from './dom';
 import { bar, ico, itemIcon, setBar } from './icons';
 import { toast } from './modal';
-import { costChip, goldChip } from './common';
+import { costChip, goldChip, moneyText } from './common';
 import { audio } from './audio';
 import { host } from './host';
 import { stackSheet } from './itemSheet';
@@ -181,7 +181,7 @@ export class SkillsScreen implements Screen {
     this.rows.push({ id: r.id, kind: 'craft', bar: pr, btn, costs, recipe: r });
     const row = h('div', { class: `card ${locked ? 'locked' : ''}` },
       h('div', { class: 'item' }, out ? itemIcon(out.id, undefined, '') : ico(r.icon, 'lg'),
-        h('div', { class: 'meta' }, h('b', { text: r.name }), h('span', { text: locked ? `Requires level ${r.level}` : `${fmtTime(g.actionTime(r.time))} · ${fmt(r.xp)} XP${r.outGold ? ` · sells ${fmt(r.outGold)}g` : ''}` })),
+        h('div', { class: 'meta' }, h('b', { text: r.name }), h('span', { text: locked ? `Requires level ${r.level}` : `${fmtTime(g.actionTime(r.time))} · ${fmt(r.xp)} XP${r.outGold ? ` · sells ${moneyText(r.outGold)}` : ''}` })),
         locked ? h('span', { class: 'chip', text: `Lv ${r.level}` }) : btn),
       locked ? null : costs,
       locked ? null : h('div', { style: 'margin-top:6px' }, pr));

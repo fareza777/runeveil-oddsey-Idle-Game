@@ -1,6 +1,6 @@
 import type { GameState, QuestDef, QuestStep } from './types';
 import { ITEMS, QUESTS, QUEST_MAP } from '@/data';
-import { addGold, addItem, gainXp, type Ctx } from './state';
+import { addGold, addItem, gainXp, recruitHero, type Ctx } from './state';
 
 export function isAvailable(s: GameState, q: QuestDef): boolean {
   if (s.quests.done.includes(q.id) || s.quests.active.includes(q.id)) return false;
@@ -97,6 +97,7 @@ export function claimQuest(s: GameState, id: string, ctx?: Ctx): boolean {
   if (r.gold) addGold(s, r.gold, ctx);
   for (const it of r.items ?? []) if (ITEMS[it.item]) addItem(s, it.item, it.n, ctx);
   for (const x of r.xp ?? []) gainXp(s, x.skill, x.n, ctx);
+  if (r.hero) recruitHero(s, r.hero, ctx);
   ctx?.emit({ t: 'quest', id, what: 'done' });
   autoAcceptMain(s, ctx);
   return true;

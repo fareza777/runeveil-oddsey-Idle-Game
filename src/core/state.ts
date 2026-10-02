@@ -1,7 +1,8 @@
-import type { Element, GameState, ItemInstance, SkillId, StatusId } from './types';
-import { HEROES, ITEMS, MAX_LEVEL, SKILL_IDS, rarity } from '@/data';
+import type { Element, GameState, HeroDef, ItemInstance, SkillId, StatusId } from './types';
+import { HERO_MAP, HEROES, ITEMS, MAX_LEVEL, SKILL_IDS, rarity } from '@/data';
 import { gearId } from '@/data/gear';
 import { skillBonuses } from './stats';
+import { gearTierForLevel } from './balance';
 import { HERO_MAX_LEVEL, heroXpToNext, levelFromXp, xpAtLevel } from './xp';
 import type { Rand } from './rng';
 
@@ -20,6 +21,7 @@ export type GameEvent =
   | { t: 'wipe'; final: boolean }
   | { t: 'ability'; idx: number; name: string }
   | { t: 'heroLevel'; idx: number; level: number }
+  | { t: 'recruit'; id: string }
   | { t: 'quest'; id: string; what: 'ready' | 'accepted' | 'done' }
   | { t: 'toast'; text: string; kind?: 'good' | 'bad' | 'info' }
   | { t: 'stop'; reason: string }
@@ -52,7 +54,7 @@ export function newState(name = 'Wayfarer', seed = (Date.now() ^ 0x9e3779b9) >>>
   return {
     v: GAME_VERSION, name, createdAt: Date.now(), lastSeen: Date.now(), playTime: 0, clock: 0,
     settings: defaultSettings(), skills, skillXp,
-    heroes: HEROES.map((h) => ({ id: h.id, level: 1, xp: 0, equip: {} })),
+    heroes: [{ id: HEROES[0].id, level: 1, xp: 0, equip: {} }], hall: {},
     stacks: { cfish_0: 6 }, gear: [], gold: 50, gems: 0, activity: null, zone: 1, zoneUnlocked: 1,
     kills: {}, bossKills: {}, loadout: { food: null, potion: null }, buffs: [], xpBoost: null,
     quests: { done: [], active: ['main_0'], progress: {} }, codex: { items: {}, monsters: {} }, stats: {}, uidSeq: 1, tutorial: 0, seed, achievements: [], gatherCounts: {},
@@ -65,14 +67,38 @@ const STARTER_WEAPON: Record<string, string> = { melee: 'sword', ranged: 'bow', 
 /** New save with a modest tier-1 kit so the first fights are winnable. */
 export function starterState(name: string): GameState {
   const s = newState(name);
-  HEROES.forEach((h, i) => {
-    const eq = s.heroes[i].equip;
-    eq.weapon = newGear(s, gearId(STARTER_WEAPON[h.style], 1), 1);
-    eq.head = newGear(s, gearId('helm', 1), 1);
-    eq.body = newGear(s, gearId('cuirass', 1), 1);
-    eq.feet = newGear(s, gearId('boots', 1), 1);
-  });
+  giveKit(s, 0);
   return s;
+}
+
+/** The definition of the hero in party slot `i`. */
+export const heroDef = (s: GameState, i: number): HeroDef => HERO_MAP[s.heroes[i].id];
+
+/** Tier-1 gear for a party slot with empty equipment. */
+function giveKit(s: GameState, i: number) {
+  const def = heroDef(s, i);
+  const eq = s.heroes[i].equip;
+  eq.weapon ??= newGear(s, gearId(STARTER_WEAPON[def.style], 1), 1);
+  eq.head ??= newGear(s, gearId('helm', 1), 1);
+  eq.body ??= newGear(s, gearId('cuirass', 1), 1);
+  eq.feet ??= newGear(s, gearId('boots', 1), 1);
+}
+
+/** Adds a hero to the party (no-op if already present). New recruits join at a level that keeps them useful. */
+export function recruitHero(s: GameState, id: string, ctx?: Ctx): boolean {
+  if (!HERO_MAP[id] || s.heroes.some((h) => h.id === id)) return false;
+  const lead = s.heroes.reduce((m, h) => Math.max(m, h.level), 1);
+  const level = Math.max(1, Math.round(lead * 0.7));
+  s.heroes.push({ id, level, xp: 0, equip: {} });
+  const tier = gearTierForLevel(level);
+  const eq = s.heroes[s.heroes.length - 1].equip;
+  const style = HERO_MAP[id].style;
+  eq.weapon = newGear(s, gearId(STARTER_WEAPON[style], tier), 1);
+  eq.head = newGear(s, gearId('helm', tier), 1);
+  eq.body = newGear(s, gearId('cuirass', tier), 1);
+  eq.feet = newGear(s, gearId('boots', tier), 1);
+  ctx?.emit({ t: 'recruit', id });
+  return true;
 }
 
 export const countItem = (s: GameState, id: string): number => s.stacks[id] ?? 0;

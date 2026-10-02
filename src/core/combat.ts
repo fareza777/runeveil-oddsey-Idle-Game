@@ -1,12 +1,13 @@
 import type { BossDef, Element, GameState, MonsterDef, StatusId } from './types';
-import { BOSSES, ELEMENT_MAP, HEROES, ITEMS, MONSTERS, STATUS_MAP } from '@/data';
+import { BOSSES, ELEMENT_MAP, ITEMS, MONSTERS, STATUS_MAP } from '@/data';
 import { BAL } from './balance';
 import { monsterStats } from './monsterStats';
 import { computeHero, skillBonuses, type HeroCombat } from './stats';
-import { addGold, addItem, gainHeroXp, gainXp, takeItem, type Ctx } from './state';
+import { addGold, addItem, gainHeroXp, gainXp, heroDef, takeItem, type Ctx } from './state';
 import { rollMonsterLoot } from './loot';
 import { questEvent } from './questSys';
-import { RESIST_MULT, WEAK_MULT } from '@/data/combatData';
+import { HERO_ABILITY2_LEVEL, RESIST_MULT, WEAK_MULT } from '@/data/combatData';
+import type { AbilityKind } from './types';
 
 export interface StatusInst { status: StatusId; potency: number; left: number; stacks: number }
 
@@ -28,6 +29,10 @@ export interface Fighter {
   procs: HeroCombat['procs'];
   statuses: StatusInst[];
   abilityTimer: number;
+  abilityTimer2: number;
+  /** attack bonus from Rally Cry */
+  rallyPct: number;
+  rallyLeft: number;
   shield: number;
   taunt: number;
   dotAcc: number;
@@ -64,13 +69,17 @@ const HARM = (id: StatusId) => STATUS_MAP[id].harm;
 const mkFighter = (idx: number, c: HeroCombat | null): Fighter => ({
   idx, hp: c?.maxHp ?? 1, maxHp: c?.maxHp ?? 1, atk: c?.atk ?? 0, def: c?.def ?? 0, interval: c?.interval ?? 2, timer: 0, crit: c?.crit ?? 0,
   critDmg: c?.critDmg ?? 150, eva: c?.eva ?? 0, leech: c?.leech ?? 0, regen: c?.regen ?? 0, res: c?.res ?? 0, element: c?.element ?? 'physical',
-  procs: c?.procs ?? [], statuses: [], abilityTimer: 0, shield: 0, taunt: 1, dotAcc: 0, alive: true,
+  procs: c?.procs ?? [], statuses: [], abilityTimer: 0, abilityTimer2: 0, rallyPct: 0, rallyLeft: 0, shield: 0, taunt: 1, dotAcc: 0, alive: true,
 });
 
 export function createCombat(state: GameState, zone: number, boss: boolean, monsterId?: string): CombatRt {
   const bonus = skillBonuses(state);
   const heroes = state.heroes.map((_, i) => mkFighter(i, computeHero(state, i, bonus)));
-  heroes.forEach((h, i) => (h.abilityTimer = HEROES[i].ability.cd * 0.5));
+  heroes.forEach((h, i) => {
+    const d = heroDef(state, i);
+    h.abilityTimer = d.ability.cd * 0.5;
+    h.abilityTimer2 = d.ability2.cd * 0.6;
+  });
   const id = monsterId ?? 'm_1_1';
   return {
     zone, boss, monsterId: id, enemy: null, enemyDef: MONSTERS[id], heroes, respawn: 0.4, wipeTimer: 0, wipes: 0, bossTimers: [], enraged: false,
@@ -197,7 +206,7 @@ function heroStrike(state: GameState, rt: CombatRt, h: Fighter, mult: number, ct
   const crit = ctx.rng() * 100 < h.crit + (opts.critBonus ?? 0);
   let dmg = h.atk * mult * (0.92 + ctx.rng() * 0.16);
   if (crit) dmg *= h.critDmg / 100;
-  dmg *= 1 + buffPotency(state, 'might');
+  dmg *= 1 + buffPotency(state, 'might') + (h.rallyLeft > 0 ? h.rallyPct : 0);
   if (hasStatus(h, 'weaken')) dmg *= 0.75;
   const m = rt.enemyDef;
   if (m.weak === elem) dmg *= WEAK_MULT;
@@ -284,13 +293,18 @@ function hasteMult(f: Fighter, state: GameState, side: 'hero' | 'enemy'): number
 
 const stunned = (f: Fighter) => !!(hasStatus(f, 'stun') || hasStatus(f, 'freeze'));
 
-function heroAbility(state: GameState, rt: CombatRt, i: number, ctx: Ctx) {
+function heroAbility(state: GameState, rt: CombatRt, i: number, ctx: Ctx, second = false) {
   const h = rt.heroes[i];
-  const def = HEROES[i];
+  const def = heroDef(state, i);
+  const ab = second ? def.ability2 : def.ability;
   const e = rt.enemy;
-  ctx.emit({ t: 'ability', idx: i, name: def.ability.name });
+  ctx.emit({ t: 'ability', idx: i, name: ab.name });
   const arc = 1 + (state.skills.arcana ?? 1) / 200;
-  switch (def.ability.kind) {
+  const kind: AbilityKind = ab.kind;
+  const stun = (secs: number) => {
+    if (e?.alive) applyStatus(e, 'enemy', 'stun', 0, rt.boss ? secs * 0.5 : secs, ctx);
+  };
+  switch (kind) {
     case 'cleave':
       heroStrike(state, rt, h, 2.6, ctx, { noProc: true });
       if (e?.alive) applyOnEnemy(h, e, 'bleed', ctx);
@@ -316,6 +330,47 @@ function heroAbility(state: GameState, rt: CombatRt, i: number, ctx: Ctx) {
       if (worst) cleanse(worst, 'hero', ctx);
       break;
     }
+    case 'rally':
+      for (const t of rt.heroes) if (t.alive) { t.rallyPct = 0.25; t.rallyLeft = 8; }
+      break;
+    case 'pin':
+      heroStrike(state, rt, h, 1.6, ctx, { noProc: true });
+      if (e?.alive) applyStatus(e, 'enemy', 'slow', 0, 6, ctx);
+      break;
+    case 'frostlance':
+      heroStrike(state, rt, h, 2.8, ctx, { element: 'frost', noProc: true });
+      if (e?.alive) applyStatus(e, 'enemy', 'chill', 0, 6, ctx);
+      break;
+    case 'bash':
+      heroStrike(state, rt, h, 1.8, ctx, { noProc: true });
+      stun(2.5);
+      break;
+    case 'smite': {
+      heroStrike(state, rt, h, 2.4, ctx, { element: 'holy', noProc: true });
+      const weak = rt.heroes.filter((t) => t.alive).sort((a, b) => a.hp / a.maxHp - b.hp / b.maxHp)[0];
+      if (weak) healFighter(weak, 'hero', weak.maxHp * 0.15 * arc, state, ctx);
+      break;
+    }
+    case 'execute': {
+      const missing = e ? 1 - e.hp / e.maxHp : 0;
+      heroStrike(state, rt, h, 2.2 + 2.0 * missing, ctx, { critBonus: 25, noProc: true });
+      if (e?.alive) applyOnEnemy(h, e, 'bleed', ctx);
+      break;
+    }
+    case 'venom':
+      for (let k = 0; k < 4; k++) {
+        heroStrike(state, rt, h, 0.55, ctx, { noProc: true });
+        if (e?.alive) applyOnEnemy(h, e, 'poison', ctx);
+      }
+      break;
+    case 'chain':
+      for (let k = 0; k < 3; k++) heroStrike(state, rt, h, 1.1, ctx, { element: 'shock', noProc: k > 0 });
+      if (e?.alive) applyStatus(e, 'enemy', 'shock', 0, 5, ctx);
+      break;
+    case 'thunder':
+      heroStrike(state, rt, h, 2.6, ctx, { element: 'shock', noProc: true });
+      stun(2);
+      break;
   }
 }
 
@@ -412,7 +467,7 @@ function onKill(state: GameState, rt: CombatRt, ctx: Ctx) {
   const skills = new Set<string>();
   state.heroes.forEach((_, i) => {
     gainHeroXp(state, i, m.xp * 0.8, ctx);
-    skills.add(HEROES[i].skill);
+    skills.add(heroDef(state, i).skill);
   });
   for (const sk of skills) gainXp(state, sk as never, m.xp, ctx);
   questEvent(state, 'kill', m.id);
@@ -489,9 +544,17 @@ export function combatStep(state: GameState, rt: CombatRt, dt: number, ctx: Ctx)
     if (stunned(h)) continue;
     h.timer += dt * hasteMult(h, state, 'hero');
     h.abilityTimer -= dt;
+    if (h.rallyLeft > 0) h.rallyLeft -= dt;
     if (h.abilityTimer <= 0 && e.alive) {
-      h.abilityTimer = HEROES[h.idx].ability.cd;
+      h.abilityTimer = heroDef(state, h.idx).ability.cd;
       heroAbility(state, rt, h.idx, ctx);
+    }
+    if (state.heroes[h.idx].level >= HERO_ABILITY2_LEVEL) {
+      h.abilityTimer2 -= dt;
+      if (h.abilityTimer2 <= 0 && e.alive) {
+        h.abilityTimer2 = heroDef(state, h.idx).ability2.cd;
+        heroAbility(state, rt, h.idx, ctx, true);
+      }
     }
     while (h.timer >= h.interval && e.alive) {
       h.timer -= h.interval;

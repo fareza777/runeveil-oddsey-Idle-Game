@@ -150,14 +150,22 @@ export interface HeroDef {
   sprite: string;
   color: string;
   base: Stats;
-  ability: {
-    name: string;
-    cd: number;
-    desc: string;
-    kind: 'cleave' | 'volley' | 'fireball' | 'shieldwall' | 'heal' ;
-  };
+  ability: HeroAbility;
+  /** Second ability, learned at HERO_ABILITY2_LEVEL. */
+  ability2: HeroAbility;
+  passive: { name: string; desc: string; mods: HeroMods };
+  recruit: { kind: 'start' } | { kind: 'main'; quest: string; hint: string } | { kind: 'side'; quest: string; hint: string };
   bio: string;
 }
+
+export type AbilityKind =
+  | 'cleave' | 'volley' | 'fireball' | 'shieldwall' | 'heal'
+  | 'rally' | 'pin' | 'frostlance' | 'bash' | 'smite' | 'execute' | 'venom' | 'chain' | 'thunder';
+
+export interface HeroAbility { name: string; cd: number; desc: string; kind: AbilityKind }
+
+/** Percent modifiers (or flat for crit/haste/eva/leech/regen/luck/res) applied on top of a hero's computed stats. */
+export type HeroMods = Partial<Record<'atkPct' | 'hpPct' | 'defPct' | StatKey, number>>;
 
 export interface QuestStep {
   type: 'kill' | 'killAny' | 'boss' | 'gather' | 'craft' | 'skill' | 'zone' | 'own' | 'gold' | 'heroLevel';
@@ -173,7 +181,7 @@ export interface QuestDef {
   giver: string;
   story: string;
   steps: QuestStep[];
-  reward: { gold?: number; items?: { item: string; n: number }[]; xp?: { skill: SkillId; n: number }[]; unlock?: string };
+  reward: { gold?: number; items?: { item: string; n: number }[]; xp?: { skill: SkillId; n: number }[]; unlock?: string; hero?: string };
   requires?: string;
   reqZone?: number;
   reqSkill?: { skill: SkillId; level: number };
@@ -257,6 +265,8 @@ export interface GameState {
   seed: number;
   achievements: string[];
   gatherCounts: Record<string, number>;
+  /** Training Hall ranks bought with gold, per hero id. */
+  hall: Record<string, number>;
 }
 
 export interface OfflineReport {

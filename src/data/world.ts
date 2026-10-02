@@ -2,6 +2,7 @@ import type { BossAbility, BossDef, DropEntry, Element, MonsterDef, StatusId, Zo
 import { gearTierForLevel } from '@/core/balance';
 import { seeded } from '@/core/rng';
 import { xpForReq } from '@/core/xp';
+import { econScale } from '@/core/money';
 import { GEAR_TYPES, gearId } from './gear';
 import { FAMILY_MAP, RES_TIERS, dropId } from './tiers';
 import { NOUNS, WORLD_BOSSES, ZONE_SEEDS } from './zoneSeeds';
@@ -98,7 +99,7 @@ ZONE_SEEDS.forEach((seed, zi) => {
       weak: WEAK_TO[element], resist: element === 'physical' ? undefined : element,
       inflicts: inflictChance > 0 || elite ? { status, chance: elite ? 0.3 : inflictChance, potency: 0.05 + z * 0.004, duration: 5 } : undefined,
       drops: lootFor(id, z, level, i, famId, elite, false),
-      gold: [Math.round(3 * Math.pow(1.24, z - 1) * (elite ? 3 : 1)), Math.round(7 * Math.pow(1.24, z - 1) * (elite ? 3 : 1.4))],
+      gold: [Math.round(3 * Math.pow(1.24, z - 1) * econScale(z) * (elite ? 3 : 1)), Math.round(7 * Math.pow(1.24, z - 1) * econScale(z) * (elite ? 3 : 1.4))],
       xp: xpForReq(Math.max(1, Math.round(level * 0.92)), elite ? 2.2 : 1) , elite,
     };
     MONSTERS[id] = m;
@@ -133,10 +134,10 @@ ZONE_SEEDS.forEach((seed, zi) => {
     speed: Math.max(2, bprof.speed - 0.2), element: seed.boss.element, weak: WEAK_TO[seed.boss.element], resist: seed.boss.element === 'physical' ? undefined : seed.boss.element,
     inflicts: { status: STATUS_FOR_ELEMENT[seed.boss.element], chance: 0.25, potency: 0.06 + z * 0.004, duration: 6 },
     drops: lootFor(bid, z, blevel, 3, seed.boss.family, false, true),
-    gold: [Math.round(40 * Math.pow(1.25, z - 1)), Math.round(80 * Math.pow(1.25, z - 1))],
+    gold: [Math.round(40 * Math.pow(1.25, z - 1) * econScale(z)), Math.round(80 * Math.pow(1.25, z - 1) * econScale(z))],
     xp: xpForReq(Math.round(blevel * 0.95), 10), boss: true,
     abilities: bossTemplates[arch(seed.boss.family)], unique: `uni_${bid}`,
-    first: { gold: Math.round(300 * Math.pow(1.5, z - 1)), items: [{ item: `scroll_${Math.min(8, 1 + Math.floor(z / 3))}`, n: 1 + Math.floor(z / 8) }, { item: `relic_${Math.min(11, Math.floor(z / 2))}`, n: 2 }] },
+    first: { gold: Math.round(300 * Math.pow(1.5, z - 1) * econScale(z)), items: [{ item: `scroll_${Math.min(8, 1 + Math.floor(z / 3))}`, n: 1 + Math.floor(z / 8) }, { item: `relic_${Math.min(11, Math.floor(z / 2))}`, n: 2 }] },
     bg: `zone_${z}`,
   };
   BOSSES[bid] = boss;
@@ -166,9 +167,9 @@ WORLD_BOSSES.forEach((wb, i) => {
     scale: 1.9, hpMul: bprof.hp, atkMul: bprof.atk, defMul: bprof.def * 1.3, speed: 2.7, element: wb.element, weak: WEAK_TO[wb.element], resist: wb.element === 'physical' ? undefined : wb.element,
     inflicts: { status: STATUS_FOR_ELEMENT[wb.element], chance: 0.3, potency: 0.08 + z * 0.004, duration: 7 },
     drops: lootFor(id, z, level, 7, wb.family, false, true).map((d) => (d.item.startsWith('eq_') ? { ...d, chance: Math.min(1, d.chance * 1.5) } : d)),
-    gold: [Math.round(120 * Math.pow(1.25, z - 1)), Math.round(220 * Math.pow(1.25, z - 1))],
+    gold: [Math.round(120 * Math.pow(1.25, z - 1) * econScale(z)), Math.round(220 * Math.pow(1.25, z - 1) * econScale(z))],
     xp: xpForReq(Math.round(level * 0.95), 22), boss: true, elite: false, abilities, unique: `uni_${id}`,
-    first: { gold: Math.round(900 * Math.pow(1.5, z - 1)), items: [{ item: `scroll_${Math.min(8, 2 + Math.floor(z / 3))}`, n: 2 }, { item: `ess_${wb.element}`, n: 5 }] }, bg: `zone_${z}`,
+    first: { gold: Math.round(900 * Math.pow(1.5, z - 1) * econScale(z)), items: [{ item: `scroll_${Math.min(8, 2 + Math.floor(z / 3))}`, n: 2 }, { item: `ess_${wb.element}`, n: 5 }] }, bg: `zone_${z}`,
   };
   BOSSES[id] = boss;
   MONSTERS[id] = boss;

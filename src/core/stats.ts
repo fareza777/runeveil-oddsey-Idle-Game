@@ -2,6 +2,7 @@ import type { Element, GameState, HeroDef, ItemInstance, StatKey, Stats, StatusI
 import { hashStr, mulberry32 } from './rng';
 import { HERO_MAP, ITEMS, SKILLS, rarity } from '@/data';
 import { scaleOf } from '@/data/tiers';
+import { BAL } from './balance';
 
 export const MAX_UP = 10;
 export const UP_BONUS = 0.06;
@@ -118,11 +119,14 @@ export function computeHero(state: GameState, idx: number, bonus = skillBonuses(
     if (idef.apply) procs.push({ status: idef.apply, chance: 0.14 });
   }
   total.atk -= weaponAtkPenalty;
+  const mods = def.passive.mods;
+  for (const k of ['crit', 'critDmg', 'haste', 'eva', 'leech', 'regen', 'luck', 'res'] as StatKey[]) total[k] += mods[k] ?? 0;
   const lvl = heroLevelMult(hs.level);
   const skillLv = state.skills[def.skill] ?? 1;
-  const atk = total.atk * lvl * (1 + 0.012 * skillLv + bonus.atkPct / 100);
-  const maxHp = total.hp * lvl * (1 + bonus.hpPct / 100 + 0.01 * (state.skills.fortitude ?? 1) * (def.skill === 'fortitude' ? 1.5 : 0.5));
-  const def_ = total.def * lvl * (1 + bonus.defPct / 100);
+  const hall = ((state.hall?.[hs.id] ?? 0) * BAL.hallPctPerRank) / 100;
+  const atk = total.atk * lvl * (1 + hall + 0.012 * skillLv + (bonus.atkPct + (mods.atkPct ?? 0)) / 100);
+  const maxHp = total.hp * lvl * (1 + hall + bonus.hpPct / 100 + 0.01 * (state.skills.fortitude ?? 1) * (def.skill === 'fortitude' ? 1.5 : 0.5) + (mods.hpPct ?? 0) / 100);
+  const def_ = total.def * lvl * (1 + (bonus.defPct + (mods.defPct ?? 0)) / 100);
   const haste = total.haste + bonus.haste;
   return {
     atk, def: def_, maxHp: Math.max(20, maxHp), crit: Math.min(75, total.crit + bonus.crit), critDmg: total.critDmg + bonus.critDmg, haste,

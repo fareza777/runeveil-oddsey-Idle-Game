@@ -1,11 +1,17 @@
 import { MAX_LEVEL } from '@/data/skills';
 
+/** Raw XP step of each level, before pacing. Content (action XP, monster XP) is tuned against this curve. */
+const base = (l: number): number => Math.floor((l + 60 * Math.pow(2, l / 8)) / 4);
+
+/** Pacing: higher levels take proportionally longer, so mastering a skill takes days of play, not hours. */
+const pace = (l: number): number => 2 + 0.11 * l;
+
 /** Cumulative XP needed to reach `level` (level 1 = 0). */
 const TABLE: number[] = [0, 0];
 {
   let acc = 0;
   for (let l = 1; l < 140; l++) {
-    acc += Math.floor((l + 60 * Math.pow(2, l / 8)) / 4);
+    acc += Math.floor(base(l) * pace(l));
     TABLE[l + 1] = acc;
   }
 }
@@ -24,9 +30,9 @@ export function levelFromXp(xp: number, cap = MAX_LEVEL): number {
   return lo;
 }
 
-/** Skill XP for one action at a given required level, tuned so ~7 actions give the first level and ~150 give level 90+. */
+/** Skill XP for one action at a given required level, tuned so ~7 actions give the first level and ~150 give level 90+ before pacing. */
 export const xpForReq = (reqLevel: number, mult = 1): number =>
-  Math.max(2, Math.round((xpToNext(reqLevel) / (5 + 1.6 * reqLevel)) * mult));
+  Math.max(2, Math.round((base(reqLevel) / (5 + 1.6 * reqLevel)) * mult));
 
 export const HERO_MAX_LEVEL = 100;
 /** Hero level curve (separate from skills): gentler growth. */

@@ -1,7 +1,7 @@
 import { h, fmt, mount } from './dom';
 import { itemIcon } from './icons';
 import { openSheet, toast } from './modal';
-import { SLOT_NAME, SLOT_ORDER, goldChip } from './common';
+import { SLOT_NAME, SLOT_ORDER, goldChip, moneyText } from './common';
 import { audio } from './audio';
 import { host } from './host';
 import { gearSheet, stackSheet } from './itemSheet';
@@ -82,7 +82,7 @@ export class BagScreen implements Screen {
       return;
     }
     const total = filtered.reduce((n, id) => n + Math.round(ITEMS[id].value * 0.5) * s.stacks[id], 0);
-    body.append(h('div', { class: 'small muted', style: 'margin-bottom:6px', text: `${filtered.length} kinds · worth about ${fmt(total)} gold` }));
+    body.append(h('div', { class: 'small muted', style: 'margin-bottom:6px', text: `${filtered.length} kinds Â· worth about ${fmt(total)} gold` }));
     body.append(h('div', { class: 'grid bag' }, ...filtered.map((id) => {
       const el = itemIcon(id);
       el.append(h('i', { class: 'qty', text: fmt(s.stacks[id]) }));
@@ -111,7 +111,7 @@ export class BagScreen implements Screen {
       const btn = h('button', { class: 'btn gold block', text: 'Sell selected', onclick: () => {
         const list = sel();
         const gold = g.sellGear(list.map((x) => x.uid));
-        audio.sfx('coin'); toast(`Sold ${list.length} items for ${fmt(gold)} gold`, 'gold');
+        audio.sfx('coin'); toast(`Sold ${list.length} items for ${moneyText(gold)}`, 'gold');
         host.refresh(); close(); this.show();
       } });
       body.append(h('p', { class: 'small muted', text: 'Sells every bag item up to the chosen rarity. Enhanced and unique items are always kept. Equipped gear is never sold.' }), slider, h('div', { class: 'sp' }), preview, h('div', { class: 'sp' }), btn);

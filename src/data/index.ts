@@ -11,4 +11,4 @@ export { MONSTERS, BOSSES, BOSS_LIST, ZONES, ZONE_MAP } from './world';
 export { QUESTS, QUEST_MAP } from './quests';
 export { SKILLS, SKILL_MAP, SKILL_IDS, MAX_LEVEL } from './skills';
 export { RARITIES, rarity, MAX_RARITY } from './rarities';
-export { HEROES, HERO_MAP, ELEMENTS, ELEMENT_MAP, STATUSES, STATUS_MAP } from './combatData';
+export { HEROES, HERO_MAP, HERO_ABILITY2_LEVEL, storyPartyAt, ELEMENTS, ELEMENT_MAP, STATUSES, STATUS_MAP } from './combatData';

@@ -1,0 +1,3402 @@
+[
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_1.png",
+  "seed": 4000,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_2.png",
+  "seed": 4001,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_3.png",
+  "seed": 4002,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_4.png",
+  "seed": 4003,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_5.png",
+  "seed": 4004,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_6.png",
+  "seed": 4005,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_7.png",
+  "seed": 4006,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_8.png",
+  "seed": 4007,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_9.png",
+  "seed": 4008,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_10.png",
+  "seed": 4009,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_11.png",
+  "seed": 4010,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_12.png",
+  "seed": 4011,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_13.png",
+  "seed": 4012,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_14.png",
+  "seed": 4013,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_15.png",
+  "seed": 4014,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_16.png",
+  "seed": 4015,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_17.png",
+  "seed": 4016,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_18.png",
+  "seed": 4017,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_19.png",
+  "seed": 4018,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_sword_20.png",
+  "seed": 4019,
+  "prompt": "fantasy RPG item icon, a one-handed straight sword with crossguard, blade pointing up diagonally, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_1.png",
+  "seed": 4020,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_2.png",
+  "seed": 4021,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_3.png",
+  "seed": 4022,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_4.png",
+  "seed": 4023,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_5.png",
+  "seed": 4024,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_6.png",
+  "seed": 4025,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_7.png",
+  "seed": 4026,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_8.png",
+  "seed": 4027,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_9.png",
+  "seed": 4028,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_10.png",
+  "seed": 4029,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_11.png",
+  "seed": 4030,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_12.png",
+  "seed": 4031,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_13.png",
+  "seed": 4032,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_14.png",
+  "seed": 4033,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_15.png",
+  "seed": 4034,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_16.png",
+  "seed": 4035,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_17.png",
+  "seed": 4036,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_18.png",
+  "seed": 4037,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_19.png",
+  "seed": 4038,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_mace_20.png",
+  "seed": 4039,
+  "prompt": "fantasy RPG item icon, a heavy warhammer with a large head and thick handle, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_1.png",
+  "seed": 4040,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_2.png",
+  "seed": 4041,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_3.png",
+  "seed": 4042,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_4.png",
+  "seed": 4043,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_5.png",
+  "seed": 4044,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_6.png",
+  "seed": 4045,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_7.png",
+  "seed": 4046,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_8.png",
+  "seed": 4047,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_9.png",
+  "seed": 4048,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_10.png",
+  "seed": 4049,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_11.png",
+  "seed": 4050,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_12.png",
+  "seed": 4051,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_13.png",
+  "seed": 4052,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_14.png",
+  "seed": 4053,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_15.png",
+  "seed": 4054,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_16.png",
+  "seed": 4055,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_17.png",
+  "seed": 4056,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_18.png",
+  "seed": 4057,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_19.png",
+  "seed": 4058,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_dagger_20.png",
+  "seed": 4059,
+  "prompt": "fantasy RPG item icon, a short curved dagger with a small guard, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_1.png",
+  "seed": 4060,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_2.png",
+  "seed": 4061,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_3.png",
+  "seed": 4062,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_4.png",
+  "seed": 4063,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_5.png",
+  "seed": 4064,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_6.png",
+  "seed": 4065,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_7.png",
+  "seed": 4066,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_8.png",
+  "seed": 4067,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_9.png",
+  "seed": 4068,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_10.png",
+  "seed": 4069,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_11.png",
+  "seed": 4070,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_12.png",
+  "seed": 4071,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_13.png",
+  "seed": 4072,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_14.png",
+  "seed": 4073,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_15.png",
+  "seed": 4074,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_16.png",
+  "seed": 4075,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_17.png",
+  "seed": 4076,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_18.png",
+  "seed": 4077,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_19.png",
+  "seed": 4078,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_bow_20.png",
+  "seed": 4079,
+  "prompt": "fantasy RPG item icon, a recurve archery bow with a bowstring, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_1.png",
+  "seed": 4080,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_2.png",
+  "seed": 4081,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_3.png",
+  "seed": 4082,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_4.png",
+  "seed": 4083,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_5.png",
+  "seed": 4084,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_6.png",
+  "seed": 4085,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_7.png",
+  "seed": 4086,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_8.png",
+  "seed": 4087,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_9.png",
+  "seed": 4088,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_10.png",
+  "seed": 4089,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_11.png",
+  "seed": 4090,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_12.png",
+  "seed": 4091,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_13.png",
+  "seed": 4092,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_14.png",
+  "seed": 4093,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_15.png",
+  "seed": 4094,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_16.png",
+  "seed": 4095,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_17.png",
+  "seed": 4096,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_18.png",
+  "seed": 4097,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_19.png",
+  "seed": 4098,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_staff_20.png",
+  "seed": 4099,
+  "prompt": "fantasy RPG item icon, a tall magic staff topped with a gem or ornament, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_1.png",
+  "seed": 4100,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_2.png",
+  "seed": 4101,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_3.png",
+  "seed": 4102,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_4.png",
+  "seed": 4103,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_5.png",
+  "seed": 4104,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_6.png",
+  "seed": 4105,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_7.png",
+  "seed": 4106,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_8.png",
+  "seed": 4107,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_9.png",
+  "seed": 4108,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_10.png",
+  "seed": 4109,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_11.png",
+  "seed": 4110,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_12.png",
+  "seed": 4111,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_13.png",
+  "seed": 4112,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_14.png",
+  "seed": 4113,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_15.png",
+  "seed": 4114,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_16.png",
+  "seed": 4115,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_17.png",
+  "seed": 4116,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_18.png",
+  "seed": 4117,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_19.png",
+  "seed": 4118,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_shield_20.png",
+  "seed": 4119,
+  "prompt": "fantasy RPG item icon, a heater shield with a boss in the center, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_1.png",
+  "seed": 4120,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_2.png",
+  "seed": 4121,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_3.png",
+  "seed": 4122,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_4.png",
+  "seed": 4123,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_5.png",
+  "seed": 4124,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_6.png",
+  "seed": 4125,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_7.png",
+  "seed": 4126,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_8.png",
+  "seed": 4127,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_9.png",
+  "seed": 4128,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_10.png",
+  "seed": 4129,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_11.png",
+  "seed": 4130,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_12.png",
+  "seed": 4131,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_13.png",
+  "seed": 4132,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_14.png",
+  "seed": 4133,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_15.png",
+  "seed": 4134,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_16.png",
+  "seed": 4135,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_17.png",
+  "seed": 4136,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_18.png",
+  "seed": 4137,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_19.png",
+  "seed": 4138,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_orb_20.png",
+  "seed": 4139,
+  "prompt": "fantasy RPG item icon, a floating magical focus orb held in a small ornate cradle, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_1.png",
+  "seed": 4140,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_2.png",
+  "seed": 4141,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_3.png",
+  "seed": 4142,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_4.png",
+  "seed": 4143,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_5.png",
+  "seed": 4144,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_6.png",
+  "seed": 4145,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_7.png",
+  "seed": 4146,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_8.png",
+  "seed": 4147,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_9.png",
+  "seed": 4148,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_10.png",
+  "seed": 4149,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_11.png",
+  "seed": 4150,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_12.png",
+  "seed": 4151,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_13.png",
+  "seed": 4152,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_14.png",
+  "seed": 4153,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_15.png",
+  "seed": 4154,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_16.png",
+  "seed": 4155,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_17.png",
+  "seed": 4156,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_18.png",
+  "seed": 4157,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_19.png",
+  "seed": 4158,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_helm_20.png",
+  "seed": 4159,
+  "prompt": "fantasy RPG item icon, a knight helmet with a visor, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_1.png",
+  "seed": 4160,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_2.png",
+  "seed": 4161,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_3.png",
+  "seed": 4162,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_4.png",
+  "seed": 4163,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_5.png",
+  "seed": 4164,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_6.png",
+  "seed": 4165,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_7.png",
+  "seed": 4166,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_8.png",
+  "seed": 4167,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_9.png",
+  "seed": 4168,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_10.png",
+  "seed": 4169,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_11.png",
+  "seed": 4170,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_12.png",
+  "seed": 4171,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_13.png",
+  "seed": 4172,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_14.png",
+  "seed": 4173,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_15.png",
+  "seed": 4174,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_16.png",
+  "seed": 4175,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_17.png",
+  "seed": 4176,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_18.png",
+  "seed": 4177,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_19.png",
+  "seed": 4178,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_cuirass_20.png",
+  "seed": 4179,
+  "prompt": "fantasy RPG item icon, a chest plate armor breastplate with shoulder pauldrons, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_1.png",
+  "seed": 4180,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_2.png",
+  "seed": 4181,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_3.png",
+  "seed": 4182,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_4.png",
+  "seed": 4183,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_5.png",
+  "seed": 4184,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_6.png",
+  "seed": 4185,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_7.png",
+  "seed": 4186,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_8.png",
+  "seed": 4187,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_9.png",
+  "seed": 4188,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_10.png",
+  "seed": 4189,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_11.png",
+  "seed": 4190,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_12.png",
+  "seed": 4191,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_13.png",
+  "seed": 4192,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_14.png",
+  "seed": 4193,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_15.png",
+  "seed": 4194,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_16.png",
+  "seed": 4195,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_17.png",
+  "seed": 4196,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_18.png",
+  "seed": 4197,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_19.png",
+  "seed": 4198,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_greaves_20.png",
+  "seed": 4199,
+  "prompt": "fantasy RPG item icon, a pair of plate leg armor greaves, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_1.png",
+  "seed": 4200,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_2.png",
+  "seed": 4201,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_3.png",
+  "seed": 4202,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_4.png",
+  "seed": 4203,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_5.png",
+  "seed": 4204,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_6.png",
+  "seed": 4205,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_7.png",
+  "seed": 4206,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_8.png",
+  "seed": 4207,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_9.png",
+  "seed": 4208,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_10.png",
+  "seed": 4209,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_11.png",
+  "seed": 4210,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_12.png",
+  "seed": 4211,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_13.png",
+  "seed": 4212,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_14.png",
+  "seed": 4213,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_15.png",
+  "seed": 4214,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_16.png",
+  "seed": 4215,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_17.png",
+  "seed": 4216,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_18.png",
+  "seed": 4217,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_19.png",
+  "seed": 4218,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_gloves_20.png",
+  "seed": 4219,
+  "prompt": "fantasy RPG item icon, a pair of armored gauntlets, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_1.png",
+  "seed": 4220,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_2.png",
+  "seed": 4221,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_3.png",
+  "seed": 4222,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_4.png",
+  "seed": 4223,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_5.png",
+  "seed": 4224,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_6.png",
+  "seed": 4225,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_7.png",
+  "seed": 4226,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_8.png",
+  "seed": 4227,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_9.png",
+  "seed": 4228,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_10.png",
+  "seed": 4229,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_11.png",
+  "seed": 4230,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_12.png",
+  "seed": 4231,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_13.png",
+  "seed": 4232,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_14.png",
+  "seed": 4233,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_15.png",
+  "seed": 4234,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_16.png",
+  "seed": 4235,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_17.png",
+  "seed": 4236,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_18.png",
+  "seed": 4237,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_19.png",
+  "seed": 4238,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_boots_20.png",
+  "seed": 4239,
+  "prompt": "fantasy RPG item icon, a pair of sturdy boots, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_1.png",
+  "seed": 4240,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_2.png",
+  "seed": 4241,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_3.png",
+  "seed": 4242,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_4.png",
+  "seed": 4243,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_5.png",
+  "seed": 4244,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_6.png",
+  "seed": 4245,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_7.png",
+  "seed": 4246,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_8.png",
+  "seed": 4247,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_9.png",
+  "seed": 4248,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_10.png",
+  "seed": 4249,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_11.png",
+  "seed": 4250,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_12.png",
+  "seed": 4251,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_13.png",
+  "seed": 4252,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_14.png",
+  "seed": 4253,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_15.png",
+  "seed": 4254,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_16.png",
+  "seed": 4255,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_17.png",
+  "seed": 4256,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_18.png",
+  "seed": 4257,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_19.png",
+  "seed": 4258,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_amulet_20.png",
+  "seed": 4259,
+  "prompt": "fantasy RPG item icon, a pendant amulet on a chain with a central gem, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_1.png",
+  "seed": 4260,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of crude copper, plain and simple, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_2.png",
+  "seed": 4261,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of bronze, plain with small rivets, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_3.png",
+  "seed": 4262,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of iron, sturdy and unadorned, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_4.png",
+  "seed": 4263,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of polished steel, clean and well made, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_5.png",
+  "seed": 4264,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of blued tempered steel, refined with fine edges, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_6.png",
+  "seed": 4265,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of bright silver, with engraved trim, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_7.png",
+  "seed": 4266,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of cobalt blue metal, sleek with blue sheen, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_8.png",
+  "seed": 4267,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of glowing teal mithril, elegant and light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_9.png",
+  "seed": 4268,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of gilded mithril with gold trim, ornate, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_10.png",
+  "seed": 4269,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of dark green adamant, heavy and imposing, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_11.png",
+  "seed": 4270,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of orange-gold orichalcum, glowing with warm light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_12.png",
+  "seed": 4271,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of radiant sunforged gold, with sun motifs and flames, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_13.png",
+  "seed": 4272,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of blue-violet starsteel, with star motifs and sparkles, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_14.png",
+  "seed": 4273,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of pale moonsilver, with crescent moon motifs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_15.png",
+  "seed": 4274,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of black and purple voidglass, jagged glass shards with void glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_16.png",
+  "seed": 4275,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of white dragonbone, with dragon spikes and fangs, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_17.png",
+  "seed": 4276,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of cyan aetherium, crackling with energy, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_18.png",
+  "seed": 4277,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of white-gold celestine, with angelic wings and halo light, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_19.png",
+  "seed": 4278,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of magenta runic, covered in glowing runes, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/eq_ring_20.png",
+  "seed": 4279,
+  "prompt": "fantasy RPG item icon, a single ring with a gem setting, made of prismatic legendary eternium, epic, radiant aura, rainbow glow, single object centered, side view, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_0.png",
+  "seed": 5280,
+  "prompt": "fantasy RPG item icon, a chunk of raw copper ore, rocky lump with copper veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_0.png",
+  "seed": 5281,
+  "prompt": "fantasy RPG item icon, a stacked copper metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_1.png",
+  "seed": 5282,
+  "prompt": "fantasy RPG item icon, a chunk of raw iron ore, rocky lump with iron veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_1.png",
+  "seed": 5283,
+  "prompt": "fantasy RPG item icon, a stacked iron metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_2.png",
+  "seed": 5284,
+  "prompt": "fantasy RPG item icon, a chunk of raw steel ore, rocky lump with steel veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_2.png",
+  "seed": 5285,
+  "prompt": "fantasy RPG item icon, a stacked steel metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_3.png",
+  "seed": 5286,
+  "prompt": "fantasy RPG item icon, a chunk of raw silver ore, rocky lump with silver veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_3.png",
+  "seed": 5287,
+  "prompt": "fantasy RPG item icon, a stacked silver metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_4.png",
+  "seed": 5288,
+  "prompt": "fantasy RPG item icon, a chunk of raw cobalt ore, rocky lump with cobalt veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_4.png",
+  "seed": 5289,
+  "prompt": "fantasy RPG item icon, a stacked cobalt metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_5.png",
+  "seed": 5290,
+  "prompt": "fantasy RPG item icon, a chunk of raw mithril ore, rocky lump with mithril veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_5.png",
+  "seed": 5291,
+  "prompt": "fantasy RPG item icon, a stacked mithril metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_6.png",
+  "seed": 5292,
+  "prompt": "fantasy RPG item icon, a chunk of raw adamant ore, rocky lump with adamant veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_6.png",
+  "seed": 5293,
+  "prompt": "fantasy RPG item icon, a stacked adamant metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_7.png",
+  "seed": 5294,
+  "prompt": "fantasy RPG item icon, a chunk of raw orichalcum ore, rocky lump with orichalcum veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_7.png",
+  "seed": 5295,
+  "prompt": "fantasy RPG item icon, a stacked orichalcum metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_8.png",
+  "seed": 5296,
+  "prompt": "fantasy RPG item icon, a chunk of raw starsteel ore, rocky lump with starsteel veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_8.png",
+  "seed": 5297,
+  "prompt": "fantasy RPG item icon, a stacked starsteel metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_9.png",
+  "seed": 5298,
+  "prompt": "fantasy RPG item icon, a chunk of raw voidglass ore, rocky lump with voidglass veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_9.png",
+  "seed": 5299,
+  "prompt": "fantasy RPG item icon, a stacked voidglass metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_10.png",
+  "seed": 5300,
+  "prompt": "fantasy RPG item icon, a chunk of raw aetherium ore, rocky lump with aetherium veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_10.png",
+  "seed": 5301,
+  "prompt": "fantasy RPG item icon, a stacked aetherium metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/ore_11.png",
+  "seed": 5302,
+  "prompt": "fantasy RPG item icon, a chunk of raw runic glowing ore, rocky lump with runic glowing veins, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/bar_11.png",
+  "seed": 5303,
+  "prompt": "fantasy RPG item icon, a stacked runic glowing metal ingot bar, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_0.png",
+  "seed": 5304,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, cracked clay pottery, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_1.png",
+  "seed": 5305,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, carved stone idol, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_2.png",
+  "seed": 5306,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, old gold coin hoard in a pile, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_3.png",
+  "seed": 5307,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, fossilized spiral shell, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_4.png",
+  "seed": 5308,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, rusted brass compass, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_5.png",
+  "seed": 5309,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, gilded ceremonial mask, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_6.png",
+  "seed": 5310,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, ancient engraved stone tablet, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_7.png",
+  "seed": 5311,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, broken golden crown shard, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_8.png",
+  "seed": 5312,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, star map engraved metal plate, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_9.png",
+  "seed": 5313,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, dark void idol statue with purple glow, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_10.png",
+  "seed": 5314,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, primal carved wooden totem, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/relic_11.png",
+  "seed": 5315,
+  "prompt": "fantasy RPG item icon, ancient relic treasure, glowing first rune tablet, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/scroll_1.png",
+  "seed": 5316,
+  "prompt": "fantasy RPG item icon, a rolled magic scroll with copper wax seal and glowing symbols, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/scroll_2.png",
+  "seed": 5317,
+  "prompt": "fantasy RPG item icon, a rolled magic scroll with silver wax seal and glowing symbols, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/scroll_3.png",
+  "seed": 5318,
+  "prompt": "fantasy RPG item icon, a rolled magic scroll with blue wax seal and glowing symbols, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/scroll_4.png",
+  "seed": 5319,
+  "prompt": "fantasy RPG item icon, a rolled magic scroll with green wax seal and glowing symbols, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/scroll_5.png",
+  "seed": 5320,
+  "prompt": "fantasy RPG item icon, a rolled magic scroll with violet wax seal and glowing symbols, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/scroll_6.png",
+  "seed": 5321,
+  "prompt": "fantasy RPG item icon, a rolled magic scroll with white wax seal and glowing symbols, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/scroll_7.png",
+  "seed": 5322,
+  "prompt": "fantasy RPG item icon, a rolled magic scroll with pink wax seal and glowing symbols, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/scroll_8.png",
+  "seed": 5323,
+  "prompt": "fantasy RPG item icon, a rolled magic scroll with golden wax seal and glowing symbols, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_0.png",
+  "seed": 5324,
+  "prompt": "fantasy RPG item icon, a single cut faceted quartz gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_1.png",
+  "seed": 5325,
+  "prompt": "fantasy RPG item icon, a single cut faceted garnet red gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_2.png",
+  "seed": 5326,
+  "prompt": "fantasy RPG item icon, a single cut faceted amber orange gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_3.png",
+  "seed": 5327,
+  "prompt": "fantasy RPG item icon, a single cut faceted topaz yellow gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_4.png",
+  "seed": 5328,
+  "prompt": "fantasy RPG item icon, a single cut faceted jade green gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_5.png",
+  "seed": 5329,
+  "prompt": "fantasy RPG item icon, a single cut faceted amethyst purple gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_6.png",
+  "seed": 5330,
+  "prompt": "fantasy RPG item icon, a single cut faceted aquamarine light blue gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_7.png",
+  "seed": 5331,
+  "prompt": "fantasy RPG item icon, a single cut faceted sapphire blue gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_8.png",
+  "seed": 5332,
+  "prompt": "fantasy RPG item icon, a single cut faceted emerald green gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_9.png",
+  "seed": 5333,
+  "prompt": "fantasy RPG item icon, a single cut faceted ruby red gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_10.png",
+  "seed": 5334,
+  "prompt": "fantasy RPG item icon, a single cut faceted opal iridescent gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_11.png",
+  "seed": 5335,
+  "prompt": "fantasy RPG item icon, a single cut faceted diamond clear white gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_12.png",
+  "seed": 5336,
+  "prompt": "fantasy RPG item icon, a single cut faceted onyx black gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_13.png",
+  "seed": 5337,
+  "prompt": "fantasy RPG item icon, a single cut faceted moonstone pale blue gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_14.png",
+  "seed": 5338,
+  "prompt": "fantasy RPG item icon, a single cut faceted sunstone orange gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ },
+ {
+  "model": "rd-plus",
+  "style": "default",
+  "w": 64,
+  "h": 64,
+  "remove_bg": true,
+  "out": "public/assets/gen/items/gem_15.png",
+  "seed": 5339,
+  "prompt": "fantasy RPG item icon, a single cut faceted starshard glowing gold gemstone, single object centered, clean dark outline, detailed pixel art, plain background"
+ }
+]

@@ -1,4 +1,5 @@
 import type { Element, ItemDef, StatusId } from '@/core/types';
+import { econScale } from '@/core/money';
 import { ELEMENTS } from './combatData';
 import { GEAR_TYPES, gearBase, gearId, gearName } from './gear';
 import {
@@ -11,7 +12,7 @@ export const add = (d: ItemDef) => {
   if (ITEMS[d.id]) throw new Error(`duplicate item ${d.id}`);
   ITEMS[d.id] = d;
 };
-const val = (t: number, f = 1) => Math.max(1, Math.round(4 * Math.pow(1.3, t) * f));
+const val = (t: number, f = 1) => Math.max(1, Math.round(4 * Math.pow(1.3, t) * f * econScale(1 + (t * 21) / 20)));
 
 // ---------- equipment ----------
 for (const type of GEAR_TYPES) {

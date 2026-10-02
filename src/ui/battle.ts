@@ -3,13 +3,13 @@ import { ico, itemIcon, monsterSprite, setBar, bar, spriteEl, statusBadge } from
 import { zoneBgUrl } from './bg';
 import { openSheet, toast } from './modal';
 import { audio, musicForZone } from './audio';
-import { buzz, danger, readiness } from './common';
+import { buzz, danger, moneyEl, readiness } from './common';
 import { host } from './host';
 import type { Screen } from './screen';
 import type { Fighter } from '@/core/combat';
 import type { GameEvent } from '@/core/state';
-import { BOSSES, HEROES, ITEMS, ZONES, ZONE_MAP, rarity } from '@/data';
-import { countItem } from '@/core/state';
+import { BOSSES, ITEMS, ZONES, ZONE_MAP, rarity } from '@/data';
+import { countItem, heroDef } from '@/core/state';
 import type { MonsterDef } from '@/core/types';
 
 export class BattleScreen implements Screen {
@@ -32,6 +32,7 @@ export class BattleScreen implements Screen {
   private enemySig = '';
   private lastHurt = 0;
   private lastKey = '';
+  private partySize = 0;
 
   show() {
     const g = host.game;
@@ -49,7 +50,9 @@ export class BattleScreen implements Screen {
     this.enemyBody = h('div', { class: 'body' });
     this.enemyWrap = h('div', { class: 'enemy' }, this.enemyName, this.enemyBar, this.enemyStat, this.enemyBody);
     this.fx = h('div', { class: 'fx' });
-    const heroes = h('div', { class: 'heroes' }, ...HEROES.map((hd, i) => {
+    this.partySize = g.state.heroes.length;
+    const heroes = h('div', { class: 'heroes' }, ...g.state.heroes.map((_, i) => {
+      const hd = heroDef(g.state, i);
       const hp = bar('hp ally', 1);
       const cd = bar('cd', 0);
       const stat = h('div', { class: 'hstat' });
@@ -110,7 +113,7 @@ export class BattleScreen implements Screen {
 
   private key(): string {
     const g = host.game;
-    return `${g.state.activity?.type}|${g.state.activity?.id}|${g.rt?.boss}|${g.state.zone}`;
+    return `${g.state.activity?.type}|${g.state.activity?.id}|${g.rt?.boss}|${g.state.zone}|${g.state.heroes.length}`;
   }
 
   private begin(id: string) {
@@ -201,7 +204,7 @@ export class BattleScreen implements Screen {
     const rt = g.rt;
     if (this.key() !== this.lastKey) {
       const z = this.currentZone();
-      if (z !== this.shownZone) { this.show(); return; }
+      if (z !== this.shownZone || host.game.state.heroes.length !== this.partySize) { this.show(); return; }
       this.renderInfo();
     }
     const fighting = g.state.activity?.type === 'combat' && !!rt;
@@ -215,7 +218,7 @@ export class BattleScreen implements Screen {
         return;
       }
       setBar(he.hp, f.hp / f.maxHp);
-      setBar(he.cd, 1 - Math.max(0, f.abilityTimer) / HEROES[i].ability.cd);
+      setBar(he.cd, 1 - Math.max(0, f.abilityTimer) / heroDef(host.game.state, i).ability.cd);
       he.root.classList.toggle('down', !f.alive);
       this.syncStatuses(he, f);
     });
@@ -323,9 +326,9 @@ export class BattleScreen implements Screen {
         if (e.inst.rarity >= 10) audio.sfx('loot_legendary'); else if (e.inst.rarity >= 4) audio.sfx('loot_rare', 0.7);
         break;
       }
-      case 'gold': this.tick(h('div', { class: 'gold' }, ico('img:ui_icon_gold', 'sm'), `+${fmt(e.n)} gold`)); break;
-      case 'sold': this.tick(h('div', { class: 'muted' }, ico('img:ui_icon_gold', 'sm'), `Auto-sold ${e.n} for ${fmt(e.gold)}`)); break;
-      case 'heroLevel': toast(`${HEROES[e.idx].name} reached level ${e.level}`, 'good'); audio.sfx('level_up'); break;
+      case 'gold': this.tick(h('div', { class: 'gold' }, '+', moneyEl(e.n))); break;
+      case 'sold': this.tick(h('div', { class: 'muted' }, `Auto-sold ${e.n} for `, moneyEl(e.gold))); break;
+      case 'heroLevel': toast(`${heroDef(g.state, e.idx).name} reached level ${e.level}`, 'good'); audio.sfx('level_up'); break;
       case 'food': audio.sfx('heal', 0.5); this.floatText(this.heroEls[e.idx]?.root ?? this.arena, 'Ate ' + (ITEMS[e.item]?.name ?? '')); break;
       default: break;
     }
