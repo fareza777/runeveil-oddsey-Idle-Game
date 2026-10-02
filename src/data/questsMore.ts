@@ -42,6 +42,16 @@ const ECHOES: [string, string, string][] = [
   ['Stair by Stair', 'Orren Ashgrove', 'Every step of the Last Stairway remembers a climber. Orren hopes you will be remembered kindly.'],
   ['The Tide Turns', 'Harbormaster Quill', 'The Leviathan breathes in. Quill reminds you that everything breathes out.'],
   ['The Final Verse', 'Elder Maeva', 'The First Rune writes the last line of the story. Maeva insists you hold the pen.'],
+  ['Shards Underfoot', 'Elder Maeva', 'Pieces of the broken sky litter the ground. Maeva asks you to stop anyone from picking them up.'],
+  ['Glass Tides', 'Forgemaster Brann', 'The glass sea keeps rising. Brann would like it to stop before it reaches his forge.'],
+  ['Muster Roll', 'Warden Hallis', 'The Citadel counts its dead twice a day. Hallis asks you to cross out a few names for good.'],
+  ['The Gardener Returns', 'Huntress Rahne', 'The labyrinth grew a new wing overnight. Rahne asks you to prune it.'],
+  ['Lanterns for the Vault', 'Orren Ashgrove', 'The vault is dark and Nocturne is sulking. Orren suggests lanterns, and a firm tone.'],
+  ['Say It Again', 'Mirel Dawnsong', 'The echoes have begun to answer questions nobody asked. Mirel wants the hall silent.'],
+  ['The Wyrm Stirs', 'Skywatcher Odd', 'The mountain shrugged. Odd is certain it was not the wind.'],
+  ['Thunder Taxes', 'Quartermaster Tobin', 'Tempestus charges a toll in lightning. Tobin refuses to pay, and asks you to explain it to him.'],
+  ['Noon at Midnight', 'Scholar Ilya', 'The Hollow Sun rose again, cold and bright. Ilya needs samples. Do not look directly at it.'],
+  ['Write Us Home', 'Elder Maeva', 'Beyond the last margin, the page is blank. Maeva presses the lantern into your hands and asks you to write.'],
 ];
 
 function echoes(): Q[] {
@@ -93,7 +103,7 @@ function milestones(): Q[] {
   const lv = [(15), 25, 35, 45, 55, 65, 75, 85, 95];
   const titles = ['Fresh Blood', 'Seasoned', 'Hardened', 'Respected', 'Renowned', 'Feared', 'Storied', 'Mythic', 'Beyond the Veil'];
   lv.forEach((n, i) => {
-    const z = Math.max(1, Math.min(22, Math.round(1 + (n - 1) / 4.5)));
+    const z = Math.max(1, Math.min(32, Math.round(1 + (n - 1) / 3.1)));
     out.push({
       id: `hl_${n}`, kind: 'side', name: `Hero's Road: ${titles[i]}`, giver: 'Quartermaster Tobin', z, gold: 300 * Math.pow(1.4, z - 1),
       story: `Tobin keeps a ledger of every hero who survives. He wants your name under "level ${n}".`,
@@ -116,11 +126,11 @@ function milestones(): Q[] {
       steps: [wealth(n, `Hold ${(n / SILVER_PER_GOLD).toLocaleString('en-US')} gold`)], items: [scroll(z)], requires: i ? `w_${i}` : undefined,
     });
   });
-  [3, 5, 7, 9, 11, 14, 17, 20, 22].forEach((n) => {
+  [3, 5, 7, 9, 11, 14, 17, 20, 22, 24, 26, 28, 30, 32].forEach((n) => {
     out.push({
       id: `pf_${n}`, kind: 'side', name: `Pathfinder: ${ZONES[n - 1].name}`, giver: 'Scout Pell', z: n, gold: 220 * Math.pow(1.38, n - 1),
       story: `Pell's map has a blank where ${ZONES[n - 1].name} should be. He needs a boot on the ground there, and a reliable way back.`,
-      steps: [reach(n, ZONES[n - 1].name)], items: [food(n, 8)], xp: ['exploration', 100 + n * 40], reqSkill: ['exploration', Math.max(1, Math.round(1 + (n - 3) * 3.6))],
+      steps: [reach(n, ZONES[n - 1].name)], items: [food(n, 8)], xp: ['exploration', 100 + n * 40], reqSkill: ['exploration', Math.max(1, Math.min(99, Math.round(1 + (n - 3) * 3.6)))],
     });
   });
   return out;

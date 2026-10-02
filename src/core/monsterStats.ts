@@ -17,8 +17,8 @@ export function monsterStats(m: MonsterDef) {
   const zone = ZONE_MAP[m.zone];
   const span = Math.max(1, zone.levelRange[1] - zone.levelRange[0]);
   const lf = 0.85 + 0.3 * Math.max(0, Math.min(1, (m.level - zone.levelRange[0]) / span));
-  const hpK = m.boss ? BAL.bossHp : m.elite ? BAL.eliteHp : 1;
-  const atkK = m.boss ? BAL.bossAtk : m.elite ? BAL.eliteAtk : 1;
+  const hpK = (m.boss ? BAL.bossHp : m.elite ? BAL.eliteHp : 1) * (m.rare === 'legendary' ? BAL.legendHp : m.rare ? BAL.rareHp : 1);
+  const atkK = (m.boss ? BAL.bossAtk : m.elite ? BAL.eliteAtk : 1) * (m.rare === 'legendary' ? BAL.legendAtk : m.rare ? BAL.rareAtk : 1);
   const ease = zoneEase(m.zone) * (1 + BAL.lateGrowth * Math.max(0, m.zone - 10));
   const ref = ex.def;
   const mit = ref / (ref + BAL.defK * ref);

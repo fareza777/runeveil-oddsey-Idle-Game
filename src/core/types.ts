@@ -15,7 +15,28 @@ export type StatusId =
   | 'poison' | 'burn' | 'bleed' | 'chill' | 'freeze' | 'stun' | 'shock' | 'curse' | 'weaken' | 'blind'
   | 'regen' | 'shield' | 'haste' | 'might' | 'fortify' | 'thorns' | 'vulnerable' | 'slow';
 
-export type ItemKind = 'material' | 'food' | 'potion' | 'equip' | 'rune' | 'scroll' | 'misc';
+export type ItemKind = 'material' | 'food' | 'potion' | 'equip' | 'rune' | 'scroll' | 'misc' | 'card';
+
+/** Which gear a monster card can be socketed into. */
+export type CardKind = 'weapon' | 'armor' | 'trinket';
+
+/** Bonuses a socketed card grants. Percent values are added to the hero's percent modifiers. */
+export interface CardFx {
+  atkPct?: number; defPct?: number; hpPct?: number;
+  crit?: number; critDmg?: number; haste?: number; eva?: number; leech?: number; regen?: number; luck?: number; res?: number;
+  /** extra chance to apply a status whenever the wearer hits */
+  proc?: { status: StatusId; chance: number };
+  /** chance to apply a status to the attacker whenever the wearer is hit */
+  retaliate?: { status: StatusId; chance: number };
+}
+
+export interface CardDef {
+  monster: string;
+  kind: CardKind;
+  fx: CardFx;
+  /** 1 common monster, 2 elite, 3 boss, 4 world boss, 5 unique daily enemy */
+  grade: number;
+}
 
 export interface ItemDef {
   id: string;
@@ -37,6 +58,7 @@ export interface ItemDef {
   xpBoost?: { skill?: SkillId; pct: number; duration: number };
   upgradeTier?: number;
   apply?: StatusId;
+  card?: CardDef;
 }
 
 export interface ItemInstance {
@@ -45,6 +67,8 @@ export interface ItemInstance {
   rarity: number;
   up: number;
   ench?: StatKey;
+  /** monster ids of socketed cards */
+  cards?: string[];
 }
 
 export interface DropEntry {
@@ -104,6 +128,8 @@ export interface MonsterDef {
   family: string;
   boss?: boolean;
   elite?: boolean;
+  /** Named daily enemy: 'rare' can be fought twice a day, 'legendary' once. */
+  rare?: 'rare' | 'legendary';
 }
 
 export interface BossAbility {
@@ -244,7 +270,10 @@ export interface GameState {
   settings: Settings;
   skills: Record<SkillId, number>;
   skillXp: Record<SkillId, number>;
+  /** Active party (max PARTY_MAX); combat indexes this array. */
   heroes: HeroState[];
+  /** Recruited heroes resting outside the active party (roster max 7). */
+  bench: HeroState[];
   stacks: Record<string, number>;
   gear: ItemInstance[];
   gold: number;
@@ -267,6 +296,12 @@ export interface GameState {
   gatherCounts: Record<string, number>;
   /** Training Hall ranks bought with gold, per hero id. */
   hall: Record<string, number>;
+  /** Local calendar day (YYYY-MM-DD) for the daily systems below. */
+  daily: { day: string; rare: Record<string, number>; ads?: number };
+  /** Wandering merchant: purchases made during the current visit, and minutes added by rewarded ads. */
+  merchant: { day: string; bought: string[]; extraMin: number };
+  /** Cards ever seen, for the card album. */
+  cardsFound: Record<string, number>;
 }
 
 export interface OfflineReport {

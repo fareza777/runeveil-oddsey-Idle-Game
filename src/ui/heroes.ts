@@ -6,40 +6,49 @@ import { audio } from './audio';
 import { host } from './host';
 import { gearSheet } from './itemSheet';
 import type { Screen } from './screen';
-import { HEROES, HERO_ABILITY2_LEVEL, ITEMS, ELEMENT_MAP, rarity } from '@/data';
-import { computeHero, itemStats, partyPower } from '@/core/stats';
+import { HEROES, HERO_MAP, HERO_ABILITY2_LEVEL, ITEMS, ELEMENT_MAP, rarity } from '@/data';
+import { computeHeroFor, itemStats, partyPower } from '@/core/stats';
 import { HERO_MAX_LEVEL, heroXpToNext } from '@/core/xp';
 import { BAL, hallCost } from '@/core/balance';
-import { heroDef } from '@/core/state';
+import { PARTY_MAX, heroDef, ownsHero } from '@/core/state';
 import type { Slot } from '@/core/types';
 
 export class HeroesScreen implements Screen {
   el = h('div', { class: 'screen' });
   private idx = 0;
+  /** index into the bench when a resting hero is selected, otherwise -1 */
+  private benchIdx = -1;
   private lockedId: string | null = null;
 
   show() {
     const g = host.game;
     const s = g.state;
     if (this.idx >= s.heroes.length) this.idx = 0;
+    if (this.benchIdx >= s.bench.length) this.benchIdx = -1;
 
     const tabs = h('div', { class: 'herotabs' });
     s.heroes.forEach((hs, i) => {
       const x = heroDef(s, i);
-      tabs.append(h('button', { class: i === this.idx && !this.lockedId ? 'on' : '', onclick: () => { this.idx = i; this.lockedId = null; audio.sfx('ui_click'); this.show(); } },
+      tabs.append(h('button', { class: i === this.idx && !this.lockedId && this.benchIdx < 0 ? 'on' : '', onclick: () => { this.idx = i; this.benchIdx = -1; this.lockedId = null; audio.sfx('ui_click'); this.show(); } },
+        spriteEl(x.sprite, { zoom: 1, max: 44 }), h('i', { text: `Lv ${hs.level}` })));
+    });
+    s.bench.forEach((hs, i) => {
+      const x = HERO_MAP[hs.id];
+      tabs.append(h('button', { class: `bench ${i === this.benchIdx && !this.lockedId ? 'on' : ''}`, onclick: () => { this.benchIdx = i; this.lockedId = null; audio.sfx('ui_click'); this.show(); } },
         spriteEl(x.sprite, { zoom: 1, max: 44 }), h('i', { text: `Lv ${hs.level}` })));
     });
     for (const x of HEROES) {
-      if (s.heroes.some((hs) => hs.id === x.id)) continue;
+      if (ownsHero(s, x.id)) continue;
       const sil = spriteEl(x.sprite, { zoom: 1, max: 44, cls: 'silhouette' });
       tabs.append(h('button', { class: `locked ${this.lockedId === x.id ? 'on' : ''}`, onclick: () => { this.lockedId = x.id; audio.sfx('ui_click'); this.show(); } }, sil, h('i', { text: '🔒' })));
     }
 
     if (this.lockedId) { this.showLocked(tabs); return; }
 
-    const hd = heroDef(s, this.idx);
-    const hs = s.heroes[this.idx];
-    const c = computeHero(s, this.idx);
+    const resting = this.benchIdx >= 0;
+    const hs = resting ? s.bench[this.benchIdx] : s.heroes[this.idx];
+    const hd = HERO_MAP[hs.id];
+    const c = computeHeroFor(s, hs);
     const need = heroXpToNext(hs.level);
     const a2 = hs.level >= HERO_ABILITY2_LEVEL;
     const header = h('div', { class: 'card' },
@@ -62,8 +71,24 @@ export class HeroesScreen implements Screen {
     const grid = h('div', { class: 'equipgrid' }, ...SLOT_ORDER.map((slot) => {
       const inst = hs.equip[slot];
       const box = inst ? itemIcon(inst.id, inst) : h('span', { class: 'slotbox empty' }, ico(SLOT_ICON[slot]));
-      return h('div', { class: 'cell', onclick: () => { audio.sfx('ui_click'); this.slotSheet(slot); } }, box, h('span', { text: SLOT_NAME[slot] }));
+      return h('div', { class: 'cell', onclick: () => {
+        audio.sfx('ui_click');
+        if (!resting) this.slotSheet(slot);
+        else if (inst) gearSheet(inst.uid, { equipped: true, onChange: () => this.show() });
+        else toast('Bring this hero into the active party to change gear', 'info');
+      } }, box, h('span', { text: SLOT_NAME[slot] }));
     }));
+
+    const partyCard = h('div', { class: 'card' },
+      h('div', { class: 'row' }, h('b', { class: 'grow', text: `Active party ${s.heroes.length}/${PARTY_MAX}` }), h('span', { class: 'chip', text: `Roster ${s.heroes.length + s.bench.length}/${HEROES.length}` })),
+      h('div', { class: 'tiny muted', style: 'margin:4px 0 8px', text: `Only the active party fights and earns experience. Recruited heroes beyond ${PARTY_MAX} rest on the bench and can be swapped in any time.` }),
+      resting
+        ? h('button', { class: 'btn green block', text: s.heroes.length < PARTY_MAX ? 'Join the active party' : 'Swap into the party...', onclick: () => {
+          if (s.heroes.length < PARTY_MAX) { g.swapHero(-1, this.benchIdx); this.idx = s.heroes.length - 1; this.benchIdx = -1; audio.sfx('pickup'); this.show(); host.refresh(); } else this.swapSheet();
+        } })
+        : h('button', { class: `btn ghost block ${s.heroes.length <= 1 ? 'off' : ''}`, text: 'Rest on the bench', onclick: () => {
+          if (g.benchHeroAt(this.idx)) { this.idx = 0; audio.sfx('ui_click'); this.show(); host.refresh(); } else toast('At least one hero must stay in the party', 'bad');
+        } }));
 
     const best = h('button', { class: 'btn green block', style: 'margin-top:10px', text: 'Auto-equip best gear', onclick: () => {
       const n = g.autoEquipBest(this.idx);
@@ -80,21 +105,23 @@ export class HeroesScreen implements Screen {
       stat('HP regen', `${c.regen.toFixed(1)}/s`), stat('Luck', `${c.luck.toFixed(1)}%`), stat('Elemental resist', `${c.res.toFixed(1)}%`));
 
     const rank = s.hall[hd.id] ?? 0;
+    const canTrain = !resting;
     const maxed = rank >= BAL.hallMaxRank;
     const cost = hallCost(rank);
     const hall = h('div', { class: 'card' },
       h('div', { class: 'row' }, h('b', { class: 'grow', text: `Training Hall · rank ${rank}/${BAL.hallMaxRank}` }), h('span', { class: 'chip gold', text: `+${rank * BAL.hallPctPerRank}% atk & HP` })),
       h('div', { class: 'tiny muted', style: 'margin:4px 0 8px', text: `Each rank grants +${BAL.hallPctPerRank}% attack and max HP to ${hd.name.split(' ')[0]}.` }),
       h('div', { class: 'row' }, maxed ? h('span', { class: 'chip good', text: 'Fully trained' }) : goldChip(s.gold, cost), h('span', { class: 'grow' }),
-        h('button', { class: `btn sm gold ${maxed || s.gold < cost ? 'off' : ''}`, text: maxed ? 'MAX' : 'Train', onclick: () => {
+        h('button', { class: `btn sm gold ${maxed || s.gold < cost || !canTrain ? 'off' : ''}`, text: maxed ? 'MAX' : canTrain ? 'Train' : 'Bench', onclick: () => {
+          if (!canTrain) { toast('Bring this hero into the active party to train', 'info'); return; }
           const err = g.trainHero(this.idx);
           if (err) { toast(err, 'bad'); return; }
           audio.sfx('upgrade'); buzz('medium'); this.show(); host.refresh();
         } })));
 
-    mount(this.el, tabs, header,
+    mount(this.el, tabs, header, partyCard,
       h('div', { class: 'list-hd' }, h('h2', { text: 'Equipment' }), h('span', { class: 'chip gold', text: `Party power ${fmt(partyPower(s))}` })),
-      h('div', { class: 'card' }, grid), best,
+      h('div', { class: 'card' }, grid), resting ? h('div', { class: 'tiny muted center', text: 'Resting heroes keep their gear.' }) : best,
       h('h2', { text: 'Training' }), hall,
       h('h2', { text: 'Stats' }), stats);
   }
@@ -113,6 +140,20 @@ export class HeroesScreen implements Screen {
   }
 
   update() { /* static between actions */ }
+
+  private swapSheet() {
+    const g = host.game;
+    const s = g.state;
+    openSheet('Swap into the party', (body, close) => {
+      body.append(h('div', { class: 'small muted', style: 'margin-bottom:6px', text: `Who rests so ${HERO_MAP[s.bench[this.benchIdx].id].name} can fight?` }));
+      s.heroes.forEach((hs, i) => {
+        const x = HERO_MAP[hs.id];
+        body.append(h('div', { class: 'card tap item', onclick: () => {
+          if (g.swapHero(i, this.benchIdx)) { this.idx = i; this.benchIdx = -1; audio.sfx('pickup'); buzz(); close(); this.show(); host.refresh(); }
+        } }, spriteEl(x.sprite, { zoom: 1, max: 44 }), h('div', { class: 'meta' }, h('b', { text: x.name }), h('span', { text: `Lv ${hs.level} · ${x.cls}` }))));
+      });
+    });
+  }
 
   private slotSheet(slot: Slot) {
     const g = host.game;

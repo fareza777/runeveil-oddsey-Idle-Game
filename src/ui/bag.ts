@@ -5,12 +5,13 @@ import { SLOT_NAME, SLOT_ORDER, goldChip, moneyText } from './common';
 import { audio } from './audio';
 import { host } from './host';
 import { gearSheet, stackSheet } from './itemSheet';
+import { albumSheet } from './cards';
 import type { Screen } from './screen';
 import { ITEMS, RARITIES, rarity } from '@/data';
 import { BAG_MAX, sellPrice } from '@/core/state';
 import type { ItemInstance, Slot } from '@/core/types';
 
-type Tab = 'gear' | 'mats' | 'supplies';
+type Tab = 'gear' | 'mats' | 'supplies' | 'cards';
 type Sort = 'rarity' | 'tier' | 'power' | 'new';
 const SORTS: Sort[] = ['rarity', 'tier', 'power', 'new'];
 
@@ -25,11 +26,15 @@ export class BagScreen implements Screen {
     const g = host.game;
     const s = g.state;
     const seg = h('div', { class: 'seg' },
-      ...(['gear', 'mats', 'supplies'] as Tab[]).map((t) => h('button', { class: this.tab === t ? 'on' : '', text: t === 'gear' ? `Gear ${s.gear.length}/${BAG_MAX}` : t === 'mats' ? 'Materials' : 'Supplies', onclick: () => { this.tab = t; this.show(); } })));
+      ...(['gear', 'mats', 'supplies', 'cards'] as Tab[]).map((t) => h('button', { class: this.tab === t ? 'on' : '', text: t === 'gear' ? `Gear ${s.gear.length}/${BAG_MAX}` : t === 'mats' ? 'Materials' : t === 'cards' ? 'Cards' : 'Supplies', onclick: () => { this.tab = t; this.show(); } })));
     const body = h('div');
     if (this.tab === 'gear') this.gear(body);
     else if (this.tab === 'mats') this.stacks(body, (d) => d.kind === 'material' || d.kind === 'misc');
-    else this.stacks(body, (d) => d.kind === 'food' || d.kind === 'potion' || d.kind === 'scroll');
+    else if (this.tab === 'cards') {
+      body.append(h('div', { class: 'row', style: 'margin-bottom:8px' }, h('span', { class: 'small muted grow', text: 'Monster cards socket into gear of the matching type.' }),
+        h('button', { class: 'btn sm gold', text: 'Album', onclick: () => albumSheet() })));
+      this.stacks(body, (d) => d.kind === 'card');
+    } else this.stacks(body, (d) => d.kind === 'food' || d.kind === 'potion' || d.kind === 'scroll');
     const st = this.el.scrollTop;
     mount(this.el, seg, body);
     this.el.scrollTop = st;
@@ -97,7 +102,7 @@ export class BagScreen implements Screen {
     let limit = Math.min(5, Math.max(...RARITIES.map((r) => r.id)));
     openSheet('Sell junk', (body, close) => {
       const preview = h('div', { class: 'card' });
-      const sel = () => s.gear.filter((x) => x.rarity <= limit && !ITEMS[x.id].unique && x.up === 0);
+      const sel = () => s.gear.filter((x) => x.rarity <= limit && !ITEMS[x.id].unique && x.up === 0 && !x.cards?.length);
       const upd = () => {
         const list = sel();
         const total = list.reduce((n, x) => n + sellPrice(s, x), 0);

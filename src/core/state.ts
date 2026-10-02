@@ -1,4 +1,4 @@
-import type { Element, GameState, HeroDef, ItemInstance, SkillId, StatusId } from './types';
+import type { Element, GameState, HeroDef, HeroState, ItemInstance, SkillId, StatusId } from './types';
 import { HERO_MAP, HEROES, ITEMS, MAX_LEVEL, SKILL_IDS, rarity } from '@/data';
 import { gearId } from '@/data/gear';
 import { skillBonuses } from './stats';
@@ -37,6 +37,7 @@ export interface Ctx {
 
 export const BAG_MAX = 150;
 export const GAME_VERSION = 1;
+export const PARTY_MAX = 5;
 
 export function defaultSettings() {
   return {
@@ -55,7 +56,8 @@ export function newState(name = 'Wayfarer', seed = (Date.now() ^ 0x9e3779b9) >>>
   return {
     v: GAME_VERSION, name, createdAt: Date.now(), lastSeen: Date.now(), playTime: 0, clock: 0,
     settings: defaultSettings(), skills, skillXp,
-    heroes: [{ id: HEROES[0].id, level: 1, xp: 0, equip: {} }], hall: {},
+    heroes: [{ id: HEROES[0].id, level: 1, xp: 0, equip: {} }], bench: [], hall: {},
+    daily: { day: '', rare: {} }, merchant: { day: '', bought: [], extraMin: 0 }, cardsFound: {},
     stacks: { cfish_0: 6 }, gear: [], gold: 50, gems: 0, activity: null, zone: 1, zoneUnlocked: 1,
     kills: {}, bossKills: {}, loadout: { food: null, potion: null }, buffs: [], xpBoost: null,
     quests: { done: [], active: ['main_0'], progress: {} }, codex: { items: {}, monsters: {} }, stats: {}, uidSeq: 1, tutorial: 0, seed, achievements: [], gatherCounts: {},
@@ -87,14 +89,40 @@ function giveKit(s: GameState, i: number) {
   eq.feet ??= newGear(s, gearId('boots', 1), 1);
 }
 
-/** Adds a hero to the party (no-op if already present). New recruits join at a level that keeps them useful. */
+export const rosterOf = (s: GameState): HeroState[] => [...s.heroes, ...s.bench];
+export const ownsHero = (s: GameState, id: string): boolean => rosterOf(s).some((h) => h.id === id);
+
+/** Swap an active hero (slot `i`) with a bench hero (`b`), or move a bench hero into an open slot when i === -1. */
+export function swapParty(s: GameState, i: number, b: number): boolean {
+  if (b < 0 || b >= s.bench.length) return false;
+  if (i < 0) {
+    if (s.heroes.length >= PARTY_MAX) return false;
+    s.heroes.push(s.bench.splice(b, 1)[0]);
+    return true;
+  }
+  if (i >= s.heroes.length) return false;
+  const t = s.heroes[i];
+  s.heroes[i] = s.bench[b];
+  s.bench[b] = t;
+  return true;
+}
+
+/** Move an active hero to the bench (never the last one). */
+export function benchHero(s: GameState, i: number): boolean {
+  if (s.heroes.length <= 1 || i < 0 || i >= s.heroes.length) return false;
+  s.bench.push(s.heroes.splice(i, 1)[0]);
+  return true;
+}
+
+/** Adds a hero to the roster (active party first, then bench) (no-op if already present). New recruits join at a level that keeps them useful. */
 export function recruitHero(s: GameState, id: string, ctx?: Ctx): boolean {
-  if (!HERO_MAP[id] || s.heroes.some((h) => h.id === id)) return false;
-  const lead = s.heroes.reduce((m, h) => Math.max(m, h.level), 1);
+  if (!HERO_MAP[id] || ownsHero(s, id)) return false;
+  const lead = rosterOf(s).reduce((m, h) => Math.max(m, h.level), 1);
   const level = Math.max(1, Math.round(lead * 0.7));
-  s.heroes.push({ id, level, xp: 0, equip: {} });
+  const hs: HeroState = { id, level, xp: 0, equip: {} };
+  (s.heroes.length < PARTY_MAX ? s.heroes : s.bench).push(hs);
   const tier = gearTierForLevel(level);
-  const eq = s.heroes[s.heroes.length - 1].equip;
+  const eq = hs.equip;
   const style = HERO_MAP[id].style;
   eq.weapon = newGear(s, gearId(STARTER_WEAPON[style], tier), 1);
   eq.head = newGear(s, gearId('helm', tier), 1);

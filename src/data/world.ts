@@ -5,7 +5,7 @@ import { xpForReq } from '@/core/xp';
 import { econScale } from '@/core/money';
 import { GEAR_TYPES, gearId } from './gear';
 import { FAMILY_MAP, RES_TIERS, dropId } from './tiers';
-import { NOUNS, WORLD_BOSSES, ZONE_SEEDS } from './zoneSeeds';
+import { NOUNS, UNIQUE_ENEMIES, WORLD_BOSSES, ZONE_SEEDS } from './zoneSeeds';
 
 interface Profile { hp: number; atk: number; def: number; speed: number; status: StatusId[]; scale: number }
 const PROFILE: Record<string, Profile> = {
@@ -38,7 +38,7 @@ export const BOSSES: Record<string, BossDef> = {};
 export const ZONES: ZoneDef[] = [];
 
 const ZONE_LEVEL_STEP = 4.5;
-const zoneBaseLevel = (z: number) => 1 + (z - 1) * ZONE_LEVEL_STEP;
+const zoneBaseLevel = (z: number) => Math.min(100, 1 + (z - 1) * ZONE_LEVEL_STEP);
 const zoneMaxLevel = (z: number) => Math.min(100, Math.round(zoneBaseLevel(z) + ZONE_LEVEL_STEP));
 
 function lootFor(id: string, z: number, level: number, i: number, famId: string, elite: boolean, boss: boolean): DropEntry[] {
@@ -146,7 +146,7 @@ ZONE_SEEDS.forEach((seed, zi) => {
   ZONES.push({
     id: z, key: seed.key, name: seed.name, desc: seed.desc, levelRange: [Math.round(zoneBaseLevel(z)), zoneMaxLevel(z)], tier: gearTierForLevel(zoneBaseLevel(z) + 2),
     monsters: ids.slice(0, 13), elite: ids[13], boss: bid, gather: [], bg: `zone_${z}`, color: seed.color,
-    reqExploration: z <= 2 ? 1 : Math.round(1 + (z - 1) * 3.6), reqPower: 0,
+    reqExploration: z <= 2 ? 1 : Math.min(99, Math.round(1 + (z - 1) * 3.6)), reqPower: 0,
   });
 });
 
@@ -175,7 +175,36 @@ WORLD_BOSSES.forEach((wb, i) => {
   MONSTERS[id] = boss;
 });
 
+
+
+UNIQUE_ENEMIES.forEach((ue, i) => {
+  const id = `ue_${i + 1}`;
+  const z = ue.zone;
+  const bfam = FAMILY_MAP[ue.family];
+  const bprof = PROFILE[ue.family];
+  const level = Math.min(100, zoneMaxLevel(z) + 5);
+  const legendary = ue.rarity === 'legendary';
+  const abilities: BossAbility[] = [
+    { name: 'Crushing Doom', every: legendary ? 6 : 8, kind: 'smash', mult: legendary ? 3.4 : 2.8 },
+    { name: 'Shockwave', every: 11, kind: 'aoe', mult: legendary ? 1.2 : 1.0 },
+    { name: 'Elemental Brand', every: 12, kind: 'status', status: { status: STATUS_FOR_ELEMENT[ue.element], potency: 0.12, duration: 10 } },
+    { name: 'Dark Ward', every: 20, kind: 'shield', mult: 0.15 },
+    { name: 'Mending Aura', every: legendary ? 14 : 22, kind: 'heal', mult: 0.06 },
+    { name: 'Unbridled Fury', every: 0.5, kind: 'enrage', mult: legendary ? 2.0 : 1.7 },
+  ];
+  const boss: BossDef = {
+    id, name: ue.name, title: ue.title, lore: ue.lore, zone: z, level, family: ue.family, sprite: bfam.sprites[(i + 2) % bfam.sprites.length], hue: ue.hue, sat: 1.1,
+    scale: 2.0, hpMul: bprof.hp, atkMul: bprof.atk, defMul: bprof.def * 1.4, speed: 2.5, element: ue.element, weak: WEAK_TO[ue.element], resist: ue.element === 'physical' ? undefined : ue.element,
+    inflicts: { status: STATUS_FOR_ELEMENT[ue.element], chance: 0.35, potency: 0.09 + z * 0.004, duration: 8 },
+    drops: lootFor(id, z, level, 9, ue.family, false, true),
+    gold: [Math.round(200 * Math.pow(1.25, z - 1) * econScale(z)), Math.round(360 * Math.pow(1.25, z - 1) * econScale(z))],
+    xp: xpForReq(Math.round(level * 0.95), legendary ? 40 : 28), boss: true, elite: false, abilities, unique: `uni_${id}`, rare: ue.rarity,
+    first: { gold: Math.round(1500 * Math.pow(1.5, z - 1) * econScale(z)), items: [{ item: `scroll_${Math.min(8, 2 + Math.floor(z / 3))}`, n: 3 }, { item: `ess_${ue.element}`, n: 8 }] }, bg: `zone_${z}`,
+  };
+  BOSSES[id] = boss;
+  MONSTERS[id] = boss;
+});
+
 export const ZONE_MAP: Record<number, ZoneDef> = Object.fromEntries(ZONES.map((z) => [z.id, z]));
 export const BOSS_LIST: BossDef[] = Object.values(BOSSES);
 export const monsterCount = () => Object.values(MONSTERS).filter((m) => !m.boss).length;
-

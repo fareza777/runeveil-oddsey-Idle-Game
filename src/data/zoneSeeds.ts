@@ -1,4 +1,5 @@
 import type { Element } from '@/core/types';
+import { MYTHIC_SEEDS } from './zoneSeedsMythic';
 
 export interface ZoneSeed {
   name: string;
@@ -30,7 +31,7 @@ export const NOUNS: Record<string, string[]> = {
   magus: ['Magus', 'Warlock', 'Hexer', 'Mystic', 'Sorcerer'],
 };
 
-export const ZONE_SEEDS: ZoneSeed[] = [
+const BASE_SEEDS: ZoneSeed[] = [
   {
     name: 'Greenhollow Vale', key: 'greenhollow', color: '#6fd16a', element: 'nature',
     desc: 'A sleepy farming valley where the Veil first thinned. The gentlest creatures here have started to bite.',
@@ -209,6 +210,8 @@ export const ZONE_SEEDS: ZoneSeed[] = [
   },
 ];
 
+export const ZONE_SEEDS: ZoneSeed[] = [...BASE_SEEDS, ...MYTHIC_SEEDS];
+
 export interface WorldBossSeed { name: string; title: string; family: string; lore: string; hue: number; element: Element; zone: number }
 export const WORLD_BOSSES: WorldBossSeed[] = [
   { name: 'Ignaroth', title: 'the Infernal Colossus', family: 'minotaur', lore: 'A walking foundry. The calderas cool whenever he leaves them.', hue: 340, element: 'fire', zone: 9 },
@@ -217,4 +220,21 @@ export const WORLD_BOSSES: WorldBossSeed[] = [
   { name: 'Umbraxis', title: 'the Eclipse Devourer', family: 'ghost', lore: 'Where Umbraxis passes, shadows detach and follow him home.', hue: 270, element: 'shadow', zone: 18 },
   { name: 'Voltarion', title: 'the Storm Sovereign', family: 'genie', lore: 'He was a wish made in a thunderhead. He grew impatient.', hue: 55, element: 'shock', zone: 20 },
   { name: 'Lumenar', title: 'the Dawn Reliquary', family: 'magus', lore: 'A guardian built of the first dawn. It remembers every sunrise it has lost.', hue: 45, element: 'holy', zone: 22 },
+];
+
+export interface UniqueEnemySeed { name: string; title: string; family: string; lore: string; hue: number; element: Element; zone: number; rarity: 'rare' | 'legendary' }
+/** Named enemies that stalk a zone once or twice per day. Rare ones can be fought twice a day, legendary ones once. */
+export const UNIQUE_ENEMIES: UniqueEnemySeed[] = [
+  { name: 'Old Gnarlmaw', title: 'the Marsh Remembers', family: 'worm', lore: 'It has eaten three villages and two armies. It remembers all of them, fondly.', hue: 90, element: 'nature', zone: 3, rarity: 'rare' },
+  { name: 'Kessa the Mirage', title: 'Veil-Thin Queen', family: 'lamia', lore: 'She is only real at noon. At every other hour she is a rumor with a spear.', hue: 30, element: 'fire', zone: 5, rarity: 'rare' },
+  { name: 'Captain Rotbeard', title: 'the Ship That Would Not Sink', family: 'skelwar', lore: 'He went down with his ship and came back up with the crew. Nobody asked the crew.', hue: 190, element: 'frost', zone: 7, rarity: 'rare' },
+  { name: 'Emberjaw the Undying', title: 'Furnace Hound', family: 'minotaur', lore: 'Brann forged him as a guard dog. The dog got ideas.', hue: 10, element: 'fire', zone: 9, rarity: 'legendary' },
+  { name: 'Venomqueen Ssilith', title: 'Empress of Thorns', family: 'lamia', lore: 'Her coronation required forty poisoners. Her reign requires none, now.', hue: 110, element: 'nature', zone: 11, rarity: 'rare' },
+  { name: 'Aurelle Stormcaller', title: "Thunder's Shadow", family: 'magus', lore: 'She is what the storm leaves on the ground after it passes.', hue: 55, element: 'shock', zone: 13, rarity: 'legendary' },
+  { name: 'Countess Mourne', title: 'the Hungering Veil', family: 'succubus', lore: 'Mordrake sends flowers. Mourne sends invitations. Nobody has returned an RSVP.', hue: 300, element: 'shadow', zone: 15, rarity: 'rare' },
+  { name: 'The Glass Twin', title: 'Reflection Unbroken', family: 'skelwar', lore: 'It looks exactly like you did before the fight started.', hue: 270, element: 'shadow', zone: 17, rarity: 'rare' },
+  { name: 'Zhal the Void Tyrant', title: 'Thing Between Pages', family: 'worm', lore: 'He lives in the gap between two thoughts. Do not think of him.', hue: 280, element: 'arcane', zone: 19, rarity: 'legendary' },
+  { name: 'Nhal-Spawn', title: 'Tide-Eater Unbound', family: 'worm', lore: 'The Leviathan shed a skin. The skin got ambitious.', hue: 210, element: 'frost', zone: 21, rarity: 'rare' },
+  { name: 'Sovereign Cindermaw', title: 'Last Ember of the Glass Sea', family: 'genie', lore: 'He wished for a kingdom of fire. He got one. He got only that.', hue: 15, element: 'fire', zone: 24, rarity: 'legendary' },
+  { name: 'Echo of the First Rune', title: 'The Word That Answered', family: 'magus', lore: 'When the First Rune fell, the echo kept going. It has opinions about you.', hue: 330, element: 'arcane', zone: 28, rarity: 'legendary' },
 ];

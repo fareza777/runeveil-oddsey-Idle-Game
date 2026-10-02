@@ -4,8 +4,9 @@ import { openSheet, toast } from './modal';
 import { SLOT_NAME, STAT_LABEL, buzz, costChip, fmtStat, goldChip, moneyEl, moneyText, statLines } from './common';
 import { audio } from './audio';
 import { host } from './host';
-import { GATHER, ITEMS, RECIPES, SKILL_MAP, rarity } from '@/data';
-import { itemStats, MAX_UP, affixesOf } from '@/core/stats';
+import { GATHER, ITEMS, RECIPES, SKILL_MAP, cardKindForSlot, describeFx, rarity } from '@/data';
+import { itemStats, MAX_UP, affixesOf, socketCount } from '@/core/stats';
+import { cardSheetBody, pickCardSheet } from './cards';
 import { countItem, heroDef, itemSellPrice, sellPrice } from '@/core/state';
 import type { ItemInstance, Slot, StatKey } from '@/core/types';
 
@@ -33,7 +34,7 @@ export function stackSheet(id: string, onChange?: () => void) {
       add(body, 
         h('div', { class: 'item' }, itemIcon(id, undefined, 'lg'),
           h('div', { class: 'meta' }, h('b', { text: def.name }), h('span', { text: `Tier ${def.tier} · ${def.kind} · owned ${fmt(have)}` }))),
-        def.desc ? h('p', { class: 'muted small', text: def.desc }) : null,
+        def.kind === 'card' ? cardSheetBody(id) : def.desc ? h('p', { class: 'muted small', text: def.desc }) : null,
         def.heal ? h('div', { class: 'chip good', text: `Heals ${fmt(def.heal)} HP` }) : null,
         def.buff ? h('div', { class: 'chip gold', text: `${def.buff.status} +${def.buff.potency} for ${Math.round(def.buff.duration)}s` }) : null,
         def.xpBoost ? h('div', { class: 'chip gold', text: `+${Math.round(def.xpBoost.pct * 100)}% XP for ${Math.round(def.xpBoost.duration / 60)}m` }) : null,
@@ -64,9 +65,28 @@ export interface GearOpts {
   onChange?: () => void;
 }
 
+function socketRow(inst: ItemInstance, rerender: () => void, opts: GearOpts): HTMLElement {
+  const g = host.game;
+  const n = socketCount(inst);
+  const cards = inst.cards ?? [];
+  const slots = Array.from({ length: n }, (_, i) => {
+    const mon = cards[i];
+    if (mon) {
+      const cid = `card_${mon}`;
+      return h('div', { class: 'socket full' }, itemIcon(cid, undefined, 'sm'),
+        h('div', { class: 'grow tiny' }, h('b', { text: ITEMS[cid].name.replace(' Card', '') }), h('div', { class: 'muted', text: ITEMS[cid].card ? describeFx(ITEMS[cid].card!.fx).slice(0, 2).join(' · ') : '' })),
+        h('button', { class: 'btn sm ghost', text: '×', onclick: () => { const err = g.unsocketCard(inst.uid, i); if (err) toast(err, 'bad'); else audio.sfx('ui_click'); opts.onChange?.(); host.refresh(); rerender(); } }));
+    }
+    return h('div', { class: 'socket', onclick: () => pickCardSheet(inst, () => { opts.onChange?.(); host.refresh(); rerender(); }) },
+      h('span', { class: 'slotbox sm empty' }, '+'), h('span', { class: 'tiny muted', text: 'Empty socket · tap to add a card' }));
+  });
+  return h('div', { class: 'card', style: 'margin-top:8px' }, h('div', { class: 'row' }, h('b', { class: 'grow', text: 'Card sockets' }), h('span', { class: 'chip', text: `${cards.length}/${n}` })),
+    h('div', { class: 'tiny muted', text: `Rarity 8 and 16 add sockets. Fits ${cardKindForSlot(ITEMS[inst.id].slot)} cards.` }), h('div', { class: 'col', style: 'gap:6px;margin-top:6px' }, ...slots));
+}
+
 export function gearSheet(uid: string, opts: GearOpts = {}) {
   const g = host.game;
-  const find = (): ItemInstance | undefined => g.findGear(uid) ?? g.state.heroes.flatMap((x) => Object.values(x.equip)).find((i) => i?.uid === uid);
+  const find = (): ItemInstance | undefined => g.findGear(uid) ?? [...g.state.heroes, ...g.state.bench].flatMap((x) => Object.values(x.equip)).find((i) => i?.uid === uid);
   const first = find();
   if (!first) return;
   openSheet(ITEMS[first.id].name, (body, close) => {
@@ -89,6 +109,7 @@ export function gearSheet(uid: string, opts: GearOpts = {}) {
         h('div', { class: 'card', style: 'margin-top:10px' }, ...statLines(st, cur && cur !== inst ? itemStats(cur) : undefined)),
         Object.keys(aff).length ? h('div', { class: 'small muted' }, 'Affixes: ', (Object.entries(aff) as [StatKey, number][]).map(([k, v]) => `${STAT_LABEL[k]} ${fmtStat(k, v)}`).join(' · ')) : null,
         def.apply ? h('div', { class: 'chip gold', style: 'margin-top:6px', text: `Inflicts ${def.apply} on hit` }) : null,
+        def.kind === 'equip' ? socketRow(inst, render, opts) : null,
         def.element ? h('div', { class: 'chip', style: 'margin-top:6px', text: `Element: ${def.element}` }) : null,
       );
 

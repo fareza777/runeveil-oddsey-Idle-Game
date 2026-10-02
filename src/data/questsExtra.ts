@@ -251,7 +251,7 @@ function bounties(): Q[] {
         steps: [kill(common.id, 25 + z * 2, `Defeat ${25 + z * 2} ${common.name}`)],
       },
       {
-        id: `b_boss_${z}`, kind: 'side', name: `Rematch: ${b.name}`, giver: 'Bounty Board', z, gold: 320 * Math.pow(1.32, z - 1), reqZone: Math.min(22, z + 1),
+        id: `b_boss_${z}`, kind: 'side', name: `Rematch: ${b.name}`, giver: 'Bounty Board', z, gold: 320 * Math.pow(1.32, z - 1), reqZone: Math.min(ZONES.length, z + 1),
         story: `${b.name} fell once. The people of ${zone.name} would feel better if it fell twice more.`,
         steps: [boss(b.id, `Defeat ${b.name} three times`, 3)], items: [scroll(z)],
       },

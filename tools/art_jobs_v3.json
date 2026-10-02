@@ -1,0 +1,322 @@
+[
+ {
+  "out": "public/assets/gen/bosses/boss_23.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3023,
+  "prompt": "fantasy RPG boss monster, a towering sky-genie of cracked blue crystal with floating shards orbiting him, the Sky Unmoored, pale blue and white color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_24.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3024,
+  "prompt": "fantasy RPG boss monster, a lamia queen made of molten glass with a tail of living lava, the Molten Tidecaller, orange and black color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_25.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3025,
+  "prompt": "fantasy RPG boss monster, a skeletal regent in a crown of ribs seated in armor made of fused bones, the Unburied Regent, bone white and violet color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_26.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3026,
+  "prompt": "fantasy RPG boss monster, a colossal walking hedge-maze creature of thorned vines with a glowing mushroom heart, the Maze That Breathes, deep green color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_27.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3027,
+  "prompt": "fantasy RPG boss monster, a faceless ghostly warden holding an enormous black key, the Last Lock, dark purple and silver color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_28.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3028,
+  "prompt": "fantasy RPG boss monster, a siren queen with a mouth of many mirrors, sound waves rippling around her, the Voice That Repeats, magenta and lavender color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_29.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3029,
+  "prompt": "fantasy RPG boss monster, a massive ice wyrm coiled around a mountain peak, frozen breath, the Wyrm Beneath the Snow, icy cyan color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_30.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3030,
+  "prompt": "fantasy RPG boss monster, a giant minotaur with a hundred arms each holding crackling lightning, the Hundred-Handed Storm, electric yellow color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_31.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3031,
+  "prompt": "fantasy RPG boss monster, a hollow golden sun-djinn with a dark empty sun for a chest, the Sun That Forgot to Rise, gold and black color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/boss_32.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3032,
+  "prompt": "fantasy RPG boss monster, a cloaked scribe-sorcerer with a blank white void for a face holding a giant eraser-quill, Eraser of Stories, white and pale violet color theme, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_1.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3101,
+  "prompt": "fantasy RPG named rare elite monster, an ancient bloated marsh worm with moss and old coins growing on its hide, scarred and enormous, mossy green color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_2.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3102,
+  "prompt": "fantasy RPG named rare elite monster, a ghostly lamia queen shimmering like a desert mirage with veils of sand, golden sand color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_3.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3103,
+  "prompt": "fantasy RPG named rare elite monster, an undead sea captain skeleton in a tattered coat with barnacles, holding a rusty cutlass, teal and bone color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_4.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3104,
+  "prompt": "fantasy RPG named rare elite monster, a gigantic burning hound-minotaur with a molten furnace maw, fire orange color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_5.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3105,
+  "prompt": "fantasy RPG named rare elite monster, a venomous snake empress with jeweled hood and dripping fangs, poison green color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_6.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3106,
+  "prompt": "fantasy RPG named rare elite monster, a robed storm sorceress floating within crackling lightning, yellow and blue color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_7.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3107,
+  "prompt": "fantasy RPG named rare elite monster, a pale vampire countess in a dark gown surrounded by bats and veils, crimson and black color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_8.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3108,
+  "prompt": "fantasy RPG named rare elite monster, a knight made of mirror glass reflecting a twin of itself, silver and violet color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_9.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3109,
+  "prompt": "fantasy RPG named rare elite monster, a monstrous eldritch worm tearing out of a rift in reality with many eyes, purple and black color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_10.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3110,
+  "prompt": "fantasy RPG named rare elite monster, a deep sea abomination with glowing lures and tentacles, abyssal blue color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_11.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3111,
+  "prompt": "fantasy RPG named rare elite monster, a crowned genie sovereign of living cinders and obsidian, red and gold color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/bosses/ue_12.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3112,
+  "prompt": "fantasy RPG named rare elite monster, an enormous runic specter assembled from glowing glyphs and floating stone words, magenta color theme, legendary, menacing, full body, front view, centered, dark fantasy pixel art, detailed shading, plain background"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_23.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2023,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Shattered Firmament: floating cloud islands and jagged shards of broken sky, pale blue, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_24.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2024,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Cinderglass Sea: a sea of molten glass with burning slag-ships, orange and black, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_25.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2025,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Bonewhite Citadel: a fortress built of bones and ribs under a violet sky, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_26.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2026,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Verdant Labyrinth: giant hedge walls and glowing mushrooms, deep green, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_27.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2027,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Starless Vault: a sealed dark treasury with faint violet glints, no light, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_28.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2028,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Hall of a Thousand Echoes: a cathedral of mirrors and floating sound ripples, magenta, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_29.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2029,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Wyrmgrave Peaks: icy mountains made of dragon spines and frozen breath, cyan, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_30.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2030,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Crown of Thunder: a storm summit with endless lightning, electric yellow, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_31.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2031,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, The Hollow Sun: the inside of a dead hollow sun, gilded halls, dim gold, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/zones/zone_32.png",
+  "model": "rd-plus",
+  "style": "environment",
+  "w": 192,
+  "h": 192,
+  "seed": 2032,
+  "prompt": "fantasy RPG battle backdrop, side view landscape, Edge of Unwriting: the blank edge of a page where the world dissolves into white ink, empty open ground in the foreground for fighting, no characters, no text, atmospheric depth"
+ },
+ {
+  "out": "public/assets/gen/art/merchant.png",
+  "model": "rd-plus",
+  "style": "default",
+  "w": 128,
+  "h": 128,
+  "remove_bg": true,
+  "seed": 3200,
+  "prompt": "fantasy wandering merchant with a huge backpack stacked with lanterns, scrolls and trinkets, hooded, friendly, full body, front view, centered, pixel art, detailed shading, plain background"
+ }
+]

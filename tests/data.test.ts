@@ -9,10 +9,10 @@ describe('content integrity', () => {
     expect(SKILLS.length).toBe(21);
     expect(RARITIES.length).toBe(25);
     expect(ZONES.length).toBeGreaterThanOrEqual(20);
-    expect(ZONES.length).toBeLessThanOrEqual(22);
+    expect(ZONES.length).toBeLessThanOrEqual(32);
     expect(regular).toBeGreaterThanOrEqual(280);
     expect(BOSS_LIST.length).toBeGreaterThanOrEqual(25);
-    expect(BOSS_LIST.length).toBeLessThanOrEqual(30);
+    expect(BOSS_LIST.length).toBeLessThanOrEqual(60);
     expect(items).toBeGreaterThanOrEqual(500);
   });
 

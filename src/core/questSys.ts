@@ -37,7 +37,7 @@ export function stepProgress(s: GameState, q: QuestDef, i: number): number {
     case 'skill': return s.skills[st.target as keyof typeof s.skills] ?? 0;
     case 'own': return Math.min(st.n, s.stacks[st.target!] ?? 0);
     case 'gold': return Math.min(st.n, s.gold);
-    case 'heroLevel': return Math.max(...s.heroes.map((h) => h.level));
+    case 'heroLevel': return Math.max(...s.heroes.concat(s.bench).map((h) => h.level));
     case 'zone': return s.zoneUnlocked;
     default: return Math.min(st.n, s.quests.progress[q.id]?.[i] ?? 0);
   }

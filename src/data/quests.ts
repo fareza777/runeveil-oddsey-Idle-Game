@@ -42,6 +42,16 @@ const MAIN_STORY: [string, string][] = [
   ['The Last Stairway', 'Orren Ashgrove: "Seraphex still waits at the top. I would like to tell her she may rest."'],
   ['Pressure', 'Harbormaster Quill: "The tide has not gone out since the Leviathan surfaced. We are running out of coastline."'],
   ['The First Rune', 'Elder Maeva: "Everything ends where it began. The first rune waits. Whatever happens, thank you for walking this far."'],
+  ['The Sky Breaks', 'Elder Maeva: "I was wrong. The rune did not end it, it only woke what was beneath. Look up. The sky has cracked, and the pieces are falling."'],
+  ['A Sea of Cooled Glass', 'Forgemaster Brann: "Whatever fell turned the southern sea to glass. Pyrelith is melting it back, one wish at a time. Stop her before the shore forgets it was ever water."'],
+  ['The Citadel That Kept Count', 'Warden Hallis: "Bonewhite Citadel still musters soldiers who died before my grandfather. Their Marshal has not accepted the armistice."'],
+  ['The Garden That Eats Maps', 'Huntress Rahne: "Verdant Labyrinth rewrites itself every dusk. Three scouts came out. Not the same three who went in."'],
+  ['Where the Stars Are Kept', 'Orren Ashgrove: "The Starless Vault holds every light the sky has misplaced. Nocturne guards it. I suspect he is lonely."'],
+  ['A Thousand Echoes, One Voice', 'Mirel Dawnsong: "The hall repeats everything said inside it, a little changed each time. Vox Aeterna has been collecting my prayers. I would like them back."'],
+  ['Teeth of the Mountain', 'Skywatcher Odd: "The peaks are not mountains. They are what remains of a wyrm that did not finish dying. Glaciermaw is still using it."'],
+  ['The Crown That Calls Lightning', 'Skywatcher Odd: "Every storm I ever tracked leads here. Tempestus wears them like a crown. Take it off his head."'],
+  ['Eclipse of the Hollow Sun', 'Scholar Ilya: "A sun with nothing inside it. It gives light and no warmth. Helion thinks that is a kindness. Convince him otherwise."'],
+  ['The Last Margin', 'Elder Maeva: "Beyond the final page there is only margin, and something is erasing it. If it finishes, there will be nothing left to remember us. Go. Write us a better ending."'],
 ];
 
 QUESTS.push({

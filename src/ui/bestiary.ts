@@ -1,11 +1,16 @@
 import { add, h, fmt } from './dom';
-import { ico, monsterSprite } from './icons';
+import { cardEl, ico, monsterSprite } from './icons';
 import { openSheet } from './modal';
 import { moneyText } from './common';
 import { host } from './host';
 import { BOSSES, ITEMS, MONSTERS, ZONE_MAP } from '@/data';
 
-const pct = (c: number) => `${Math.round(c * 1000) / 10}%`;
+const pct = (c: number): string => {
+  const v = c * 100;
+  if (v >= 1) return `${Math.round(v * 10) / 10}%`;
+  if (v >= 0.01) return `${v.toFixed(2)}%`;
+  return `${v.toFixed(5).replace(/0+$/, '')}%`;
+};
 
 /** Full detail sheet for one monster, boss or elite. */
 export function monsterSheet(id: string) {
@@ -28,8 +33,8 @@ export function monsterSheet(id: string) {
       h('div', { class: 'small muted', style: 'margin-top:8px', text: `Reward per kill: ${moneyText(m.gold[0])}–${moneyText(m.gold[1])} · ${fmt(m.xp)} hero XP` }),
       h('h3', { text: 'Drops' }),
       h('div', { class: 'row', style: 'flex-wrap:wrap;gap:4px' }, ...m.drops.filter((d) => ITEMS[d.item]).map((d) =>
-        h('span', { class: 'cost' }, ico(ITEMS[d.item].icon), `${ITEMS[d.item].name} ${pct(d.chance)}`))),
-      b?.unique && ITEMS[b.unique] ? h('p', { class: 'small gold', style: 'margin-top:8px', text: `Unique: ${ITEMS[b.unique].name} (first kill, then 8% per kill)` }) : null);
+        h('span', { class: 'cost' }, ITEMS[d.item].kind === 'card' ? cardEl(d.item, 'sm') : ico(ITEMS[d.item].icon), `${ITEMS[d.item].name} ${pct(d.chance)}`))),
+      b?.unique && ITEMS[b.unique] ? h('p', { class: 'small gold', style: 'margin-top:8px', text: `Unique: ${ITEMS[b.unique].name} (first kill, then ${b.rare ? '35' : '8'}% per kill)` }) : null);
   });
 }
 
@@ -48,7 +53,7 @@ export function enemyList(zoneId: number, activeId?: string): HTMLElement {
       known ? monsterSprite(m, 1) : h('span', { class: 'muted', text: '?' }));
     const img = thumb.querySelector('img') as HTMLElement | null;
     if (img) { img.style.maxHeight = '85%'; img.style.height = 'auto'; img.style.maxWidth = '85%'; }
-    const top = known ? [...m.drops].filter((d) => ITEMS[d.item]).sort((a, b) => a.chance - b.chance)[0] : undefined;
+    const top = known ? [...m.drops].filter((d) => ITEMS[d.item] && ITEMS[d.item].kind !== 'card').sort((a, b) => a.chance - b.chance)[0] : undefined;
     return h('div', { class: `card tap row ${id === activeId ? 'active' : ''}`, style: 'margin:0 0 6px;padding:6px 8px;gap:8px', onclick: () => known && monsterSheet(id) },
       thumb,
       h('div', { class: 'grow', style: 'min-width:0' },

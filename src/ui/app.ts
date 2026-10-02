@@ -19,6 +19,8 @@ import type { GameEvent } from '@/core/state';
 import type { GameState, OfflineReport } from '@/core/types';
 import { App as CapApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
+import { ads } from '@/ads/ads';
+import { watchAd } from './rewards';
 
 const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: 'battle', label: 'Battle', icon: 'img:ui_icon_attack' },
@@ -98,6 +100,8 @@ export class AppShell {
       void CapApp.addListener('backButton', () => this.onBack());
       void CapApp.addListener('appStateChange', (st) => { if (!st.isActive) this.persist(); });
     }
+    ads.onBannerHeight = (px) => document.documentElement.style.setProperty('--ad-h', `${Math.round(px)}px`);
+    void ads.start();
     this.running = true;
     this.last = performance.now();
     this.raf = requestAnimationFrame(this.frame);
@@ -257,6 +261,7 @@ export class AppShell {
         else if (e.what === 'accepted') toast('New quest started', 'info');
         break;
       case 'zone': toast('A new zone has been unlocked!', 'gold'); break;
+      case 'boss': if (e.first) window.setTimeout(() => void ads.maybeInterstitial(), 2500); break;
       case 'recruit': toast(`${HERO_MAP[e.id].name} joined your party!`, 'gold'); audio.sfx('quest_complete', 0.8); break;
       case 'stop':
         toast(e.reason, 'bad');
@@ -288,7 +293,17 @@ export class AppShell {
         items.length ? h('h3', { text: 'Materials' }) : null,
         items.length ? h('div', { class: 'row', style: 'flex-wrap:wrap;gap:4px' }, ...items.slice(0, 16).map(([id, n]) => h('span', { class: 'cost', title: ITEMS[id].name }, ico(ITEMS[id].icon), fmt(n)))) : null,
         h('div', { class: 'sp' }),
-        h('button', { class: 'btn gold block', text: 'Collect', onclick: () => { audio.sfx('coin'); close(); } }));
+        ads.available && (rep.gold > 0 || items.length) && rep.seconds >= 300 ? h('button', { class: 'btn green block', style: 'margin-bottom:8px', text: 'Double the coin and materials (watch ad)', onclick: async (ev: Event) => {
+          const btn = ev.currentTarget as HTMLButtonElement;
+          if (btn.classList.contains('off')) return;
+          if (!(await watchAd())) return;
+          btn.classList.add('off');
+          btn.textContent = 'Doubled!';
+          this.game.doubleOffline(rep);
+          audio.sfx('quest_complete');
+          this.refreshTop(true);
+        } }) : null,
+        h('button', { class: 'btn gold block', text: 'Collect', onclick: () => { audio.sfx('coin'); close(); if (rep.seconds >= 900) window.setTimeout(() => void ads.maybeInterstitial(), 600); } }));
     }, { noX: true });
     audio.sfx('chest_open');
   }

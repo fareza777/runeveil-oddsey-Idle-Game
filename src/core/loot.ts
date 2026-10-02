@@ -37,6 +37,10 @@ export function rollEntry(state: GameState, d: DropEntry, luckMult: number, maxR
   if (def.kind === 'equip' || def.kind === 'rune') {
     const r = rollRarity(ctx.rng, maxR, q, minRarity);
     addGear(state, newGear(state, d.item, r), ctx);
+  } else if (def.kind === 'card') {
+    addItem(state, d.item, 1, ctx);
+    state.cardsFound[d.item] = (state.cardsFound[d.item] ?? 0) + 1;
+    ctx.emit({ t: 'toast', text: `Monster card found: ${def.name}!`, kind: 'good' });
   } else addItem(state, d.item, n, ctx);
 }
 
@@ -54,7 +58,7 @@ export function rollMonsterLoot(state: GameState, m: MonsterDef, ctx: Ctx, first
     const r = rollRarity(ctx.rng, maxR, Math.min(0.85, q + 0.06), bossGearMinRarity(m.zone));
     addGear(state, newGear(state, gearId(type.key, tier), r), ctx);
     const unique = (m as { unique?: string }).unique;
-    if (unique && ITEMS[unique] && (firstBossKill || ctx.rng() < 0.08 * luckMult)) {
+    if (unique && ITEMS[unique] && (firstBossKill || ctx.rng() < (m.rare ? 0.35 : 0.08) * luckMult)) {
       addGear(state, newGear(state, unique, rollRarity(ctx.rng, maxR, q, Math.min(maxR, uniqueMinRarity(m.zone)))), ctx);
       ctx.emit({ t: 'toast', text: `Unique drop: ${ITEMS[unique].name}!`, kind: 'good' });
     }

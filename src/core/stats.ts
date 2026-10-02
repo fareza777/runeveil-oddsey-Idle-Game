@@ -1,10 +1,14 @@
-import type { Element, GameState, HeroDef, ItemInstance, StatKey, Stats, StatusId } from './types';
+import type { Element, GameState, HeroDef, HeroState, ItemInstance, StatKey, Stats, StatusId } from './types';
 import { hashStr, mulberry32 } from './rng';
 import { HERO_MAP, ITEMS, SKILLS, rarity } from '@/data';
+import type { CardFx } from './types';
 import { scaleOf } from '@/data/tiers';
 import { BAL } from './balance';
 
 export const MAX_UP = 10;
+
+/** Card sockets on a piece of equipment: 1 at the bottom, 2 from rarity 8 and 3 from rarity 16. */
+export const socketCount = (inst: ItemInstance): number => (ITEMS[inst.id]?.kind === 'equip' ? Math.min(3, 1 + Math.floor(inst.rarity / 8)) : 0);
 export const UP_BONUS = 0.06;
 
 const AFFIX_POOL: StatKey[] = ['atk', 'def', 'hp', 'crit', 'critDmg', 'haste', 'eva', 'leech', 'regen', 'luck', 'res'];
@@ -82,6 +86,7 @@ export interface HeroCombat {
   atk: number; def: number; maxHp: number; crit: number; critDmg: number; haste: number; eva: number; leech: number;
   regen: number; luck: number; res: number; interval: number; element: Element; procs: { status: StatusId; chance: number }[];
   weaponKind: string; style: string;
+  retaliate: { status: StatusId; chance: number }[];
 }
 
 const DEFAULT_ELEMENT: Record<string, Element> = { melee: 'physical', ranged: 'physical', magic: 'arcane' };
@@ -91,7 +96,11 @@ export function heroLevelMult(level: number): number {
 }
 
 export function computeHero(state: GameState, idx: number, bonus = skillBonuses(state)): HeroCombat {
-  const hs = state.heroes[idx];
+  return computeHeroFor(state, state.heroes[idx], bonus);
+}
+
+/** Same as computeHero for any roster member, including heroes resting on the bench. */
+export function computeHeroFor(state: GameState, hs: HeroState, bonus = skillBonuses(state)): HeroCombat {
   const def: HeroDef = HERO_MAP[hs.id];
   const total: Required<Stats> = { atk: 0, def: 0, hp: 0, crit: 0, critDmg: 0, haste: 0, eva: 0, leech: 0, regen: 0, luck: 0, res: 0 };
   for (const [k, v] of Object.entries(def.base) as [StatKey, number][]) total[k] += v;
@@ -99,6 +108,8 @@ export function computeHero(state: GameState, idx: number, bonus = skillBonuses(
   let interval = 2.4;
   let weaponKind = 'fist';
   const procs: { status: StatusId; chance: number }[] = [];
+  const retaliate: { status: StatusId; chance: number }[] = [];
+  const cardPct = { atk: 0, def: 0, hp: 0 };
   let weaponAtkPenalty = 0;
   for (const [slot, inst] of Object.entries(hs.equip) as [string, ItemInstance | undefined][]) {
     if (!inst) continue;
@@ -117,6 +128,14 @@ export function computeHero(state: GameState, idx: number, bonus = skillBonuses(
     }
     if (slot === 'rune' && idef.element) element = idef.element;
     if (idef.apply) procs.push({ status: idef.apply, chance: 0.14 });
+    for (const cid of inst.cards ?? []) {
+      const fx: CardFx | undefined = ITEMS[`card_${cid}`]?.card?.fx;
+      if (!fx) continue;
+      cardPct.atk += fx.atkPct ?? 0; cardPct.def += fx.defPct ?? 0; cardPct.hp += fx.hpPct ?? 0;
+      for (const k of ['crit', 'critDmg', 'haste', 'eva', 'leech', 'regen', 'luck', 'res'] as const) total[k] += fx[k] ?? 0;
+      if (fx.proc) procs.push(fx.proc);
+      if (fx.retaliate) retaliate.push(fx.retaliate);
+    }
   }
   total.atk -= weaponAtkPenalty;
   const mods = def.passive.mods;
@@ -124,14 +143,14 @@ export function computeHero(state: GameState, idx: number, bonus = skillBonuses(
   const lvl = heroLevelMult(hs.level);
   const skillLv = state.skills[def.skill] ?? 1;
   const hall = ((state.hall?.[hs.id] ?? 0) * BAL.hallPctPerRank) / 100;
-  const atk = total.atk * lvl * (1 + hall + 0.012 * skillLv + (bonus.atkPct + (mods.atkPct ?? 0)) / 100);
-  const maxHp = total.hp * lvl * (1 + hall + bonus.hpPct / 100 + 0.01 * (state.skills.fortitude ?? 1) * (def.skill === 'fortitude' ? 1.5 : 0.5) + (mods.hpPct ?? 0) / 100);
-  const def_ = total.def * lvl * (1 + (bonus.defPct + (mods.defPct ?? 0)) / 100);
+  const atk = total.atk * lvl * (1 + hall + 0.012 * skillLv + (bonus.atkPct + cardPct.atk + (mods.atkPct ?? 0)) / 100);
+  const maxHp = total.hp * lvl * (1 + hall + bonus.hpPct / 100 + 0.01 * (state.skills.fortitude ?? 1) * (def.skill === 'fortitude' ? 1.5 : 0.5) + (mods.hpPct ?? 0) / 100 + cardPct.hp / 100);
+  const def_ = total.def * lvl * (1 + (bonus.defPct + cardPct.def + (mods.defPct ?? 0)) / 100);
   const haste = total.haste + bonus.haste;
   return {
     atk, def: def_, maxHp: Math.max(20, maxHp), crit: Math.min(75, total.crit + bonus.crit), critDmg: total.critDmg + bonus.critDmg, haste,
     eva: Math.min(60, total.eva + bonus.eva), leech: total.leech + bonus.leech, regen: total.regen + bonus.regen, luck: total.luck + bonus.luck,
-    res: Math.min(75, total.res + bonus.res), interval: Math.max(0.6, interval / Math.max(0.3, 1 + haste / 100)), element, procs, weaponKind, style: def.style,
+    res: Math.min(75, total.res + bonus.res), interval: Math.max(0.6, interval / Math.max(0.3, 1 + haste / 100)), element, procs, retaliate, weaponKind, style: def.style,
   };
 }
 

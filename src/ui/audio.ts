@@ -7,7 +7,7 @@ const BY_ELEMENT: Record<string, string> = {
 
 export function musicForZone(zone: number, boss: boolean): string {
   if (boss) return 'm_boss';
-  if (zone >= 22) return 'm_final';
+  if (zone === 22 || zone === 32) return 'm_final';
   if (zone === 5) return 'm_desert';
   if (zone === 7 || zone === 21) return 'm_drowned';
   return BY_ELEMENT[ZONE_SEEDS[zone - 1]?.element ?? 'nature'] ?? 'm_forest';
@@ -22,6 +22,7 @@ class AudioMgr {
   private pool = new Map<string, HTMLAudioElement[]>();
   private last = new Map<string, number>();
   private wanted = '';
+  private duckF = 1;
 
   unlock() {
     if (this.unlocked) return;
@@ -32,7 +33,7 @@ class AudioMgr {
   setVolumes(sfx: number, music: number) {
     this.sfxVol = sfx;
     this.musicVol = music;
-    if (this.music) this.music.volume = music * 0.6;
+    if (this.music) this.music.volume = music * 0.6 * this.duckF;
   }
 
   playMusic(name: string) {
@@ -60,7 +61,7 @@ class AudioMgr {
   private fadeIn(a: HTMLAudioElement) {
     const t = setInterval(() => {
       if (a !== this.music) { clearInterval(t); return; }
-      const target = this.musicVol * 0.6;
+      const target = this.musicVol * 0.6 * this.duckF;
       a.volume = Math.min(target, a.volume + 0.04);
       if (a.volume >= target - 0.001) clearInterval(t);
     }, 80);
@@ -71,6 +72,12 @@ class AudioMgr {
       a.volume = Math.max(0, a.volume - 0.06);
       if (a.volume <= 0.001) { a.pause(); clearInterval(t); }
     }, 60);
+  }
+
+  /** Lower the music while narration plays. */
+  duck(on: boolean) {
+    this.duckF = on ? 0.3 : 1;
+    if (this.music) this.music.volume = this.musicVol * 0.6 * this.duckF;
   }
 
   pause(p: boolean) {

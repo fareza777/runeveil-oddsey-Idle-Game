@@ -8,7 +8,13 @@ import { gatherEvent, questEvent, refreshQuests } from './questSys';
 import {
   addGear, addGold, addItem, countItem, gainXp, heroDef, itemSellPrice, newGear, sellPrice, takeItem, type Ctx, type GameEvent,
 } from './state';
-import { BAL, hallCost } from './balance';
+import { BAL, eliteChance, hallCost } from './balance';
+import { MERCHANT_EXTEND_MAX, MERCHANT_EXTEND_MIN, ensureDaily, merchantStatus, merchantStock, rareLeft } from './daily';
+import { benchHero, swapParty } from './state';
+import { cardKindForSlot } from '@/data/cards';
+import { socketCount } from './stats';
+import { money } from './money';
+import { AD_RULES } from '@/ads/config';
 
 export const OFFLINE_CAP = 12 * 3600;
 const STEP = 0.25;
@@ -84,6 +90,8 @@ export class Game {
       const m = isZone ? null : MONSTERS[id];
       const zone = isZone ? Number(id.slice(5)) : m?.zone;
       if (!zone) return 'Unknown target';
+      ensureDaily(s);
+      if (m?.rare && rareLeft(s, m.id) <= 0) return `${m.name} will return tomorrow`;
       const err = this.canEnterZone(zone);
       if (err && !(m?.boss && id.startsWith('wboss') && zone <= s.zoneUnlocked)) return err;
     }
@@ -110,7 +118,7 @@ export class Game {
     if (isZone) {
       rt.chooser = (rng) => {
         const r = rng();
-        if (r < 0.07) return MONSTERS[zone.elite];
+        if (r < eliteChance(zoneId)) return MONSTERS[zone.elite];
         return MONSTERS[zone.monsters[Math.floor(rng() * zone.monsters.length)]];
       };
     }
@@ -161,6 +169,12 @@ export class Game {
       if (!this.rt) this.buildCombat();
       const res = combatStep(s, this.rt!, dt, this.ctx);
       if (res === 'stopped') this.stop('Your party was defeated. Visit Heroes to improve gear, then try again.');
+      else if (res === 'bossDown' && this.rt!.enemyDef.rare) {
+        const id = this.rt!.enemyDef.id;
+        ensureDaily(s);
+        s.daily.rare[id] = (s.daily.rare[id] ?? 0) + 1;
+        if (rareLeft(s, id) <= 0) this.stop(`${this.rt!.enemyDef.name} has been vanquished. It returns tomorrow.`);
+      }
       return;
     }
     this.tickGlobals(dt);
@@ -238,6 +252,22 @@ export class Game {
     }
   }
 
+  /** Chance of each rarity step when crafting: skill beyond the recipe level helps, higher gear tiers are harder. */
+  craftOdds(r: RecipeDef, itemId: string): { q: number; maxR: number } {
+    const s = this.state;
+    const def = ITEMS[itemId];
+    const surplus = Math.max(0, s.skills[r.skill] - r.level);
+    const q = Math.max(0.05, Math.min(0.6, 0.13 + surplus * 0.004 - (def.tier - 1) * 0.009 + partyLuck(s) / 1000 + skillBonuses(s).rarityPct / 500));
+    return { q, maxR: Math.min(25, 2 + Math.floor(def.tier * 1.1)) };
+  }
+
+  /** Probability of reaching at least `minR` for a craft, as a 0..1 number. */
+  craftChanceAtLeast(r: RecipeDef, itemId: string, minR: number): number {
+    const { q, maxR } = this.craftOdds(r, itemId);
+    if (minR > maxR) return 0;
+    return Math.pow(q, Math.max(0, minR - 1));
+  }
+
   completeCraft(r: RecipeDef) {
     const s = this.state;
     const ctx = this.ctx;
@@ -247,9 +277,7 @@ export class Game {
       const def = ITEMS[o.item];
       if (def.kind === 'equip' || def.kind === 'rune') {
         for (let k = 0; k < o.n; k++) {
-          const lv = s.skills[r.skill];
-          const q = Math.max(0.1, Math.min(0.6, 0.12 + lv * 0.004 + partyLuck(s) / 800 + skillBonuses(s).rarityPct / 400));
-          const maxR = Math.min(25, 2 + Math.floor(def.tier * 1.1));
+          const { q, maxR } = this.craftOdds(r, o.item);
           addGear(s, newGear(s, o.item, rollRarity(this.rng, maxR, q)), ctx);
         }
       } else addItem(s, o.item, o.n, ctx);
@@ -355,12 +383,138 @@ export class Game {
     const set = new Set(uids);
     s.gear = s.gear.filter((g) => {
       if (!set.has(g.uid)) return true;
+      this.returnCards(g);
       total += sellPrice(s, g);
       return false;
     });
     addGold(s, total, this.ctx);
     this.emit({ t: 'sold', n: set.size, gold: total });
     return total;
+  }
+
+  private returnCards(inst: ItemInstance) {
+    for (const c of inst.cards ?? []) addItem(this.state, `card_${c}`, 1);
+    inst.cards = undefined;
+  }
+
+  /** Cards that fit this piece of gear and are in the bag. */
+  cardsFor(inst: ItemInstance): string[] {
+    const kind = cardKindForSlot(ITEMS[inst.id].slot);
+    return Object.keys(this.state.stacks).filter((id) => ITEMS[id]?.kind === 'card' && ITEMS[id].card?.kind === kind);
+  }
+
+  private anyGear(uid: string): ItemInstance | undefined {
+    const s = this.state;
+    return this.findGear(uid) ?? [...s.heroes, ...s.bench].flatMap((h) => Object.values(h.equip)).find((g) => g?.uid === uid);
+  }
+
+  socketCard(uid: string, cardItem: string): string | null {
+    const s = this.state;
+    const inst = this.anyGear(uid);
+    const def = ITEMS[cardItem];
+    if (!inst || !def?.card) return 'Nothing to socket';
+    if (cardKindForSlot(ITEMS[inst.id].slot) !== def.card.kind) return `This card only fits ${def.card.kind} gear`;
+    const cards = inst.cards ?? [];
+    if (cards.length >= socketCount(inst)) return 'No free socket';
+    if (cards.includes(def.card.monster)) return 'That card is already socketed here';
+    if (!takeItem(s, cardItem, 1)) return 'You do not have that card';
+    inst.cards = [...cards, def.card.monster];
+    this.refreshStats();
+    return null;
+  }
+
+  unsocketCard(uid: string, index: number): string | null {
+    const inst = this.anyGear(uid);
+    const cards = inst?.cards;
+    if (!inst || !cards || !cards[index]) return 'Empty socket';
+    const [c] = cards.splice(index, 1);
+    addItem(this.state, `card_${c}`, 1);
+    if (!cards.length) inst.cards = undefined;
+    this.refreshStats();
+    return null;
+  }
+
+  /** Swap an active hero with a bench hero. Restarts the fight so the party in combat matches the new line-up. */
+  swapHero(active: number, bench: number): boolean {
+    if (!swapParty(this.state, active, bench)) return false;
+    this.afterPartyChange();
+    return true;
+  }
+
+  benchHeroAt(active: number): boolean {
+    if (!benchHero(this.state, active)) return false;
+    this.afterPartyChange();
+    return true;
+  }
+
+  private afterPartyChange() {
+    if (this.state.activity?.type === 'combat') this.buildCombat();
+  }
+
+  // ---------- rewarded-ad perks ----------
+  boostXp(): void {
+    this.state.xpBoost = { skill: 'all', pct: AD_RULES.xpBoostPct, left: AD_RULES.xpBoostSec };
+    this.toast(`+${Math.round(AD_RULES.xpBoostPct * 100)}% XP for ${Math.round(AD_RULES.xpBoostSec / 60)} minutes`, 'good');
+  }
+
+  crateLeft(): number {
+    ensureDaily(this.state);
+    return Math.max(0, AD_RULES.crateLimitPerDay - (this.state.daily.ads ?? 0));
+  }
+
+  claimSupplyCrate(): string | null {
+    const s = this.state;
+    if (this.crateLeft() <= 0) return 'No crates left today';
+    s.daily.ads = (s.daily.ads ?? 0) + 1;
+    const z = Math.max(1, Math.min(32, s.zoneUnlocked));
+    addGold(s, money(600 * Math.pow(1.4, z - 1), z) * (1 + skillBonuses(s).goldPct / 100), this.ctx);
+    addItem(s, `cfish_${Math.min(19, z)}`, 12, this.ctx);
+    const scroll = `scroll_${Math.min(8, 1 + Math.floor(z / 3))}`;
+    if (ITEMS[scroll]) addItem(s, scroll, 1, this.ctx);
+    return null;
+  }
+
+  /** Grants the offline haul a second time (coin and materials, not XP). Used by the rewarded "double" offer. */
+  doubleOffline(rep: OfflineReport): void {
+    const ctx = this.ctx;
+    for (const [id, n] of Object.entries(rep.items)) if (ITEMS[id]) addItem(this.state, id, n, ctx);
+    if (rep.gold > 0) addGold(this.state, rep.gold, ctx);
+  }
+
+  // ---------- daily unique enemies and wandering merchant ----------
+  uniqueLeft(id: string): number {
+    return rareLeft(this.state, id);
+  }
+
+  merchant() {
+    return merchantStatus(this.state);
+  }
+
+  /** Called by the rewarded ad: lengthens today's visit. */
+  extendMerchant(): boolean {
+    ensureDaily(this.state);
+    const used = Math.round(this.state.merchant.extraMin / MERCHANT_EXTEND_MIN);
+    if (used >= MERCHANT_EXTEND_MAX) return false;
+    this.state.merchant.extraMin += MERCHANT_EXTEND_MIN;
+    return true;
+  }
+
+  buyFromMerchant(key: string): string | null {
+    const s = this.state;
+    if (!merchantStatus(s).open) return 'The merchant has left';
+    const e = merchantStock(s).find((x) => x.key === key);
+    if (!e) return 'Not for sale';
+    if (s.merchant.bought.includes(key)) return 'Already sold';
+    if (s.gold < e.price) return 'Not enough coin';
+    s.gold -= e.price;
+    s.merchant.bought.push(key);
+    if (e.kind === 'gear') {
+      const inst = newGear(s, e.id, e.rarity);
+      s.gear.push(inst);
+      this.emit({ t: 'gear', inst });
+    } else addItem(s, e.id, 1, this.ctx);
+    s.stats.merchantBuys = (s.stats.merchantBuys ?? 0) + 1;
+    return null;
   }
 
   sellItem(id: string, n: number): number {

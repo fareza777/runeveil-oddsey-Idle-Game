@@ -2,7 +2,9 @@ import { h } from './dom';
 import { genIconUrl } from './iconGen';
 import { STATUS_MAP } from '@/data';
 import type { ItemInstance, MonsterDef, StatusId } from '@/core/types';
-import { ITEMS, rarity } from '@/data';
+import { ITEMS, MONSTERS, rarity } from '@/data';
+
+export const GRADE_COLOR = ['#9a9ab0', '#8fd0a0', '#6ea8ff', '#c78bff', '#ff9a4d', '#ff5d7a'];
 
 export const asset = (p: string) => `${import.meta.env.BASE_URL}assets/${p}`;
 
@@ -32,8 +34,19 @@ export function ico(spec: string, cls = ''): HTMLElement {
   return h('span', { class: `ico ${cls}` }, img);
 }
 
+/** A monster card: the monster's portrait on a framed card. */
+export function cardEl(id: string, cls = ''): HTMLElement {
+  const def = ITEMS[id];
+  const m = def?.card ? MONSTERS[def.card.monster] : undefined;
+  const el = h('span', { class: `slotbox cardbox ${cls}` });
+  el.style.setProperty('--cc', GRADE_COLOR[def?.card?.grade ?? 1]);
+  if (m) el.append(monsterSprite(m, 1.1, 44));
+  return el;
+}
+
 export function itemIcon(id: string, inst?: ItemInstance, cls = ''): HTMLElement {
   const def = ITEMS[id];
+  if (def?.kind === 'card') return cardEl(id, cls);
   const r = inst ? rarity(inst.rarity) : null;
   const el = h('span', { class: `slotbox ${cls} ${r ? 'r' : ''}` }, ico(def?.icon ?? 'img:ui_icon_gift'));
   if (r) {
@@ -78,10 +91,10 @@ export function spriteEl(sprite: string, opts: { hue?: number; sat?: number; zoo
   return img;
 }
 
-export function monsterSprite(m: MonsterDef, big = 3.2): HTMLImageElement {
-  if (m.boss) return spriteEl(m.id, { zoom: big, max: 175, dir: 'gen/bosses' });
+export function monsterSprite(m: MonsterDef, big = 3.2, cap?: number): HTMLImageElement {
+  if (m.boss) return spriteEl(m.id, { zoom: big, max: cap ?? 175, dir: 'gen/bosses' });
   const sc = Math.min(1.35, Math.pow(Math.max(0.6, m.scale), 0.6));
-  return spriteEl(m.sprite, { hue: m.hue, sat: m.sat, zoom: big, max: m.boss ? 175 : 150, scale: sc });
+  return spriteEl(m.sprite, { hue: m.hue, sat: m.sat, zoom: big, max: cap ?? 150, scale: sc });
 }
 
 export function bar(cls: string, value: number, label?: string): HTMLElement {

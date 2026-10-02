@@ -1,7 +1,7 @@
 import { Capacitor } from '@capacitor/core';
 import { Preferences } from '@capacitor/preferences';
 import type { GameState } from './types';
-import { defaultSettings, newState, GAME_VERSION } from './state';
+import { defaultSettings, newState, GAME_VERSION, PARTY_MAX } from './state';
 import { HERO_MAP, SKILL_IDS } from '@/data';
 import { xpAtLevel } from './xp';
 
@@ -46,6 +46,12 @@ export function migrate(raw: Partial<GameState>): GameState {
   s.codex = { items: {}, monsters: {}, ...(raw.codex ?? {}) };
   const known = (raw.heroes ?? []).filter((h) => HERO_MAP[h.id]);
   s.heroes = known.length ? known.map((h) => ({ ...h, level: h.level || 1, xp: h.xp || 0, equip: { ...h.equip } })) : base.heroes;
+  const spare = (raw.bench ?? []).filter((h) => HERO_MAP[h.id]).map((h) => ({ ...h, level: h.level || 1, xp: h.xp || 0, equip: { ...h.equip } }));
+  const overflow = s.heroes.splice(PARTY_MAX);
+  s.bench = [...spare, ...overflow].filter((h, i, a) => a.findIndex((x) => x.id === h.id) === i && !s.heroes.some((x) => x.id === h.id));
+  s.daily = { day: '', rare: {}, ...(raw.daily ?? {}) };
+  s.merchant = { day: '', bought: [], extraMin: 0, ...(raw.merchant ?? {}) };
+  s.cardsFound = { ...(raw.cardsFound ?? {}) };
   s.hall = { ...(raw.hall ?? {}) };
   s.v = GAME_VERSION;
   return s;

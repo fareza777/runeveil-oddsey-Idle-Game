@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+﻿import { describe, expect, it } from 'vitest';
 import { Game } from '@/core/engine';
 import { newState } from '@/core/state';
 import { GEAR_TYPES, gearId } from '@/data/gear';
@@ -21,7 +21,7 @@ export function geared(zone: number, rarityLevel: number, heroLevel?: number, sk
   const tier = gearTierForLevel(lvl);
   const sl = skillLevel ?? Math.min(99, Math.round(lvl * 0.5));
   for (const id of SKILL_IDS) { s.skills[id] = sl; s.skillXp[id] = xpAtLevel(sl); }
-  s.zoneUnlocked = 22;
+  s.zoneUnlocked = 32;
   s.skills.exploration = 99;
   const party = storyPartyAt(zone);
   s.heroes = party.map((h) => ({ id: h.id, level: 1, xp: 0, equip: {} }));
@@ -67,7 +67,7 @@ describe('combat balance', () => {
       rows.push(`Z${String(z.id).padStart(2)} tier${String(z.tier).padStart(2)} rar${String(rar).padStart(2)} atk${c.atk.toFixed(0).padStart(5)} hp${c.maxHp.toFixed(0).padStart(5)} def${c.def.toFixed(0).padStart(4)} | zone: kills ${String(r.kills).padStart(3)} loss${String(r.lossPct).padStart(3)}% wipes ${r.wipes} food ${String(r.eaten).padStart(3)} | boss: t=${bossRun.firstKill}s kills ${bossRun.kills} wipes ${bossRun.wipes} food ${bossRun.eaten} ${bossRun.stopped ? 'STOPPED' : ''}`);
     }
     console.log('\n' + rows.join('\n'));
-    expect(rows.length).toBe(22);
+    expect(rows.length).toBe(ZONES.length);
   });
 
   it('keeps boss ids intact', () => {
@@ -75,6 +75,7 @@ describe('combat balance', () => {
     expect(ITEMS[BOSSES.boss_1.unique!]).toBeTruthy();
   });
 });
+
 
 
 

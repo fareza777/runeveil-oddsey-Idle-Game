@@ -41,7 +41,7 @@ CROPS.forEach((c, i) => {
 
 // Exploration: scout each zone
 ZONE_NAMES.forEach((z, i) => {
-  const L = Math.max(1, Math.round(1 + i * 4.3));
+  const L = Math.min(99, Math.max(1, Math.round(1 + i * 4.3)));
   const r = Math.min(RES_TIERS - 1, Math.floor((i * RES_TIERS) / ZONE_NAMES.length));
   push({
     id: `scout_${i + 1}`, skill: 'exploration', name: `Scout ${z}`, level: L, xp: xpForReq(L, 1.1), time: 6 + i * 0.2, icon: 'img:ui_icon_map', desc: `Map hidden paths in ${z}.`,

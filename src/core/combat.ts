@@ -1,6 +1,7 @@
 import type { BossDef, Element, GameState, MonsterDef, StatusId } from './types';
-import { BOSSES, ELEMENT_MAP, ITEMS, MONSTERS, STATUS_MAP } from '@/data';
-import { BAL } from './balance';
+import { BOSSES, ELEMENT_MAP, ITEMS, MONSTERS, STATUS_MAP, ZONES } from '@/data';
+import { BAL, giantChance, packMax } from './balance';
+import { partyPower } from './power';
 import { monsterStats } from './monsterStats';
 import { computeHero, skillBonuses, type HeroCombat } from './stats';
 import { heroKillXp } from './xp';
@@ -28,6 +29,7 @@ export interface Fighter {
   res: number;
   element: Element;
   procs: HeroCombat['procs'];
+  retaliate: HeroCombat['retaliate'];
   statuses: StatusInst[];
   abilityTimer: number;
   abilityTimer2: number;
@@ -60,6 +62,12 @@ export interface CombatRt {
   elapsed: number;
   bossFirst: boolean;
   kills: number;
+  /** enemies in the current pack (1 for singles, bosses and giants) */
+  packN: number;
+  /** oversized regular monster */
+  giant: boolean;
+  threat: number;
+  threatAt: number;
   chooser?: (rng: () => number) => MonsterDef;
 }
 
@@ -70,7 +78,7 @@ const HARM = (id: StatusId) => STATUS_MAP[id].harm;
 const mkFighter = (idx: number, c: HeroCombat | null): Fighter => ({
   idx, hp: c?.maxHp ?? 1, maxHp: c?.maxHp ?? 1, atk: c?.atk ?? 0, def: c?.def ?? 0, interval: c?.interval ?? 2, timer: 0, crit: c?.crit ?? 0,
   critDmg: c?.critDmg ?? 150, eva: c?.eva ?? 0, leech: c?.leech ?? 0, regen: c?.regen ?? 0, res: c?.res ?? 0, element: c?.element ?? 'physical',
-  procs: c?.procs ?? [], statuses: [], abilityTimer: 0, abilityTimer2: 0, rallyPct: 0, rallyLeft: 0, shield: 0, taunt: 1, dotAcc: 0, alive: true,
+  procs: c?.procs ?? [], retaliate: c?.retaliate ?? [], statuses: [], abilityTimer: 0, abilityTimer2: 0, rallyPct: 0, rallyLeft: 0, shield: 0, taunt: 1, dotAcc: 0, alive: true,
 });
 
 export function createCombat(state: GameState, zone: number, boss: boolean, monsterId?: string): CombatRt {
@@ -84,7 +92,7 @@ export function createCombat(state: GameState, zone: number, boss: boolean, mons
   const id = monsterId ?? 'm_1_1';
   return {
     zone, boss, monsterId: id, enemy: null, enemyDef: MONSTERS[id], heroes, respawn: 0.4, wipeTimer: 0, wipes: 0, bossTimers: [], enraged: false,
-    fightTime: 0, foodCd: 0, potionCd: 0, power: 0, atkBoost: 1, elapsed: 0, bossFirst: false, kills: 0,
+    fightTime: 0, foodCd: 0, potionCd: 0, power: 0, atkBoost: 1, elapsed: 0, bossFirst: false, kills: 0, packN: 1, giant: false, threat: 1, threatAt: -999,
   };
 }
 
@@ -96,19 +104,38 @@ export function refreshHeroes(state: GameState, rt: CombatRt) {
     const c = computeHero(state, i, bonus);
     const ratio = f.maxHp > 0 ? f.hp / f.maxHp : 1;
     f.maxHp = c.maxHp; f.atk = c.atk; f.def = c.def; f.interval = c.interval; f.crit = c.crit; f.critDmg = c.critDmg; f.eva = c.eva;
-    f.leech = c.leech; f.regen = c.regen; f.res = c.res; f.element = c.element; f.procs = c.procs;
+    f.leech = c.leech; f.regen = c.regen; f.res = c.res; f.element = c.element; f.procs = c.procs; f.retaliate = c.retaliate;
     f.hp = f.alive ? Math.max(1, Math.min(f.maxHp, f.maxHp * ratio)) : 0;
   });
 }
 
-function spawnEnemy(rt: CombatRt, ctx: Ctx) {
+/** How much stronger than designed the party is, softened so gear still matters but a zone never becomes a walk. */
+function threatOf(state: GameState, rt: CombatRt): number {
+  if (rt.zone < BAL.adaptFromZone) return 1;
+  if (rt.elapsed - rt.threatAt > 20) {
+    rt.threatAt = rt.elapsed;
+    const p = partyPower(state, rt.zone);
+    rt.threat = Math.max(1, Math.min(BAL.adaptCap, Math.pow(Math.max(p, 0.01), BAL.adapt)));
+  }
+  return rt.threat;
+}
+
+/** Alive members of the current pack, derived from remaining HP. */
+export const packAlive = (rt: CombatRt): number => (rt.enemy && rt.enemy.alive ? Math.max(1, Math.ceil((rt.enemy.hp / rt.enemy.maxHp) * rt.packN - 1e-6)) : 0);
+
+function spawnEnemy(state: GameState, rt: CombatRt, ctx: Ctx) {
   if (rt.chooser) {
     rt.enemyDef = rt.chooser(ctx.rng);
     rt.monsterId = rt.enemyDef.id;
   }
   const m = rt.enemyDef;
   const s = monsterStats(m);
-  rt.enemy = { ...mkFighter(0, null), hp: s.hp, maxHp: s.hp, atk: s.atk, def: s.def, interval: s.interval, element: m.element, timer: s.interval * 0.5 };
+  const regular = !m.boss && !m.elite;
+  rt.giant = !m.boss && rt.chooser !== undefined && ctx.rng() < giantChance(m.zone);
+  rt.packN = regular && !rt.giant && rt.chooser ? 1 + Math.floor(ctx.rng() * packMax(m.zone)) : 1;
+  const th = threatOf(state, rt);
+  const hp = s.hp * th * (rt.giant ? BAL.giantHp : 1) * rt.packN;
+  rt.enemy = { ...mkFighter(0, null), hp, maxHp: hp, atk: s.atk * th * (rt.giant ? BAL.giantAtk : 1), def: s.def, interval: s.interval, element: m.element, timer: s.interval * 0.5 };
   rt.fightTime = 0;
   rt.enraged = false;
   rt.atkBoost = 1;
@@ -267,7 +294,7 @@ function enemyStrike(state: GameState, rt: CombatRt, e: Fighter, mult: number, t
     ctx.emit({ t: 'dmg', side: 'hero', idx: target.idx, n: 0, crit: false, elem: m.element, miss: true, text: 'Dodge' });
     return;
   }
-  let dmg = e.atk * mult * rt.atkBoost * (0.9 + ctx.rng() * 0.2);
+  let dmg = e.atk * mult * rt.atkBoost * (1 + BAL.packAtk * (packAlive(rt) - 1)) * (0.9 + ctx.rng() * 0.2);
   if (hasStatus(e, 'weaken')) dmg *= 0.75;
   const crit = ctx.rng() < 0.06;
   if (crit) dmg *= 1.5;
@@ -278,6 +305,9 @@ function enemyStrike(state: GameState, rt: CombatRt, e: Fighter, mult: number, t
   if (hasStatus(target, 'shock')) dmg *= 1.2;
   dmg = Math.max(1, dmg);
   damageTaken(target, 'hero', dmg, m.element, crit, rt, state, ctx);
+  for (const r of target.retaliate) {
+    if (e.alive && ctx.rng() < r.chance) applyStatus(e, 'enemy', r.status, DOT.includes(r.status) ? target.atk * 0.3 : 0, 5, ctx);
+  }
   const thorns = buffPotency(state, 'thorns');
   if (thorns > 0 && e.alive) damageTaken(e, 'enemy', dmg * thorns, 'nature', false, rt, state, ctx);
   if (status && m.inflicts && target.alive && ctx.rng() < m.inflicts.chance) {
@@ -467,23 +497,24 @@ function autoSupplies(state: GameState, rt: CombatRt, dt: number, ctx: Ctx) {
 
 function onKill(state: GameState, rt: CombatRt, ctx: Ctx) {
   const m = rt.enemyDef;
-  rt.kills++;
-  state.kills[m.id] = (state.kills[m.id] ?? 0) + 1;
+  const n = rt.packN * (rt.giant ? 2 : 1);
+  rt.kills += n;
+  state.kills[m.id] = (state.kills[m.id] ?? 0) + n;
   state.codex.monsters[m.id] = 1;
-  state.stats.kills = (state.stats.kills ?? 0) + 1;
+  state.stats.kills = (state.stats.kills ?? 0) + n;
   const first = !!m.boss && !(state.bossKills[m.id] > 0);
   if (m.boss) {
     state.bossKills[m.id] = (state.bossKills[m.id] ?? 0) + 1;
     state.stats.bossKills = (state.stats.bossKills ?? 0) + 1;
   }
-  rollMonsterLoot(state, m, ctx, first);
+  for (let k = 0; k < n; k++) rollMonsterLoot(state, m, ctx, first && k === 0);
   const skills = new Set<string>();
-  const heroXp = heroKillXp(m.level, m.boss ? 8 : m.elite ? 2.2 : 1);
+  const heroXp = heroKillXp(m.level, m.boss ? 8 : m.elite ? 2.2 : 1) * n;
   state.heroes.forEach((_, i) => {
     gainHeroXp(state, i, heroXp, ctx);
     skills.add(heroDef(state, i).skill);
   });
-  for (const sk of skills) gainXp(state, sk as never, m.xp, ctx);
+  for (const sk of skills) gainXp(state, sk as never, m.xp * n, ctx);
   questEvent(state, 'kill', m.id);
   questEvent(state, 'killAny', String(m.zone));
   if (m.boss) {
@@ -492,7 +523,7 @@ function onKill(state: GameState, rt: CombatRt, ctx: Ctx) {
       const b = m as BossDef;
       addGold(state, b.first.gold, ctx);
       for (const it of b.first.items) addItem(state, it.item, it.n, ctx);
-      if (b.id.startsWith('boss_') && state.zoneUnlocked < b.zone + 1 && b.zone < 22) {
+      if (b.id.startsWith('boss_') && state.zoneUnlocked < b.zone + 1 && b.zone < ZONES.length) {
         state.zoneUnlocked = b.zone + 1;
         ctx.emit({ t: 'zone', id: b.zone + 1 });
       }
@@ -531,7 +562,7 @@ export function combatStep(state: GameState, rt: CombatRt, dt: number, ctx: Ctx)
         if (!h.alive) { h.alive = true; h.hp = h.maxHp * 0.3; h.statuses = []; }
         h.timer = Math.min(h.timer, h.interval * 0.5);
       }
-      spawnEnemy(rt, ctx);
+      spawnEnemy(state, rt, ctx);
     }
     return 'ok';
   }

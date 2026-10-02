@@ -13,6 +13,11 @@ import { Capacitor } from '@capacitor/core';
 import { InAppReview } from '@capacitor-community/in-app-review';
 import { partyPower } from '@/core/stats';
 import { BAG_MAX } from '@/core/state';
+import { merchantSheet } from './hunts';
+import { rewardsCard } from './rewards';
+import { albumSheet } from './cards';
+import { CARD_IDS } from '@/data';
+import { merchantStatus } from '@/core/daily';
 
 export const APP_ID = 'com.runeveil.odyssey';
 export const VERSION = '0.1.0';
@@ -35,7 +40,10 @@ export class MoreScreen implements Screen {
           h('div', { class: 'meta' }, h('b', { style: 'font-size:18px;font-family:var(--head);color:var(--gold)', text: s.name }),
             h('span', { text: `Zone ${s.zoneUnlocked} reached · ${done} quests · power ${fmt(partyPower(s))}` }),
             h('span', { text: `Played ${fmtTime(s.playTime)}` })))),
+      rewardsCard(() => this.show()),
       h('h2', { text: 'Menu' }),
+      row('img:ui_icon_gold', 'Wandering merchant', (() => { const m = merchantStatus(s); return m.open ? 'She is here now! Unique and high-rarity goods' : m.startsIn > 0 ? 'Visits once a day, for about an hour' : 'Gone for today'; })(), () => merchantSheet(() => this.show())),
+      row('img:ui_icon_inventory', 'Card album', `${Object.keys(s.cardsFound).length}/${CARD_IDS.length} monster cards discovered`, () => albumSheet()),
       row('img:ui_icon_codex', 'Codex', 'Monsters, bosses and items you have discovered', () => this.codex()),
       row('img:ui_icon_crown', 'Statistics', 'Your journey in numbers', () => this.stats()),
       row('img:ui_icon_settings', 'Settings', 'Sound, haptics, auto-eat, auto-sell', () => this.settings()),
@@ -151,7 +159,7 @@ export class MoreScreen implements Screen {
         h('img', { src: `${import.meta.env.BASE_URL}assets/gen/brand/rv_icon.png`, style: 'width:96px;height:96px;border-radius:20px;border:2px solid var(--gold)' }),
         h('div', { class: 'logo', style: 'margin:10px 0' }, h('div', { class: 'l1', style: 'font-size:38px', text: 'Runeveil' }), h('div', { class: 'l2', style: 'font-size:20px;letter-spacing:5px', text: 'ODYSSEY' })),
         h('div', { class: 'muted small', text: `Version ${VERSION}` })),
-      h('p', { class: 'small', style: 'line-height:1.5', text: 'Five heroes, one fading Veil. Gather, craft and fight your way across 22 zones while your party keeps adventuring even when you are away.' }),
+      h('p', { class: 'small', style: 'line-height:1.5', text: 'Up to five heroes in the field, seven in the roster, one fading Veil. Gather, craft and fight your way across thirty-two zones while your party keeps adventuring even when you are away.' }),
       h('div', { class: 'card small muted', style: 'line-height:1.5' }, 'Idle progress continues offline for up to 12 hours.', h('br'), 'Pixel art and music from licensed asset packs, plus procedurally generated item icons.', h('br'), `Package ${APP_ID}`),
       h('div', { class: 'row' }, h('button', { class: 'btn grow', text: 'Share', onclick: () => void this.share() }), h('button', { class: 'btn gold grow', text: 'Rate', onclick: () => void this.rate() }))));
   }

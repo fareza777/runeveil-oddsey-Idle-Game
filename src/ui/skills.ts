@@ -7,7 +7,7 @@ import { audio } from './audio';
 import { host } from './host';
 import { stackSheet } from './itemSheet';
 import type { Screen } from './screen';
-import { GATHER, GATHER_MAP, HEROES, ITEMS, RECIPES, RECIPE_MAP, SKILLS, SKILL_MAP, MAX_LEVEL } from '@/data';
+import { GATHER, GATHER_MAP, HEROES, ITEMS, rarity, RECIPES, RECIPE_MAP, SKILLS, SKILL_MAP, MAX_LEVEL } from '@/data';
 import { skillXpOf, countItem, type GameEvent } from '@/core/state';
 import { xpAtLevel } from '@/core/xp';
 import type { GatherDef, RecipeDef, SkillId } from '@/core/types';
@@ -209,11 +209,22 @@ export class SkillsScreen implements Screen {
     const btn = h('button', { class: 'btn sm gold', text: 'Craft', onclick: () => this.begin('craft', r.id) });
     const costs = h('div', { class: 'row', style: 'margin-top:6px;flex-wrap:wrap;gap:0' });
     const out = r.out[0] ? ITEMS[r.out[0].item] : null;
+    let oddsText = '';
+    if (!locked && out && (out.kind === 'equip' || out.kind === 'rune')) {
+      const pct = (m: number) => {
+        const v = g.craftChanceAtLeast(r, out.id, m) * 100;
+        return v >= 10 ? `${Math.round(v)}%` : `${v.toFixed(1)}%`;
+      };
+      const { maxR } = g.craftOdds(r, out.id);
+      const marks = [3, 5, 8, 12, 16, 20].filter((m) => m <= maxR).slice(-3);
+      oddsText = `Odds: ${marks.map((m) => `${rarity(m).name}+ ${pct(m)}`).join(' · ')}${marks.length ? ' · ' : ''}best ${rarity(maxR).name}`;
+    }
     this.rows.push({ id: r.id, kind: 'craft', bar: pr, btn, costs, recipe: r });
     const row = h('div', { class: `card ${locked ? 'locked' : ''}` },
       h('div', { class: 'item' }, out ? itemIcon(out.id, undefined, '') : ico(r.icon, 'lg'),
         h('div', { class: 'meta' }, h('b', { text: r.name }), h('span', { text: locked ? `Requires level ${r.level}` : `${fmtTime(g.actionTime(r.time))} · ${fmt(r.xp)} XP${r.outGold ? ` · sells ${moneyText(r.outGold)}` : ''}` })),
         locked ? h('span', { class: 'chip', text: `Lv ${r.level}` }) : btn),
+      locked || !oddsText ? null : h('div', { class: 'small muted', style: 'margin-top:4px', text: oddsText }),
       locked ? null : costs,
       locked ? null : h('div', { style: 'margin-top:6px' }, pr));
     if (!locked) this.renderCosts(r, costs);

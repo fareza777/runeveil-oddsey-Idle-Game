@@ -4,6 +4,9 @@ import { zoneBgUrl } from './bg';
 import { openSheet, toast } from './modal';
 import { audio, musicForZone } from './audio';
 import { enemyList } from './bestiary';
+import { huntsSheet, merchantSheet } from './hunts';
+import { merchantStatus } from '@/core/daily';
+import { packAlive } from '@/core/combat';
 import { buzz, danger, moneyEl, readiness } from './common';
 import { host } from './host';
 import type { Screen } from './screen';
@@ -31,6 +34,9 @@ export class BattleScreen implements Screen {
   private enemies!: HTMLElement;
   private enemiesSig = '';
   private shownEnemy = '';
+  private shownVariant = '';
+  private packSprites: HTMLElement[] = [];
+  private badge!: HTMLElement;
   private shownZone = 0;
   private enemySig = '';
   private lastHurt = 0;
@@ -42,6 +48,7 @@ export class BattleScreen implements Screen {
     const zone = ZONE_MAP[this.currentZone()];
     this.shownZone = zone.id;
     this.shownEnemy = '';
+    this.shownVariant = '';
     this.heroEls = [];
 
     this.zoneTag = h('div', { class: 'zonetag' });
@@ -51,7 +58,8 @@ export class BattleScreen implements Screen {
     this.enemyBar.className += ' ebar';
     this.enemyStat = h('div', { class: 'estat' });
     this.enemyBody = h('div', { class: 'body' });
-    this.enemyWrap = h('div', { class: 'enemy' }, this.enemyName, this.enemyBar, this.enemyStat, this.enemyBody);
+    this.badge = h('div', { style: 'position:absolute;top:0;right:12%;z-index:6;display:flex;gap:4px' });
+    this.enemyWrap = h('div', { class: 'enemy' }, this.enemyName, this.enemyBar, this.enemyStat, this.enemyBody, this.badge);
     this.fx = h('div', { class: 'fx' });
     this.partySize = g.state.heroes.length;
     const heroes = h('div', { class: 'heroes' }, ...g.state.heroes.map((_, i) => {
@@ -106,13 +114,17 @@ export class BattleScreen implements Screen {
     } else {
       actions.append(h('button', { class: 'btn red grow', text: `Boss: ${boss.name}`, onclick: () => this.begin(boss.id) }));
     }
+    const mer = merchantStatus(s);
+    const extra = h('div', { class: 'row', style: 'margin-top:6px' },
+      h('button', { class: 'btn sm grow', text: 'Daily hunts', onclick: () => huntsSheet(() => this.show()) }),
+      h('button', { class: `btn sm grow ${mer.open ? 'gold' : 'ghost'}`, text: mer.open ? 'Merchant is here!' : 'Merchant', onclick: () => merchantSheet(() => this.renderInfo()) }));
     if (fighting) actions.append(h('button', { class: 'btn ghost', text: 'Stop', onclick: () => { g.stop('You rest.'); host.refresh(); this.show(); } }));
 
     mount(this.info,
       h('div', { class: 'row' },
         h('div', { class: 'grow' }, h('b', { style: 'font-size:16px', text: zone.name }), h('div', { class: 'small muted', text: `Level ${zone.levelRange[0]}–${zone.levelRange[1]} · ${bossFight ? 'Boss fight' : fighting ? 'Hunting' : 'Resting'}` })),
         h('span', { class: `chip ${d.cls}`, text: `${d.label} ${Math.round(r * 100)}%` })),
-      actions);
+      actions, extra);
     this.lastKey = this.key();
   }
 
@@ -235,7 +247,13 @@ export class BattleScreen implements Screen {
     }
     const e = rt!.enemy;
     const def = rt!.enemyDef;
-    if (e && this.shownEnemy !== def.id) this.setEnemy(def, false);
+    const variant = `${def.id}|${rt!.giant ? 'g' : ''}|${rt!.packN}`;
+    if (e && this.shownVariant !== variant) { this.shownVariant = variant; this.setEnemy(def, false); }
+    if (e && this.packSprites.length > 1) {
+      const alive = packAlive(rt!);
+      this.packSprites.forEach((sp, k) => { sp.style.visibility = k < alive ? 'visible' : 'hidden'; });
+      this.badge.querySelector('.packbadge')?.replaceChildren(`x${alive}`);
+    }
     if (e) {
       this.enemyWrap.classList.remove('dead');
       setBar(this.enemyBar, e.hp / e.maxHp, `${fmt(Math.max(0, e.hp))} / ${fmt(e.maxHp)}`);
@@ -269,6 +287,9 @@ export class BattleScreen implements Screen {
 
   private clearEnemy() {
     this.shownEnemy = '-';
+    this.shownVariant = '';
+    this.packSprites = [];
+    this.badge.replaceChildren();
     this.enemyName.replaceChildren(h('span', { class: 'idletxt', text: 'Your party is resting' }));
     setBar(this.enemyBar, 0, '');
     this.enemyBar.style.visibility = 'hidden';
@@ -281,8 +302,18 @@ export class BattleScreen implements Screen {
     this.enemySig = '';
     this.enemyBar.style.visibility = 'visible';
     const boss = BOSSES[def.id];
-    this.enemyName.replaceChildren(h('span', { style: `color:${def.boss ? '#ff9aa6' : def.elite ? '#ffd35a' : '#fff'}`, text: def.name }), h('em', { text: `Lv ${def.level}${boss ? ' · ' + boss.title : def.elite ? ' · Elite' : ''}` }));
-    this.enemyBody.replaceChildren(monsterSprite(def));
+    this.enemyName.replaceChildren(h('span', { style: `color:${def.boss ? '#ff9aa6' : def.elite ? '#ffd35a' : '#fff'}`, text: def.name }), h('em', { text: `Lv ${def.level}${boss ? ' · ' + boss.title : def.elite ? ' · Elite' : ''}${def.rare ? (def.rare === 'legendary' ? ' · LEGENDARY' : ' · RARE') : ''}` }));
+    const rt = host.game.rt;
+    const n = rt && !def.boss ? rt.packN : 1;
+    const giant = !!rt?.giant;
+    const zoom = giant ? 4.1 : n >= 4 ? 2.1 : n === 3 ? 2.4 : n === 2 ? 2.8 : 3.2;
+    this.packSprites = Array.from({ length: n }, (_, k) => {
+      const sp = monsterSprite(def, zoom);
+      if (n > 1) { sp.style.margin = '0 -6px'; sp.style.animationDelay = `${(k * 0.3).toFixed(1)}s`; }
+      return sp;
+    });
+    this.enemyBody.replaceChildren(...this.packSprites);
+    this.badge.replaceChildren(...[n > 1 ? h('span', { class: 'packbadge', style: 'position:static', text: `x${n}` }) : null, giant ? h('span', { class: 'giantbadge', style: 'position:static', text: 'GIANT' }) : null].filter(Boolean) as HTMLElement[]);
     this.enemyWrap.classList.remove('dead');
     this.enemyWrap.classList.add('spawn');
     setTimeout(() => this.enemyWrap.classList.remove('spawn'), 320);
