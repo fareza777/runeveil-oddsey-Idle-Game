@@ -21,6 +21,13 @@ export function iconUrl(spec: string): { url: string; hue: number } {
     const c = rest.find((r) => r.startsWith('c='))?.slice(2) ?? '#9a9ab0';
     return { url: genIconUrl(kind, c), hue };
   }
+  if (s.startsWith('card:')) {
+    const monster = MONSTERS[s.slice(5)];
+    if (monster) {
+      const path = monster.boss ? `gen/bosses/${monster.id}.png` : monster.sprite.startsWith('gen/') ? `${monster.sprite}.png` : `pack/battlers/${monster.sprite}.png`;
+      return { url: asset(path), hue: hue + monster.hue };
+    }
+  }
   if (s.startsWith('art:')) return { url: asset(`gen/items/${s.slice(4)}.png`), hue };
   const name = s.startsWith('img:') ? s.slice(4) : s;
   if (name.startsWith('ui_')) return { url: asset(`gen/ui/${name.slice(3)}.png`), hue };

@@ -18,6 +18,7 @@ class Ads {
   private interstitialReady = false;
   private bannerOn = false;
   private handles: PluginListenerHandle[] = [];
+  private adsRemoved = false;
   /** called with the banner height in CSS pixels (0 when hidden) */
   onBannerHeight: (px: number) => void = () => undefined;
   onNotice: Hook = () => undefined;
@@ -26,17 +27,22 @@ class Ads {
     return Capacitor.isNativePlatform();
   }
 
+  setAdsRemoved(removed: boolean) {
+    this.adsRemoved = removed;
+    if (removed) void this.hideBanner();
+  }
+
   /** Web preview of rewarded ads, only for development builds or ?ads=sim */
   get simulated(): boolean {
     return !this.native && (import.meta.env.DEV || /[?&]ads=sim/.test(location.search));
   }
 
   get available(): boolean {
-    return this.native || this.simulated;
+    return !this.adsRemoved && (this.native || this.simulated);
   }
 
   start(): Promise<void> {
-    if (!this.native) return Promise.resolve();
+    if (!this.native || this.adsRemoved) return Promise.resolve();
     this.starting ??= this.init().catch((e) => console.warn('ads init failed', e));
     return this.starting;
   }
@@ -61,7 +67,7 @@ class Ads {
   }
 
   async showBanner() {
-    if (!this.ready || this.bannerOn) return;
+    if (this.adsRemoved || !this.ready || this.bannerOn) return;
     try {
       await AdMob.showBanner({ adId: ADMOB.banner, adSize: BannerAdSize.ADAPTIVE_BANNER, position: BannerAdPosition.BOTTOM_CENTER, margin: 0, isTesting: ADMOB.testing });
       this.bannerOn = true;
@@ -89,7 +95,7 @@ class Ads {
 
   /** Shows an interstitial at a natural break if the pacing rules allow it. */
   async maybeInterstitial(): Promise<boolean> {
-    if (!this.ready || !this.interstitialReady) return false;
+    if (this.adsRemoved || !this.ready || !this.interstitialReady) return false;
     const now = Date.now();
     if (now - this.sessionStart < AD_RULES.graceSec * 1000) return false;
     if (now - this.lastInterstitial < AD_RULES.gapSec * 1000) return false;
@@ -105,6 +111,7 @@ class Ads {
 
   /** Plays a rewarded video. Resolves true if the player earned the reward. */
   async rewarded(simulate?: () => Promise<boolean>): Promise<boolean> {
+    if (this.adsRemoved) return false;
     if (!this.native) return this.simulated && simulate ? simulate() : false;
     await this.start();
     if (!this.ready) return false;

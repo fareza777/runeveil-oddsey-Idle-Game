@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Runeveil Odyssey</string>
-    <string name="title_activity_main">Runeveil Odyssey</string>
+    <string name="app_name">Runeveil Odyssey: Idle RPG</string>
+    <string name="title_activity_main">Runeveil Odyssey: Idle RPG</string>
     <string name="package_name">com.runeveil.odyssey</string>
     <string name="custom_url_scheme">com.runeveil.odyssey</string>
     <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>

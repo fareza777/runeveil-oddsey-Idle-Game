@@ -24,6 +24,7 @@ import { App as CapApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { ads } from '@/ads/ads';
 import { watchAd } from './rewards';
+import { monetization } from '@/monetization';
 
 const TABS: { id: TabId; label: string; icon: string }[] = [
   { id: 'battle', label: 'Battle', icon: 'img:ui_icon_attack' },
@@ -135,7 +136,7 @@ export class AppShell {
       void CapApp.addListener('appStateChange', (st) => { if (!st.isActive) this.persist(); });
     }
     ads.onBannerHeight = (px) => document.documentElement.style.setProperty('--ad-h', `${Math.round(px)}px`);
-    void ads.start();
+    void monetization.start().finally(() => { void ads.start(); });
     this.running = true;
     this.last = performance.now();
     this.raf = requestAnimationFrame(this.frame);

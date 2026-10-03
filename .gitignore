@@ -20,3 +20,6 @@ tools/.cache/
 public/assets/pack/
 
 qa/
+# Local Android upload credentials
+android/keystore.properties
+android/release-upload.jks

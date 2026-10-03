@@ -19,9 +19,10 @@ import { rewardsCard } from './rewards';
 import { albumSheet } from './cards';
 import { CARD_IDS } from '@/data';
 import { merchantStatus } from '@/core/daily';
+import { monetization } from '@/monetization';
 
 export const APP_ID = 'com.runeveil.odyssey';
-export const VERSION = '0.1.0';
+export const VERSION = '1.0.0';
 export const STORE_URL = `https://play.google.com/store/apps/details?id=${APP_ID}`;
 
 export class MoreScreen implements Screen {
@@ -51,6 +52,7 @@ export class MoreScreen implements Screen {
       row('img:ui_icon_settings', 'Settings', 'Sound, haptics, auto-eat, auto-sell', () => this.settings()),
       row('img:ui_icon_gift', 'Share', 'Invite friends to Runeveil Odyssey', () => void this.share()),
       row('img:ui_icon_flare', 'Rate the game', 'A rating helps a lot', () => void this.rate()),
+      Capacitor.isNativePlatform() ? row('img:ui_icon_gold', monetization.purchased ? 'Ads removed' : 'Remove ads · $4.99', monetization.purchased ? 'Thank you — no banner, interstitial, or rewarded ads' : 'One-time purchase · restore anytime', () => void this.removeAds()) : null,
       row('img:ui_icon_inventory', 'Save data', 'Export or import a backup code', () => this.saveSheet()),
       row('img:ui_icon_hero', 'About', `Version ${VERSION}`, () => this.about()),
       row('img:ui_icon_dash', 'New game', 'Erase progress and start over', () => this.newGame(), true));
@@ -186,6 +188,23 @@ export class MoreScreen implements Screen {
     } catch {
       window.open(STORE_URL, '_blank');
     }
+  }
+
+  private removeAds() {
+    openSheet(monetization.purchased ? 'Ads removed' : 'Remove ads', (body, close) => {
+      add(body,
+        h('p', { class: 'small', text: monetization.purchased ? 'Your purchase is active on this Google Play account.' : 'Remove the banner, interstitial, and rewarded ad placements with one secure Google Play purchase.' }),
+        monetization.purchased ? null : h('button', { class: 'btn gold block', text: 'Remove ads · $4.99', onclick: async () => {
+          const ok = await monetization.purchase();
+          if (ok) { toast('Ads removed. Thank you!', 'good'); close(); this.show(); }
+          else toast('Purchase was not completed. Try again from Google Play.', 'info');
+        } }),
+        h('button', { class: 'btn block', text: 'Restore purchase', onclick: async () => {
+          const ok = await monetization.restore();
+          if (ok) { toast('Purchase restored. Ads removed.', 'good'); close(); this.show(); }
+          else toast('No active Remove Ads purchase was found.', 'info');
+        } }));
+    });
   }
 
   private saveSheet() {
