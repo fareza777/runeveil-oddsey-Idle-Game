@@ -1,12 +1,8 @@
 /**
  * AdMob configuration.
  *
- * The IDs below are Google's public TEST ids: they always serve test ads and never earn money.
- * Before publishing, create the app and three ad units in the AdMob console and either
- *   1. put the real unit ids into `.env.production` as VITE_ADMOB_BANNER / VITE_ADMOB_INTERSTITIAL / VITE_ADMOB_REWARDED
- *      and set VITE_ADMOB_LIVE=1, and
- *   2. replace the `admob_app_id` string in android/app/src/main/res/values/strings.xml with the real app id.
- * Never click your own live ads.
+ * Production IDs live in `.env.production`; local development keeps Google's public
+ * test IDs unless `VITE_ADMOB_LIVE=1` is explicitly enabled. Never click your own live ads.
  */
 const env = import.meta.env as Record<string, string | undefined>;
 

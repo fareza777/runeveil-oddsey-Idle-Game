@@ -4,5 +4,5 @@
     <string name="title_activity_main">Runeveil Odyssey: Idle RPG</string>
     <string name="package_name">com.runeveil.odyssey</string>
     <string name="custom_url_scheme">com.runeveil.odyssey</string>
-    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-6279186647593327~8045528395</string>
 </resources>

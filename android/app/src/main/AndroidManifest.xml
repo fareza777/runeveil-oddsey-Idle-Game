@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- Google's public TEST app id. Replace with the real one from the AdMob console before release (see src/ads/config.ts). -->
+        <!-- Production AdMob app ID; ad unit IDs are selected by the web runtime config. -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
