@@ -12,6 +12,7 @@ import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.PendingPurchasesParams;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.android.billingclient.api.QueryPurchasesParams;
 import com.getcapacitor.JSObject;
@@ -35,7 +36,9 @@ public class BillingPlugin extends Plugin implements PurchasesUpdatedListener {
     @Override
     public void load() {
         billingClient = BillingClient.newBuilder(getContext())
-            .enablePendingPurchases()
+            .enablePendingPurchases(
+                PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()
+            )
             .setListener(this)
             .build();
         connect();
@@ -109,7 +112,8 @@ public class BillingPlugin extends Plugin implements PurchasesUpdatedListener {
                     .setProductType(BillingClient.ProductType.INAPP)
                     .build()))
             .build();
-        billingClient.queryProductDetailsAsync(params, (result, products) -> {
+        billingClient.queryProductDetailsAsync(params, (result, queryResult) -> {
+            List<ProductDetails> products = queryResult.getProductDetailsList();
             if (result.getResponseCode() != BillingClient.BillingResponseCode.OK || products.isEmpty()) {
                 rejectPending("Remove Ads is not available yet in Google Play.");
                 return;
