@@ -5,6 +5,7 @@ import { countItem, heroDef } from './state';
 import { gearTierForLevel } from './balance';
 import { GEAR_TYPE_MAP } from '@/data/gear';
 import { bossPowerNeeded, partyPower } from './power';
+import { zoneClearProgress } from './zoneProgress';
 
 export interface Guide {
   /** What pressing "Go" does. `open` shows the skill page when no single activity fits. */
@@ -150,6 +151,11 @@ export function guideFor(s: GameState, q: QuestDef, i: number): Guide | null {
       if (!m) return null;
       const g = fight(s, m.zone, `Challenge ${m.name}`);
       if (g.kind !== 'combat') return g;
+      const progress = zoneClearProgress(s, m.zone);
+      if (progress.remaining.length) {
+        const id = progress.remaining[0];
+        return { kind: 'combat', id, label: `Defeat every regular enemy first (${progress.defeated}/${progress.total}): hunt ${MONSTERS[id].name}` };
+      }
       const have = partyPower(s, m.zone);
       const need = bossPowerNeeded(m.zone);
       if (have < need) {

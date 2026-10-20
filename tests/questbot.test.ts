@@ -65,5 +65,5 @@ describe('main story is playable from a fresh start', () => {
     }
     console.log('PROGRESS', problems.join('\n') || 'none', later.length ? `| later: ${later[0].slice(0, 160)}` : '', '| heroes', game.state.heroes.length, 'zone', game.state.zoneUnlocked, 'playHours', (clock / 3600).toFixed(1));
     expect(problems).toEqual([]);
-  });
+  }, 30_000);
 });

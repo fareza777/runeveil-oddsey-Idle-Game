@@ -20,6 +20,7 @@ import { AD_RULES } from '@/ads/config';
 import { chainNext } from './chain';
 import { PLAN_RULES, stepLabel } from './plan';
 import type { PlanStep } from './types';
+import { bossLockReason } from './zoneProgress';
 
 export const OFFLINE_CAP = 12 * 3600;
 const STEP = 0.25;
@@ -105,6 +106,8 @@ export class Game {
       }
       const err = this.canEnterZone(zone);
       if (err && !(m?.boss && id.startsWith('wboss') && zone <= s.zoneUnlocked)) return err;
+      const bossErr = bossLockReason(s, id);
+      if (bossErr) return bossErr;
     }
     if (!this.internal && s.plan?.on) { s.plan.on = false; s.plan.note = 'Paused because you started something else'; }
     s.activity = { type, id, progress: 0, boss: type === 'combat' && !id.startsWith('zone:') && !!MONSTERS[id]?.boss };
@@ -123,6 +126,8 @@ export class Game {
   private buildCombat() {
     const a = this.state.activity!;
     const isZone = a.id.startsWith('zone:');
+    const bossErr = !isZone && bossLockReason(this.state, a.id);
+    if (bossErr) { this.stop(bossErr); return; }
     const zoneId = isZone ? Number(a.id.slice(5)) : MONSTERS[a.id].zone;
     const zone = ZONE_MAP[zoneId];
     const first = isZone ? MONSTERS[zone.monsters[0]] : MONSTERS[a.id];
@@ -184,6 +189,7 @@ export class Game {
     }
     if (a.type === 'combat') {
       if (!this.rt) this.buildCombat();
+      if (!this.rt) return;
       if (this.rt!.enemyDef.rare && !huntStatus(s).open) {
         this.stop(`${this.rt!.enemyDef.name} has slipped away. The hunt is over for today.`);
         return;

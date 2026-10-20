@@ -22,7 +22,7 @@ import { merchantStatus } from '@/core/daily';
 import { monetization } from '@/monetization';
 
 export const APP_ID = 'com.runeveil.odyssey';
-export const VERSION = '1.0.0';
+export const VERSION = '1.0.1';
 export const STORE_URL = `https://play.google.com/store/apps/details?id=${APP_ID}`;
 
 export class MoreScreen implements Screen {

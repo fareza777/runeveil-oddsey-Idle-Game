@@ -17,6 +17,7 @@ import type { GameEvent } from '@/core/state';
 import { BOSSES, ELEMENT_MAP, ITEMS, ZONES, ZONE_MAP, rarity } from '@/data';
 import { countItem, heroDef } from '@/core/state';
 import type { MonsterDef } from '@/core/types';
+import { bossLockReason, zoneClearProgress } from '@/core/zoneProgress';
 
 export class BattleScreen implements Screen {
   el = h('div', { class: 'screen flush' });
@@ -108,6 +109,7 @@ export class BattleScreen implements Screen {
     const zid = this.currentZone();
     const zone = ZONE_MAP[zid];
     const boss = BOSSES[zone.boss];
+    const bossErr = bossLockReason(s, boss.id);
     const r = readiness(s, zid);
     const d = danger(r);
     const bossFight = fighting && g.rt?.boss;
@@ -118,7 +120,7 @@ export class BattleScreen implements Screen {
     } else if (bossFight) {
       actions.append(h('button', { class: 'btn red grow', text: 'Retreat', onclick: () => this.begin(`zone:${zid}`) }));
     } else {
-      actions.append(h('button', { class: 'btn red grow', text: `Boss: ${boss.name}`, onclick: () => this.begin(boss.id) }));
+      actions.append(h('button', { class: 'btn red grow', text: `Boss: ${boss.name}`, disabled: !!bossErr, title: bossErr ?? '', onclick: () => this.begin(boss.id) }));
     }
     const mer = merchantStatus(s);
     const hunt = huntStatus(s);
@@ -131,14 +133,16 @@ export class BattleScreen implements Screen {
     mount(this.info,
       h('div', { class: 'row' },
         h('div', { class: 'grow' }, h('b', { style: 'font-size:16px', text: zone.name }), h('div', { class: 'small muted', text: `Level ${zone.levelRange[0]}–${zone.levelRange[1]} · ${bossFight ? 'Boss fight' : fighting ? 'Hunting' : 'Resting'}` })),
-        h('span', { class: `chip ${d.cls}`, text: `${d.label} ${Math.round(r * 100)}%` })),
-      actions, extra);
+        h('span', { class: `chip ${d.cls}`, text: d.label })),
+      actions,
+      bossErr ? h('div', { class: 'small muted', style: 'margin-top:8px', text: bossErr }) : null,
+      extra);
     this.lastKey = this.key();
   }
 
   private key(): string {
     const g = host.game;
-    return `${g.state.activity?.type}|${g.state.activity?.id}|${g.rt?.boss}|${g.state.zone}|${g.state.heroes.length}|${g.state.plan?.on ? 1 : 0}`;
+    return `${g.state.activity?.type}|${g.state.activity?.id}|${g.rt?.boss}|${g.state.zone}|${g.state.heroes.length}|${g.state.plan?.on ? 1 : 0}|${zoneClearProgress(g.state, this.currentZone()).defeated}`;
   }
 
   private begin(id: string) {
@@ -187,7 +191,9 @@ export class BattleScreen implements Screen {
 
   private zoneSheet() {
     const g = host.game;
+    let stopWatching = () => {};
     openSheet('World map', (body, close) => {
+      const updateBossAccess: (() => void)[] = [];
       for (const z of ZONES) {
         const lockErr = g.canEnterZone(z.id);
         const boss = BOSSES[z.boss];
@@ -203,15 +209,28 @@ export class BattleScreen implements Screen {
             lockErr ? null : h('span', { class: `chip ${d.cls}`, text: d.label })));
         if (!lockErr) {
           const killed = (g.state.bossKills[boss.id] ?? 0) > 0;
+          const bossErr = bossLockReason(g.state, boss.id);
+          const bossBtn = h('button', { class: 'btn sm red grow', text: `${killed ? '✓ ' : ''}Boss ${boss.name}`, disabled: !!bossErr, title: bossErr ?? '', onclick: () => { g.state.zone = z.id; this.go(boss.id, close); } });
+          const worldBtn = wb ? h('button', { class: 'btn sm ghost grow', text: `${(g.state.bossKills[wb.id] ?? 0) > 0 ? '✓ ' : ''}${wb.name}`, disabled: !!bossErr, title: bossErr ?? '', onclick: () => { g.state.zone = z.id; this.go(wb.id, close); } }) : null;
+          const note = h('div', { class: 'small muted', style: 'margin-top:6px', text: bossErr ?? '', hidden: !bossErr });
           card.append(h('div', { class: 'row', style: 'margin-top:8px;flex-wrap:wrap' },
             h('button', { class: 'btn sm grow', text: 'Enemies', onclick: () => openSheet(`${z.name} enemies`, (b2) => { b2.append(enemyList(z.id)); }) }),
             h('button', { class: 'btn sm gold grow', text: 'Fight here', onclick: () => { g.state.zone = z.id; this.go(`zone:${z.id}`, close); } }),
-            h('button', { class: 'btn sm red grow', text: `${killed ? '✓ ' : ''}Boss ${boss.name}`, onclick: () => { g.state.zone = z.id; this.go(boss.id, close); } }),
-            wb ? h('button', { class: 'btn sm ghost grow', text: `${(g.state.bossKills[wb.id] ?? 0) > 0 ? '✓ ' : ''}${wb.name}`, onclick: () => { g.state.zone = z.id; this.go(wb.id, close); } }) : null));
+            bossBtn, worldBtn), note);
+          updateBossAccess.push(() => {
+            const err = bossLockReason(g.state, boss.id);
+            for (const btn of [bossBtn, worldBtn]) if (btn) { btn.disabled = !!err; btn.title = err ?? ''; }
+            note.textContent = err ?? '';
+            note.hidden = !err;
+          });
         }
         body.append(card);
       }
-    });
+      stopWatching = g.on((e) => {
+        if (!body.isConnected) { stopWatching(); return; }
+        if (e.t === 'kill') for (const update of updateBossAccess) update();
+      });
+    }, { onClose: () => stopWatching() });
   }
 
   private go(id: string, close: () => void) {

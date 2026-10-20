@@ -61,7 +61,7 @@ export async function runIntro(root: HTMLElement, hasSave: boolean): Promise<Sta
         if (hasSave) confirmBox({ title: 'Start a new game?', text: 'Your existing save will be erased when the new game begins.', danger: true, ok: 'Start new', onOk: newGame });
         else newGame();
       } }));
-    mount(screen, logo(), menu, h('div', { class: 'tiny muted', style: 'margin-top:14px', text: 'v0.1.0' }));
+    mount(screen, logo(), menu, h('div', { class: 'tiny muted', style: 'margin-top:14px', text: 'v1.0.1' }));
     audio.playMusic('m_title');
     const first = () => { audio.unlock(); audio.playMusic('m_title'); screen.removeEventListener('pointerdown', first); };
     screen.addEventListener('pointerdown', first);

@@ -23,6 +23,8 @@ export function geared(zone: number, rarityLevel: number, heroLevel?: number, sk
   for (const id of SKILL_IDS) { s.skills[id] = sl; s.skillXp[id] = xpAtLevel(sl); }
   s.zoneUnlocked = 32;
   s.skills.exploration = 99;
+  // Balance simulations challenge the boss after the zone's regular enemies are cleared.
+  for (const id of z.monsters) s.kills[id] = 1;
   const party = storyPartyAt(zone);
   s.heroes = party.map((h) => ({ id: h.id, level: 1, xp: 0, equip: {} }));
   party.forEach((h, i) => {

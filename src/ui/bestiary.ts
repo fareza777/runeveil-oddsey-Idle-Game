@@ -4,6 +4,7 @@ import { openSheet } from './modal';
 import { moneyText } from './common';
 import { host } from './host';
 import { BOSSES, ITEMS, MONSTERS, ZONE_MAP } from '@/data';
+import { zoneClearProgress } from '@/core/zoneProgress';
 
 const pct = (c: number): string => {
   const v = c * 100;
@@ -44,6 +45,7 @@ export function enemyList(zoneId: number, activeId?: string): HTMLElement {
   const zone = ZONE_MAP[zoneId];
   const ids = [...zone.monsters, zone.elite, zone.boss];
   const met = ids.filter((id) => s.codex.monsters[id]).length;
+  const progress = zoneClearProgress(s, zoneId);
   const rows = ids.map((id) => {
     const m = MONSTERS[id];
     const known = !!s.codex.monsters[id];
@@ -69,5 +71,8 @@ export function enemyList(zoneId: number, activeId?: string): HTMLElement {
     h('div', { class: 'row', style: 'margin:0 0 6px' },
       h('b', { class: 'grow', text: 'Enemies in this zone' }),
       h('span', { class: 'tiny muted', text: `${met}/${ids.length} met` })),
+    h('div', { class: `small ${progress.remaining.length ? 'muted' : 'good'}`, style: 'margin-bottom:8px', text: progress.remaining.length
+      ? `Boss access: ${progress.defeated}/${progress.total} regular enemy types defeated`
+      : 'Boss unlocked: all regular enemy types defeated' }),
     ...rows);
 }

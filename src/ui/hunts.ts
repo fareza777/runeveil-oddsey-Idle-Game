@@ -8,6 +8,7 @@ import { watchAd } from './rewards';
 import { BOSSES, ITEMS, ZONE_MAP, rarity } from '@/data';
 import { MERCHANT_EXTEND_MAX, MERCHANT_EXTEND_MIN, UNIQUE_IDS, merchantStock } from '@/core/daily';
 import { describeFx } from '@/data/cards';
+import { bossLockReason, zoneClearProgress } from '@/core/zoneProgress';
 
 const hhmm = (min: number): string => {
   const m = Math.round(((min % 1440) + 1440) % 1440);
@@ -21,6 +22,7 @@ const span = (min: number): string => {
 /** The day's named enemy: one of twelve, picked at random, fightable for a single hour. */
 export function huntsSheet(onStart?: () => void) {
   const g = host.game;
+  let cleanup = () => {};
   openSheet('Daily hunt', (body, close) => {
     const render = () => {
       if (!body.isConnected) return;
@@ -28,7 +30,7 @@ export function huntsSheet(onStart?: () => void) {
       const hu = g.hunt();
       const b = BOSSES[hu.id];
       const z = ZONE_MAP[b.zone];
-      const err = g.canEnterZone(b.zone);
+      const err = g.canEnterZone(b.zone) ?? bossLockReason(s, b.id);
       const legend = b.rare === 'legendary';
       const col = legend ? '#ff9a4d' : '#c78bff';
       const u = b.unique ? ITEMS[b.unique] : undefined;
@@ -66,13 +68,21 @@ export function huntsSheet(onStart?: () => void) {
       })));
     };
     render();
+    let lastProgress = zoneClearProgress(g.state, BOSSES[g.hunt().id].zone).defeated;
+    const stopWatching = g.on((e) => {
+      if (!body.isConnected) { cleanup(); return; }
+      if (e.t !== 'kill') return;
+      const progress = zoneClearProgress(g.state, BOSSES[g.hunt().id].zone).defeated;
+      if (progress !== lastProgress) { lastProgress = progress; render(); }
+    });
     let last = g.hunt().open;
     const iv = setInterval(() => {
-      if (!body.isConnected) { clearInterval(iv); return; }
+      if (!body.isConnected) { cleanup(); return; }
       const o = g.hunt().open;
       if (o !== last) { last = o; render(); }
     }, 5000);
-  });
+    cleanup = () => { stopWatching(); clearInterval(iv); };
+  }, { onClose: () => cleanup() });
 }
 
 /** The wandering merchant: one hour a day, a rotating stock of unique and high-rarity goods. */
